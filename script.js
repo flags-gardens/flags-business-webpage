@@ -23,14 +23,39 @@ function drawFlag() {
     ctx.fillRect(50, 50, flag.poleWidth, canvas.height - 100);
 
     // Draw flag
-    for (let i = 0; i < flag.width; i++) {
-        const y = Math.sin((i / (flag.width / 2)) * Math.PI + angle) * 20;
-        const shade = Math.sin((i / (flag.width / 2)) * Math.PI + angle) * 0.2 + 0.8;
-        const color = i % 20 < 10 ? flag.color1 : flag.color2; // Simple stripe pattern for shading
+    const poleX = 50 + flag.poleWidth;
+    const poleY = 50;
 
-        ctx.fillStyle = color;
-        ctx.fillRect(50 + flag.poleWidth + i, 50 + y, 1, flag.height);
+    ctx.beginPath();
+    ctx.moveTo(poleX, poleY);
+
+    for (let i = 0; i <= flag.width; i++) {
+        const x = poleX + i;
+        const y = poleY + Math.sin((i / (flag.width / 2)) * Math.PI + angle) * 20;
+        ctx.lineTo(x, y);
     }
+
+    ctx.lineTo(poleX + flag.width, poleY + flag.height);
+
+    for (let i = flag.width; i >= 0; i--) {
+        const x = poleX + i;
+        const y = poleY + flag.height + Math.sin((i / (flag.width / 2)) * Math.PI + angle) * 20;
+        ctx.lineTo(x, y);
+    }
+
+    ctx.closePath();
+
+    const gradient = ctx.createLinearGradient(poleX, poleY, poleX, poleY + flag.height);
+    gradient.addColorStop(0, flag.color1);
+    gradient.addColorStop(0.5, flag.color2);
+    gradient.addColorStop(1, flag.color1);
+
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
     angle += 0.1;
     requestAnimationFrame(drawFlag);
