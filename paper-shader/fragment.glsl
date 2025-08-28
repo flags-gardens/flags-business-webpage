@@ -12,6 +12,7 @@ uniform vec2 bumpPosition; // For procedural bump
 uniform float bumpSize;
 uniform float bumpFalloff;
 uniform float bumpStrength;
+uniform vec2 resolution; // NEW: Use for aspect correction
 
 // Reuse noise from vertex (simplified here)
 float noise(vec2 p) {
@@ -45,6 +46,7 @@ void main() {
 
     // Procedural normal computation
     vec2 placedUV = vUv;
+    placedUV.x *= resolution.x / resolution.y; // NEW: Aspect correction (fixes squeezing)
     float dist = sdfCircle(placedUV, bumpPosition, bumpSize);
     float height = smoothstep(bumpFalloff, 0.0, dist) * bumpStrength; // Raised bump with falloff
 

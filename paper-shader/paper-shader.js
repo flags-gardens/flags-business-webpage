@@ -32,6 +32,11 @@ async function init() {
     pointLight.position.set(0, 10, 0);
     scene.add(pointLight);
 
+    // NEW: Rotating point light (circles above the paper)
+    const rotatingLight = new THREE.PointLight(0xffaa00, 1.5, 50); // Orange tint for visibility
+    rotatingLight.position.set(0, 5, 0); // Start position (above center)
+    scene.add(rotatingLight);
+
     // Create paper geometry: thin box with segments for smooth displacement
     const paperWidth = 10;
     const paperHeight = 0.1; // Thickness
@@ -46,7 +51,6 @@ async function init() {
             resolution: { value: new THREE.Vector2(paperWidth, paperDepth) },
             embossStrength: { value: 1.0 },
             grainScale: { value: 100.0 },
-            enableDisplacement: { value: false }, // NEW: Set to false to turn off displacement
             patternScale: { value: 0.5 },
             invertEmboss: { value: false },
             debugNormals: { value: false },
@@ -100,6 +104,14 @@ async function init() {
         requestAnimationFrame(animate);
         controls.update();
         material.uniforms.time.value += 0.01; // Subtle animation for quirky waves
+
+        // NEW: Rotate the light (circles around Y-axis at radius 5, height 5)
+        const radius = 5; // Circle radius
+        const lightSpeed = 0.5; // Rotation speed
+        rotatingLight.position.x = Math.sin(material.uniforms.time.value * lightSpeed) * radius;
+        rotatingLight.position.z = Math.cos(material.uniforms.time.value * lightSpeed) * radius;
+        rotatingLight.position.y = 5; // Fixed height above paper
+
         renderer.render(scene, camera);
     }
     animate();
