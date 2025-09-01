@@ -111,7 +111,7 @@ h1 {
 }
 
 #hidden-1 {
-    left: -50px;
+    left: 50px;
 }
 
 #hidden-2 {
@@ -123,7 +123,7 @@ h1 {
 }
 
 #hidden-4 {
-    left: 850px;
+    left: 350px;
 }
 
 /* Edge indicators (positions will be set dynamically via JS) */
@@ -136,4 +136,18 @@ h1 {
     will-change: transform; /* GPU acceleration */
     pointer-events: none;
     display: none; /* Shown dynamically via JS */
+}
+
+/* New fading blur container */
+#blur-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 240px;
+    backdrop-filter: blur(10px); /* Background blur */
+    mask-image: linear-gradient(to top, black 0%, transparent 100%); /* Fade to top */
+    -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%); /* Safari support */
+    pointer-events: none; /* Allow clicks through */
+    z-index: 1; /* Layer above background but below content */
 }

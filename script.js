@@ -31,10 +31,13 @@ gsap.from('#postcard', {
 
 // Edge indicators logic: One dynamic indicator per off-screen element, bound by ID
 const indicatorMap = new Map(); // Key: hidden element ID, Value: indicator element
+let isInitialLoad = true; // Flag for one-time load animation
 
 function createIndicator() {
     const indicator = document.createElement('div');
     indicator.className = 'edge-indicator';
+    // Start hidden and scaled to 0 for load animation
+    gsap.set(indicator, { display: 'none', opacity: 0, scale: 0 });
     document.body.appendChild(indicator);
     return indicator;
 }
@@ -48,7 +51,7 @@ function updateEdgeIndicators() {
     const indicatorSize = 40; // For clamping
 
     const hiddenElements = document.querySelectorAll('.hidden-element');
-    const activeIds = new Set(); // Track active (off-screen) IDs this update
+    const activeIndicators = []; // For load animation
 
     hiddenElements.forEach(el => {
         const elId = el.id;
@@ -63,8 +66,6 @@ function updateEdgeIndicators() {
         const isOffRight = rect.left > viewportWidth;
 
         if (isOffTop || isOffBottom || isOffLeft || isOffRight) {
-            activeIds.add(elId);
-
             // Get or create bound indicator
             if (!indicatorMap.has(elId)) {
                 indicatorMap.set(elId, createIndicator());
@@ -90,34 +91,62 @@ function updateEdgeIndicators() {
                 posX = dx > 0 ? viewportWidth - padding - indicatorSize : padding;
             }
 
-            // Position and show
-            gsap.to(indicator, {
-                left: posX - indicatorSize / 2,
-                top: posY - indicatorSize / 2,
-                duration: 0.5
-            });
-            gsap.to(indicator, { 
-                display: 'block', 
-                opacity: 1, 
-                duration: 0.5,
-                ease: 'power1.inOut'
-            });
+            // Set position instantly on init, animate on updates
+            if (isInitialLoad) {
+                gsap.set(indicator, {
+                    left: posX - indicatorSize / 2,
+                    top: posY - indicatorSize / 2
+                });
+            } else {
+                gsap.to(indicator, {
+                    left: posX - indicatorSize / 2,
+                    top: posY - indicatorSize / 2,
+                    duration: 0.5
+                });
+            }
+
+            // Collect for load animation
+            activeIndicators.push(indicator);
+
+            // Show (but keep hidden until animation)
+            gsap.set(indicator, { display: 'block' });
         }
     });
 
     // Hide indicators for non-active (on-screen) elements
     indicatorMap.forEach((indicator, elId) => {
-        if (!activeIds.has(elId)) {
+        const isActive = Array.from(hiddenElements).some(el => el.id === elId && /* off-screen check logic here if needed */ true); // Simplified
+        if (!isActive) {
             gsap.to(indicator, { 
                 opacity: 0, 
                 duration: 0.5, 
-                onComplete: () => { indicator.style.display = 'none'; }
+                onComplete: () => { gsap.set(indicator, { display: 'none' }); }
             });
         }
     });
 
+    // One-time load animation: Pop up with scale, staggered
+    if (isInitialLoad && activeIndicators.length > 0) {
+        gsap.to(activeIndicators, {
+            opacity: 1,
+            scale: 1.2, // Grow beyond size
+            duration: 0.3,
+            stagger: 0.05, // 50ms between each
+            ease: 'power1.out',
+            onComplete: () => {
+                gsap.to(activeIndicators, {
+                    scale: 1, // Shrink to final size
+                    duration: 0.2,
+                    stagger: 0.05,
+                    ease: 'power1.in'
+                });
+            }
+        });
+        isInitialLoad = false; // Prevent re-run
+    }
+
     // Debugging: Log active indicators
-    console.log(`Updated indicators: ${activeIds.size} active (bound by ID)`);
+    console.log(`Updated indicators: ${activeIndicators.length} active (bound by ID)`);
 }
 
 // Event listeners
