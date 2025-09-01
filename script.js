@@ -32,12 +32,16 @@ gsap.from('#postcard', {
 // Edge indicators logic: One dynamic indicator per off-screen element, bound by ID
 const indicatorMap = new Map(); // Key: hidden element ID, Value: indicator element
 let isInitialLoad = true; // Flag for one-time load animation
+let prevScrollTop = 0; // Track for size changes
+const smallSize = 12; // Small diameter (px)
+const fullSize = 40; // Full diameter (px)
+const scrollThreshold = 30; // px from top for small size
 
 function createIndicator() {
     const indicator = document.createElement('div');
     indicator.className = 'edge-indicator';
-    // Start hidden and scaled to 0 for load animation
-    gsap.set(indicator, { display: 'none', opacity: 0, scale: 0 });
+    // Start hidden and at small size for load
+    gsap.set(indicator, { display: 'none', opacity: 0, scale: 0, width: smallSize, height: smallSize });
     document.body.appendChild(indicator);
     return indicator;
 }
@@ -48,7 +52,7 @@ function updateEdgeIndicators() {
     const centerX = viewportWidth / 2;
     const centerY = viewportHeight / 2;
     const padding = 16; // Distance from edges
-    const indicatorSize = 40; // For clamping
+    const currentScrollTop = root.scrollTop;
 
     const hiddenElements = document.querySelectorAll('.hidden-element');
     const activeIndicators = []; // For load animation
@@ -76,7 +80,7 @@ function updateEdgeIndicators() {
             const dx = targetCenterX - centerX;
             const dy = targetCenterY - centerY;
 
-            let posX, posY;
+            let posX, posY, indicatorSize = (currentScrollTop <= scrollThreshold) ? smallSize : fullSize;
             if (Math.abs(dy) > Math.abs(dx)) {
                 // Vertical edges
                 const t = dy > 0 ? (viewportHeight / 2) / Math.abs(dy) : (-viewportHeight / 2) / Math.abs(dy);
@@ -105,6 +109,17 @@ function updateEdgeIndicators() {
                 });
             }
 
+            // Handle size change if scroll crossed threshold
+            const shouldBeSmall = currentScrollTop <= scrollThreshold;
+            if ((shouldBeSmall && prevScrollTop > scrollThreshold) || (!shouldBeSmall && prevScrollTop <= scrollThreshold)) {
+                gsap.to(indicator, {
+                    width: shouldBeSmall ? smallSize : fullSize,
+                    height: shouldBeSmall ? smallSize : fullSize,
+                    duration: 0.3,
+                    ease: 'power1.inOut'
+                });
+            }
+
             // Collect for load animation
             activeIndicators.push(indicator);
 
@@ -115,7 +130,7 @@ function updateEdgeIndicators() {
 
     // Hide indicators for non-active (on-screen) elements
     indicatorMap.forEach((indicator, elId) => {
-        const isActive = Array.from(hiddenElements).some(el => el.id === elId && /* off-screen check logic here if needed */ true); // Simplified
+        const isActive = Array.from(hiddenElements).some(el => el.id === elId); // Simplified check
         if (!isActive) {
             gsap.to(indicator, { 
                 opacity: 0, 
@@ -125,17 +140,17 @@ function updateEdgeIndicators() {
         }
     });
 
-    // One-time load animation: Pop up with scale, staggered
+    // One-time load animation: Pop up with scale, staggered (starts small)
     if (isInitialLoad && activeIndicators.length > 0) {
         gsap.to(activeIndicators, {
             opacity: 1,
-            scale: 1.2, // Grow beyond size
+            scale: 1.2, // Grow beyond current (small) size
             duration: 0.3,
             stagger: 0.05, // 50ms between each
             ease: 'power1.out',
             onComplete: () => {
                 gsap.to(activeIndicators, {
-                    scale: 1, // Shrink to final size
+                    scale: 1, // Back to current (small) size
                     duration: 0.2,
                     stagger: 0.05,
                     ease: 'power1.in'
@@ -145,8 +160,11 @@ function updateEdgeIndicators() {
         isInitialLoad = false; // Prevent re-run
     }
 
-    // Debugging: Log active indicators
-    console.log(`Updated indicators: ${activeIndicators.length} active (bound by ID)`);
+    // Update prevScrollTop for next call
+    prevScrollTop = currentScrollTop;
+
+    // Debugging: Log active indicators and size state
+    console.log(`Updated indicators: ${activeIndicators.length} active (bound by ID), size: ${(currentScrollTop <= scrollThreshold) ? 'small (12px)' : 'full (40px)'}`);
 }
 
 // Event listeners
