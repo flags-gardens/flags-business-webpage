@@ -1,6 +1,6 @@
 varying vec2 vUv;
 varying vec3 vNormal;
-varying vec3 vPosition;
+varying vec3 vPosition; // Now in world space
 varying float vHeight;
 varying mat3 vTBN; // For tangent space in fragment
 
@@ -10,7 +10,7 @@ uniform vec2 resolution;
 uniform float grainScale;
 uniform float patternScale;
 uniform bool invertEmboss;
-uniform bool enableDisplacement; // NEW: Toggle for displacement
+uniform bool enableDisplacement; // Toggle for displacement
 
 attribute vec4 tangent; // Declare tangent attribute
 
@@ -65,7 +65,7 @@ void main() {
     // Apply displacement for emboss (only on top face, y > 0)
     vec3 pos = position;
     float height = 0.0;
-    if (normal.y > 0.5 && enableDisplacement) { // NEW: Conditional toggle
+    if (normal.y > 0.5 && enableDisplacement) { // Conditional toggle
         float pattern = quirkyEmboss(uv);
         height = invertEmboss ? (1.0 - pattern) * embossStrength : pattern * embossStrength;
         height += paperNoise(uv) * 0.1; // Updated multiplier
@@ -86,7 +86,9 @@ void main() {
         vNormal = perturbedNormal; // Use perturbed normal for better lighting
     }
     vHeight = height / embossStrength; // Normalized for debug visualization
-    vPosition = pos;
+
+    // NEW: Transform to world space for dynamic lighting
+    vPosition = (modelMatrix * vec4(pos, 1.0)).xyz;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

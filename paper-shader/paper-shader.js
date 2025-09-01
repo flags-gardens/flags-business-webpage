@@ -27,14 +27,14 @@ async function init() {
     scene.add(light);
     scene.add(new THREE.AmbientLight(0x404040));
 
-    // Add point light for dramatic shadows
+    // Add static point light for dramatic shadows
     const pointLight = new THREE.PointLight(0xffffff, 1, 50);
     pointLight.position.set(0, 10, 0);
     scene.add(pointLight);
 
-    // NEW: Rotating point light (circles above the paper)
-    const rotatingLight = new THREE.PointLight(0xffaa00, 1.5, 50); // Orange tint for visibility
-    rotatingLight.position.set(0, 5, 0); // Start position (above center)
+    // Rotating point light (orange for visibility, circles around Y-axis)
+    const rotatingLight = new THREE.PointLight(0xffaa00, 3.0, 30); // Brighter intensity, reduced distance
+    rotatingLight.position.set(0, 3, 0); // Start position (lower height for stronger effect)
     scene.add(rotatingLight);
 
     // Create paper geometry: thin box with segments for smooth displacement
@@ -49,7 +49,7 @@ async function init() {
         uniforms: {
             time: { value: 0.0 },
             resolution: { value: new THREE.Vector2(paperWidth, paperDepth) },
-            embossStrength: { value: 1.0 },
+            embossStrength: { value: 3.0 },
             grainScale: { value: 100.0 },
             patternScale: { value: 0.5 },
             invertEmboss: { value: false },
@@ -57,9 +57,27 @@ async function init() {
             debugHeight: { value: false },
             // For procedural normal bump
             bumpPosition: { value: new THREE.Vector2(0.5, 0.5) }, // UV placement
-            bumpSize: { value: 0.2 }, // Radius
-            bumpFalloff: { value: 0.1 }, // Softness
-            bumpStrength: { value: 1.0 } // Intensity of procedural bump
+            bumpSize: { value: 0.0005 }, // Radius
+            bumpFalloff: { value: 0.3 }, // Softness
+            bumpStrength: { value: 1 }, // Intensity of procedural bump
+            // NEW: For dynamic rotating light
+            rotatingLightPos: { value: new THREE.Vector3(0, 3, 0) }, // Initial position (updated in animate)
+            rotatingLightColor: { value: new THREE.Vector3(1, 0.666, 0) }, // Normalized orange (0xffaa00)
+            rotatingLightIntensity: { value: 10.0 },
+
+            //NEW: For Ring
+            ringCenter: { value: new THREE.Vector2(0.5, 0.5) }, // Center position
+            ringRadius: { value: 0.3 }, // Overall ring size (distance to stroke center)
+            ringThickness: { value: 0.1 }, // Stroke width (small for thin outline; this is the "diameter" of the half-circle)
+            ringFalloff: { value: 0.1 }, // Minimal softness (keep low for sharp half-circle edges)
+            ringHeightScale: { value: 5.0 },
+            ringWaveCount: { value: 0.0 }, // 0 = no waves (uniform height, regular outline)
+            ringWaveSpeed: { value: 0.0 }, // Static (no animation)
+            ringHeightMin: { value: 0 }, // Min = max for uniform (full height everywhere)
+            ringHeightMax: { value: 1.0 }, // Uniform max height
+            ringWavePower: { value: 1.0 } // Irrelevant if waveCount=0, but keeps curvature if waves enabled
+
+
         },
         vertexShader, // Loaded from file
         fragmentShader, // Loaded from file
@@ -105,12 +123,17 @@ async function init() {
         controls.update();
         material.uniforms.time.value += 0.01; // Subtle animation for quirky waves
 
-        // NEW: Rotate the light (circles around Y-axis at radius 5, height 5)
+        // Rotate the light (circles around Y-axis)
         const radius = 5; // Circle radius
-        const lightSpeed = 0.5; // Rotation speed
+        const lightSpeed = 2.0; // Rotation speed
         rotatingLight.position.x = Math.sin(material.uniforms.time.value * lightSpeed) * radius;
         rotatingLight.position.z = Math.cos(material.uniforms.time.value * lightSpeed) * radius;
-        rotatingLight.position.y = 5; // Fixed height above paper
+        rotatingLight.position.y = 3; // Fixed height above paper
+
+        // NEW: Update shader uniform with light position
+        material.uniforms.rotatingLightPos.value.copy(rotatingLight.position);
+
+        console.log('Light Position:', rotatingLight.position.x, rotatingLight.position.y, rotatingLight.position.z); // DEBUG
 
         renderer.render(scene, camera);
     }
