@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flags - 3D Maps for Communities</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Local GSAP from npm -->
+    <script src="node_modules/gsap/dist/gsap.min.js"></script>
+    <script src="node_modules/gsap/dist/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div id="main-container">
+            <div id="postcard"></div>
+            <div id="main-text">
+                <h1>Dear Neighbors,</h1>
+                <p class="regular-text">We're building a platform by the neighborhood, for the neighborhood – a modern home for our local life.</p>
+                <p class="regular-text">Every event becomes a "flag" to discover. Join them and collect playful digital artifacts, building your personal collection of neighborhood memories.</p>
+                <p class="gradient-text">We've created an "impressionist city" that captures how our surroundings feel, not just how they look. Explore this spatial world with friends, sharing meaningful moments instead of scrolling endless feeds. Carry a bag for treasures you find, bring them home to your digital house, and curate your own collection. This is about strengthening our connections and making sure our special moments become part of something lasting. Come explore. Your first flag awaits. Warmly,</p>
+            </div>
+            
+            <!-- 4 hidden html elements all off-screen at bottom with different horizontal positions -->
+            <div class="hidden-element" id="hidden-1"></div>
+            <div class="hidden-element" id="hidden-2"></div>
+            <div class="hidden-element" id="hidden-3"></div>
+            <div class="hidden-element" id="hidden-4"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
