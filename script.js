@@ -29,8 +29,8 @@ gsap.from('#postcard', {
     }
 });
 
-// Edge indicators logic: One dynamic indicator per off-screen element
-let indicatorPool = []; // Reuse pool for efficiency
+// Edge indicators logic: One dynamic indicator per off-screen element, bound by ID
+const indicatorMap = new Map(); // Key: hidden element ID, Value: indicator element
 
 function createIndicator() {
     const indicator = document.createElement('div');
@@ -48,82 +48,76 @@ function updateEdgeIndicators() {
     const indicatorSize = 40; // For clamping
 
     const hiddenElements = document.querySelectorAll('.hidden-element');
-    const offScreenData = [];
+    const activeIds = new Set(); // Track active (off-screen) IDs this update
 
     hiddenElements.forEach(el => {
+        const elId = el.id;
         const rect = el.getBoundingClientRect();
         const targetCenterX = rect.left + rect.width / 2;
         const targetCenterY = rect.top + rect.height / 2;
 
-        // Only process if fully off-screen
+        // Check if fully off-screen
         const isOffTop = rect.bottom < 0;
         const isOffBottom = rect.top > viewportHeight;
         const isOffLeft = rect.right < 0;
         const isOffRight = rect.left > viewportWidth;
 
         if (isOffTop || isOffBottom || isOffLeft || isOffRight) {
-            // Calculate vector from viewport center to target center
+            activeIds.add(elId);
+
+            // Get or create bound indicator
+            if (!indicatorMap.has(elId)) {
+                indicatorMap.set(elId, createIndicator());
+            }
+            const indicator = indicatorMap.get(elId);
+
+            // Calculate vector and position
             const dx = targetCenterX - centerX;
             const dy = targetCenterY - centerY;
 
-            // Determine the edge and intersection point
-            let edge, posX, posY;
+            let posX, posY;
             if (Math.abs(dy) > Math.abs(dx)) {
-                // Vertical edges (top/bottom)
+                // Vertical edges
                 const t = dy > 0 ? (viewportHeight / 2) / Math.abs(dy) : (-viewportHeight / 2) / Math.abs(dy);
                 posX = centerX + dx * t;
-                posX = Math.max(padding + indicatorSize / 2, Math.min(posX, viewportWidth - padding - indicatorSize / 2)); // Clamp
-                posY = dy > 0 ? viewportHeight - padding - indicatorSize : padding; // Bottom or top edge
-                edge = dy > 0 ? 'bottom' : 'top';
+                posX = Math.max(padding + indicatorSize / 2, Math.min(posX, viewportWidth - padding - indicatorSize / 2));
+                posY = dy > 0 ? viewportHeight - padding - indicatorSize : padding;
             } else {
-                // Horizontal edges (left/right)
+                // Horizontal edges
                 const t = dx > 0 ? (viewportWidth / 2) / Math.abs(dx) : (-viewportWidth / 2) / Math.abs(dx);
                 posY = centerY + dy * t;
-                posY = Math.max(padding + indicatorSize / 2, Math.min(posY, viewportHeight - padding - indicatorSize / 2)); // Clamp
-                posX = dx > 0 ? viewportWidth - padding - indicatorSize : padding; // Right or left edge
-                edge = dx > 0 ? 'right' : 'left';
+                posY = Math.max(padding + indicatorSize / 2, Math.min(posY, viewportHeight - padding - indicatorSize / 2));
+                posX = dx > 0 ? viewportWidth - padding - indicatorSize : padding;
             }
-            offScreenData.push({ edge, posX, posY });
+
+            // Position and show
+            gsap.to(indicator, {
+                left: posX - indicatorSize / 2,
+                top: posY - indicatorSize / 2,
+                duration: 0.5
+            });
+            gsap.to(indicator, { 
+                display: 'block', 
+                opacity: 1, 
+                duration: 0.5,
+                ease: 'power1.inOut'
+            });
         }
     });
 
-    // Manage indicators: One per off-screen element
-    const numNeeded = offScreenData.length;
-    while (indicatorPool.length < numNeeded) {
-        indicatorPool.push(createIndicator());
-    }
-
-    // Position and show active indicators (position only, no scale)
-    offScreenData.forEach((data, index) => {
-        const indicator = indicatorPool[index];
-        gsap.to(indicator, {
-            left: data.posX - indicatorSize / 2,
-            top: data.posY - indicatorSize / 2,
-            duration: 0.5
-        });
-        gsap.to(indicator, { 
-            display: 'block', 
-            opacity: 1, 
-            duration: 0.5,
-            ease: 'power1.inOut'
-        });
+    // Hide indicators for non-active (on-screen) elements
+    indicatorMap.forEach((indicator, elId) => {
+        if (!activeIds.has(elId)) {
+            gsap.to(indicator, { 
+                opacity: 0, 
+                duration: 0.5, 
+                onComplete: () => { indicator.style.display = 'none'; }
+            });
+        }
     });
 
-    // Hide excess indicators (no scale)
-    for (let i = numNeeded; i < indicatorPool.length; i++) {
-        gsap.to(indicatorPool[i], { 
-            opacity: 0, 
-            duration: 0.5, 
-            onComplete: function() {
-                indicatorPool[i].style.display = 'none'; // Fixed: Direct reference, no param
-            }
-        });
-    }
-
-    // Debugging: Log number of active indicators
-    if (numNeeded !== indicatorPool.filter(ind => ind.style.display !== 'none').length) {
-        console.log(`Updated indicators: ${numNeeded} active (one per off-screen element)`);
-    }
+    // Debugging: Log active indicators
+    console.log(`Updated indicators: ${activeIds.size} active (bound by ID)`);
 }
 
 // Event listeners
