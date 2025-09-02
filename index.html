@@ -10,8 +10,16 @@
     <script src="node_modules/gsap/dist/ScrollTrigger.min.js"></script>
 </head>
 <body>
+    <!-- Moved blur containers OUTSIDE #root to make them truly fixed to the viewport -->
+    <div id="progressive-blur">
+        <div class="blur-layer"></div>
+        <div class="blur-layer"></div>
+        <div class="blur-layer"></div>
+        <div class="blur-layer"></div>
+        <div class="blur-layer"></div>
+    </div> <!-- Progressive blur container -->
+
     <div id="root">
-        <div id="blur-container"></div> <!-- New fading blur container -->
         <div id="postcard"></div> <!-- Moved out of flexbox -->
         <div id="main-container">
             <div id="main-text">

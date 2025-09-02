@@ -39,6 +39,8 @@ html, body {
 #root {
     height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden; /* Prevents x-axis scrolling */
+
     /* Smooth scrolling handled in JS */
 }
 
@@ -58,15 +60,21 @@ html, body {
     #main-container {
         width: 460px;
     }
+    
+    #main-text {
+    margin-top: 75vh; /* 85% of screen height from top */
+    text-align: left; /* Left-aligned text */
+}
 }
 
 #main-text {
-    margin-top: 75vh; /* 85% of screen height from top */
+    margin-top: 65vh; /* 85% of screen height from top */
     text-align: left; /* Left-aligned text */
 }
 
 h1 {
     font-family: 'GT Alpina Trial', serif;
+    color: #00000056;
     font-style: italic;
     font-size: 42px;
     margin-bottom: 20px;
@@ -91,10 +99,11 @@ h1 {
 
 #postcard {
     position: absolute;
-    top: 45vh; /* 45% of screen height from top */
+    top: 25vh; /* 45% of screen height from top */
+    left: 66vh;
     width: 300px;
-    height: 400px; /* 3:4 aspect ratio */
-    background-color: #808080; /* Grey */
+    height: 200px; /* 3:4 aspect ratio */
+    background-color: #e7e7e75b; /* Grey */
     border-radius: 10px; /* Rounded corners */
     transform: perspective(1000px) rotateY(20deg) rotateX(10deg); /* Fake 3D */
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
@@ -111,7 +120,7 @@ h1 {
 }
 
 #hidden-1 {
-    left: 50px;
+    left: -50px;
 }
 
 #hidden-2 {
@@ -123,20 +132,22 @@ h1 {
 }
 
 #hidden-4 {
-    left: 350px;
+    left: 850px;
 }
 
 /* Edge indicators (positions will be set dynamically via JS) */
 .edge-indicator {
     position: fixed;
     border-radius: 50%;
-    background-color: rgba(131, 96, 74, 0.5); /* Using #83604A with opacity */
+    background-color: rgba(143, 143, 143, 0.968); /* Using #83604A with opacity */
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
     will-change: transform; /* GPU acceleration */
     pointer-events: none;
     display: none; /* Shown dynamically via JS */
+    z-index: 10;
 }
 
-/* New fading blur container */
+/* Existing fading blur container (unchanged) */
 #blur-container {
     position: fixed;
     bottom: 0;
@@ -148,4 +159,57 @@ h1 {
     -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%); /* Safari support */
     pointer-events: none; /* Allow clicks through */
     z-index: 1; /* Layer above background but below content */
+}
+
+/* New progressive blur container (200px high, full width, fixed at bottom) */
+#progressive-blur {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2; /* Above the existing blur-container but below interactive content if needed */
+}
+
+/* Blur layers (stacked with increasing blur and masked gradients) */
+.blur-layer {
+    position: absolute;
+    inset: 0; /* Full size of parent */
+}
+
+#progressive-blur > .blur-layer:nth-child(1) {
+    backdrop-filter: blur(1px);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 1) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 0) 88.8%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 1) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 0) 88.8%);
+    z-index: 1;
+}
+
+#progressive-blur > .blur-layer:nth-child(2) {
+    backdrop-filter: blur(2px);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 0) 94.4%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 0) 94.4%);
+    z-index: 2;
+}
+
+#progressive-blur > .blur-layer:nth-child(3) {
+    backdrop-filter: blur(4px);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 0) 100%);
+    z-index: 3;
+}
+
+#progressive-blur > .blur-layer:nth-child(4) {
+    backdrop-filter: blur(8px);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 1) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 1) 100%);
+    z-index: 4;
+}
+
+#progressive-blur > .blur-layer:nth-child(5) {
+    backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
+    z-index: 5;
 }
