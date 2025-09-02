@@ -39,7 +39,8 @@ html, body {
     overflow-x: hidden; /* Prevents x-axis scrolling */
     background-image: url('/assets/background_high.jpg'); /* Fullwidth background */
     background-size: fill;
-    background-position: center calc(50% + var(--bg-offset, -230px)); /* Center horizontally, offset vertically */
+    background-position: center top;
+
     background-repeat: no-repeat;
     background-attachment: local; /* Scrolls with content */
     /* Smooth scrolling handled in JS */
@@ -140,6 +141,8 @@ h1 {
     display: none; /* Hidden by default; shown via JS */
     top: 300vh; /* All off bottom */
 }
+
+
 
 #hidden-1 {
     left: -50px;

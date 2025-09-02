@@ -26,7 +26,7 @@ gsap.from('#postcard', {
     scrollTrigger: {
         scroller: '#root',  // Fix: Track on #root
         trigger: '#main-text',
-        start: 'top 80%',
+        start: 'top 100%',
         toggleActions: 'play none none reverse'
     }
 });
@@ -41,7 +41,7 @@ gsap.set(postcard, {
 ScrollTrigger.create({
     trigger: postcard,
     scroller: '#root',  // Track scrolling on #root (not window)
-    start: 'top 15vh',  // Starts when postcard top is at 15vh from viewport top
+    start: 'top 30vh',   // Starts when postcard top is at 15vh from viewport top
     end: 'top 5vh',     // Ends when at 5vh
     scrub: true,
     invalidateOnRefresh: true,  // Handle resizes better
