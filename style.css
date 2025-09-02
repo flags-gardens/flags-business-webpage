@@ -109,6 +109,27 @@ h1 {
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
+/* New main flag video styling */
+#main-flag-video {
+    position: absolute;
+    top: 30vh;
+    width: 100px;  /* Assumed width for a small flag animation; adjust as needed */
+}
+
+/* Mobile positioning (left of main-container by 8px) */
+@media (max-width: 767px) {
+    #main-flag-video {
+        left: calc(50% - 170px - 8px - 100px);  /* Positions video's right edge 8px left of main-container's left edge */
+    }
+}
+
+/* Desktop positioning (left of main-container by 32px) */
+@media (min-width: 768px) {
+    #main-flag-video {
+        left: calc(50% - 230px - 32px - 100px);  /* Positions video's right edge 32px left of main-container's left edge */
+    }
+}
+
 /* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
 .hidden-element {
     position: absolute;
@@ -145,6 +166,14 @@ h1 {
     pointer-events: none;
     display: none; /* Shown dynamically via JS */
     z-index: 10;
+    overflow: visible;  /* Allow image to overflow if needed */
+}
+
+/* Optional: Style for images inside indicators (e.g., center vertically) */
+.edge-indicator img {
+    position: relative;
+    top: -5px;  /* Adjust to center the taller image; remove if not needed */
+    left: 0;
 }
 
 /* Existing fading blur container (unchanged) */

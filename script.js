@@ -37,11 +37,21 @@ const smallSize = 12; // Small diameter (px)
 const fullSize = 40; // Full diameter (px)
 const scrollThreshold = 30; // px from top for small size
 
-function createIndicator() {
+function createIndicator(elId) {  // Pass elId to allow custom images if needed
     const indicator = document.createElement('div');
     indicator.className = 'edge-indicator';
+
+    // Add image inside
+    const img = document.createElement('img');
+    img.src = 'assets/flag_icon.png';  // Placeholder; replace with actual. For per-indicator images: if (elId === 'hidden-1') img.src = 'assets/flag1.png'; etc.
+    img.style.width = '100%';
+    img.style.height = '50px';
+    img.style.objectFit = 'contain';  // Or 'cover' – adjust as needed
+    indicator.appendChild(img);
+
     // Start hidden and at small size for load
     gsap.set(indicator, { display: 'none', opacity: 0, scale: 0, width: smallSize, height: smallSize });
+    gsap.set(img, { display: 'none' });  // Initially hide image
     document.body.appendChild(indicator);
     return indicator;
 }
@@ -72,7 +82,7 @@ function updateEdgeIndicators() {
         if (isOffTop || isOffBottom || isOffLeft || isOffRight) {
             // Get or create bound indicator
             if (!indicatorMap.has(elId)) {
-                indicatorMap.set(elId, createIndicator());
+                indicatorMap.set(elId, createIndicator(elId));
             }
             const indicator = indicatorMap.get(elId);
 
@@ -118,6 +128,14 @@ function updateEdgeIndicators() {
                     duration: 0.3,
                     ease: 'power1.inOut'
                 });
+            }
+
+            // Toggle image visibility based on size (collapsed = hide image)
+            const img = indicator.querySelector('img');
+            if (shouldBeSmall) {
+                gsap.set(img, { display: 'none' });
+            } else {
+                gsap.set(img, { display: 'block' });
             }
 
             // Collect for load animation
