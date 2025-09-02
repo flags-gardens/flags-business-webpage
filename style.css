@@ -30,22 +30,23 @@ html, body {
     overflow: hidden;
     height: 100%;
     background-color: #f5f5f5;
-    background-image: url('/assets/background.jpg'); /* Fullwidth background */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
+/* Move background to #root for scrolling */
 #root {
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden; /* Prevents x-axis scrolling */
-
+    background-image: url('/assets/background_high.jpg'); /* Fullwidth background */
+    background-size: fill;
+    background-position: center calc(50% + var(--bg-offset, -230px)); /* Center horizontally, offset vertically */
+    background-repeat: no-repeat;
+    background-attachment: local; /* Scrolls with content */
     /* Smooth scrolling handled in JS */
 }
 
 #main-container {
-    position: relative; /* For absolute positioning of hidden elements */
+    position: relative; /* For absolute positioning of hidden elements and video */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,24 +110,24 @@ h1 {
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-/* New main flag video styling */
+/* New main flag video styling (positioned relative to #main-text) */
 #main-flag-video {
     position: absolute;
-    top: 30vh;
+    top: calc(0px - 30vh);  /* 30vh above #main-text top; adjust as needed */
     width: 100px;  /* Assumed width for a small flag animation; adjust as needed */
 }
 
-/* Mobile positioning (left of main-container by 8px) */
+/* Mobile positioning (8px left of main-container) */
 @media (max-width: 767px) {
     #main-flag-video {
-        left: calc(50% - 170px - 8px - 100px);  /* Positions video's right edge 8px left of main-container's left edge */
+        left: calc(0px - 8px - 100px);  /* Video's right edge 8px left of main-container's left edge */
     }
 }
 
-/* Desktop positioning (left of main-container by 32px) */
+/* Desktop positioning (32px left of main-container) */
 @media (min-width: 768px) {
     #main-flag-video {
-        left: calc(50% - 230px - 32px - 100px);  /* Positions video's right edge 32px left of main-container's left edge */
+        left: calc(0px - 32px - 100px);  /* Video's right edge 32px left of main-container's left edge */
     }
 }
 
@@ -196,7 +197,7 @@ h1 {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 400px;
+    height: 600px;
     overflow: hidden;
     pointer-events: none;
     z-index: 2; /* Above the existing blur-container but below interactive content if needed */

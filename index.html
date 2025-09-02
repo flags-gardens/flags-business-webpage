@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#BECAC6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#BECAC6" media="(prefers-color-scheme: dark)">
+
+
+
     <title>Flags - 3D Maps for Communities</title>
     <link rel="stylesheet" href="style.css">
     <!-- Local GSAP from npm -->
@@ -21,12 +26,12 @@
 
     <div id="root">
         <div id="postcard"></div> <!-- Moved out of flexbox -->
-        <video id="main-flag-video" autoplay loop muted playsinline>
-            <source src="assets/main_flag_motion.webm" type='video/webm; codecs="vp9"'>
-            <source src="assets/main_flag_motion.mov" type='video/quicktime; codecs="hevc"'>
-            Your browser does not support the video tag.
-        </video>
         <div id="main-container">
+            <video id="main-flag-video" autoplay loop muted playsinline>
+                <source src="assets/main_flag_motion.webm" type='video/webm; codecs="vp9"'>
+                <source src="assets/main_flag_motion.mp4" type='video/quicktime; codecs="hevc"'>
+                Your browser does not support the video tag.
+            </video>
             <div id="main-text">
                 <h1>Dear Neighbors,</h1>
                 <p class="regular-text">We're building a platform by the neighborhood, for the neighborhood – a modern home for our local life.</p>

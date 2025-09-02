@@ -3,6 +3,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Smooth scrolling setup
 const root = document.getElementById('root');
 const mainContainer = document.getElementById('main-container');
+const postcard = document.getElementById('postcard');
 
 // Set up smooth scroll using GSAP
 gsap.to(root, {
@@ -17,16 +18,91 @@ gsap.to(root, {
     }
 });
 
-// Animate postcard on scroll
+// Animate postcard on scroll (initial fade-in) - Added scroller for smooth scroll compatibility
 gsap.from('#postcard', {
     y: -100,
     opacity: 0,
     duration: 1,
     scrollTrigger: {
+        scroller: '#root',  // Fix: Track on #root
         trigger: '#main-text',
         start: 'top 80%',
         toggleActions: 'play none none reverse'
     }
+});
+
+// Initially center the postcard (overrides CSS left: 66vh)
+gsap.set(postcard, {
+    left: '50%',
+    x: '-50%'  // Translate for true centering (accounts for width)
+});
+
+// New: Scale and pin postcard as it approaches top
+ScrollTrigger.create({
+    trigger: postcard,
+    scroller: '#root',  // Track scrolling on #root (not window)
+    start: 'top 15vh',  // Starts when postcard top is at 15vh from viewport top
+    end: 'top 5vh',     // Ends when at 5vh
+    scrub: true,
+    invalidateOnRefresh: true,  // Handle resizes better
+    // markers: true,  // Uncomment for visual debug markers
+    onUpdate: (self) => {
+        const progress = self.progress;  // 0 at 15vh, 1 at 5vh
+        const scale = 1 - (progress * 0.8);  // Linear scale from 1 to 0.1
+        const postcardTop = postcard.getBoundingClientRect().top;  // Current top position relative to viewport
+        const calculatedLeft = '50%';  // Centered (vw-relative implicitly via %)
+        const currentOpacity = parseFloat(window.getComputedStyle(postcard).opacity);  // For greying debug
+
+        // Enhanced Debugging: Log left values, opacity, and more
+        console.log('Postcard ScrollTrigger Update:', {
+            progress: progress.toFixed(2),
+            calculatedScale: scale.toFixed(2),
+            postcardTop: postcardTop.toFixed(0) + 'px',
+            currentOpacity: currentOpacity.toFixed(2) + ' (if <1, may appear grey in inspector)',
+            calculatedLeft: calculatedLeft,
+            windowInnerWidth: window.innerWidth,
+            currentParent: postcard.parentNode.id || 'body',  // Track if it's in #root or body
+            isPinned: progress >= 1
+        });
+
+        if (progress === 0 && postcardTop > window.innerHeight * 0.15) {
+            console.warn('Postcard trigger not activating yet - postcard top is at ' + postcardTop + 'px (needs to be <= 15vh)');
+        }
+
+        gsap.to(postcard, {
+            scale: scale,
+            duration: 0.1,  // Swift update
+            ease: 'power2.out',
+            overwrite: 'auto'
+        });
+
+        // Pin at 5vh by moving to body and setting fixed position (keep centered)
+        if (progress >= 1) {
+            if (postcard.parentNode !== document.body) {
+                document.body.appendChild(postcard);  // Move out of #root to avoid transform inheritance
+                console.log('Postcard moved to body and pinned at 5vh with left: ' + calculatedLeft);
+            }
+            gsap.set(postcard, {
+                position: 'fixed',
+                top: '5vh',
+                left: calculatedLeft,
+                x: '-50%'  // Keep centered
+            });
+        } else {
+            // Unpin: Move back to #root and reset to absolute (keep centered)
+            if (postcard.parentNode === document.body) {
+                root.insertBefore(postcard, mainContainer);  // Insert back as sibling to #main-container
+                console.log('Postcard moved back to #root and unpinned, resetting left to 50% (centered)');
+            }
+            gsap.set(postcard, {
+                position: 'absolute',
+                top: '25vh',  // Reset to original CSS top
+                left: calculatedLeft,
+                x: '-50%'  // Keep centered
+            });
+        }
+    },
+    toggleActions: 'play none none reverse'  // Enable full reversal on scroll up (scales back up and unpinns)
 });
 
 // Edge indicators logic: One dynamic indicator per off-screen element, bound by ID
