@@ -70,14 +70,8 @@ html, body {
 }
 
 #postcard {
-    position: absolute;
-    top: 25vh; /* 45% of screen height from top */
-    left: 66vh;
-    width: 300px;
-    height: auto; /* Height adjusts to maintain video's aspect ratio */
-    border-radius: 10px; /* Rounded corners */
-    transform: perspective(1000px) rotateY(20deg) rotateX(10deg); /* Fake 3D */
-    object-fit: cover; /* Ensures video fills the container; change to 'contain' if preferred */
+    width: 600px;
+ 
 }
 
 
@@ -124,9 +118,9 @@ h1 {
 
 #postcard {
     position: absolute;
-    top: 25vh; /* 45% of screen height from top */
+    top: 15vh; /* 45% of screen height from top */
     left: 66vh;
-    width: 300px;
+    width: 1000px;
     height: auto; /* Height adjusts to maintain video's aspect ratio */
     border-radius: 10px; /* Rounded corners */
     transform: perspective(1000px) rotateY(20deg) rotateX(10deg); /* Fake 3D */
@@ -143,17 +137,17 @@ h1 {
 /* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
 .hidden-element {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    background-color: #eee;
+    width: 200px; /* Same size as original divs */
+    height: auto;
     display: none; /* Hidden by default; shown via JS */
     bottom: 0px; /* All off bottom */
+    object-fit: contain; /* Fit image within 100x100 without distortion */
 }
 
 
 
 #hidden-1 {
-    left: -50px;
+    left: -20px;
 }
 
 #hidden-2 {

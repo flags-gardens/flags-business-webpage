@@ -44,11 +44,11 @@ gsap.set(postcard, {
 // New: Initially hide fade overlay
 gsap.set(fadeOverlay, { opacity: 0 });
 
-// New: Scale and pin postcard as it approaches top
+// New: Scale and pin postcard as it approaches top (starts immediately on scroll)
 ScrollTrigger.create({
     trigger: postcard,
     scroller: '#root',  // Track scrolling on #root (not window)
-    start: 'top 30vh',   // Starts when postcard top is at 30vh from viewport top (vh-based)
+    start: 'top bottom',  // Changed: Starts as soon as postcard top hits viewport bottom (immediate on scroll start)
     end: 'top 20px',     // Ends when at 20px from top (px-based, close to edge)
     scrub: true,
     invalidateOnRefresh: true,  // Handle resizes better
