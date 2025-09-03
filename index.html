@@ -6,9 +6,7 @@
     <meta name="theme-color" content="#BECAC6" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#BECAC6" media="(prefers-color-scheme: dark)">
 
-
-
-    <title>Flags - 3D Maps for Communities</title>
+    <title>Dear Neighbors</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,14 +20,21 @@
     </div> <!-- Progressive blur container -->
 
     <div id="root">
-        <div id="postcard"></div> <!-- Moved out of flexbox -->
+        <!-- Replaced div with video; keep id="postcard" for scripting -->
+        <video id="postcard" autoplay loop muted playsinline>
+            <source src="assets/postcard_motion.mov" type='video/quicktime'>
+            <source src="assets/postcard_motion.webm" type='video/webm'>
+
+            Your browser does not support the video tag.
+        </video>
         <div id="main-container">
-            <video id="main-flag-video" autoplay loop muted playsinline>
-                <source src="assets/main_flag_motion.webm" type='video/webm; codecs="vp9"'>
-                <source src="assets/main_flag_motion.mp4" type='video/quicktime; codecs="hevc"'>
+
+            <div id="main-text">
+                            <video id="main-flag-video" autoplay loop muted playsinline>
+                <source src="assets/main_flag_motion.mov" type='video/quicktime'>
+                <source src="assets/main_flag_motion.webm" type='video/webm'>
                 Your browser does not support the video tag.
             </video>
-            <div id="main-text">
                 <h1>Dear Neighbors,</h1>
                 <p class="regular-text">We're building a platform by the neighborhood, for the neighborhood – a modern home for our local life.</p>
                 <p class="gradient-text">Every event becomes a "flag" to discover. Join them and collect playful digital artifacts, building your personal collection of neighborhood memories.<br><br>We've created an "impressionist city" that captures how our surroundings feel, not just how they look.<br>Explore this spatial world with friends, sharing meaningful moments instead of scrolling endless feeds.<br><br>Carry a bag for treasures you find, bring them home to your digital house, and curate your own collection.<br>This is about strengthening our connections and making sure our special moments become part of something lasting.<br>Come explore. Your first flag awaits.<br><br>Warmly,</p>
@@ -40,6 +45,9 @@
             <div class="hidden-element" id="hidden-4"></div>
         </div>
     </div>
+    
+    <!-- New full-screen fade overlay -->
+    <div id="fade-overlay"></div>
     
     <script type="module" src="script.js"></script>
 </body>

@@ -29,7 +29,7 @@ html, body {
     padding: 0;
     overflow: hidden;
     height: 100%;
-    background-color: #f5f5f5;
+    background-image: url('/assets/background_high.jpg');
 }
 
 /* Move background to #root for scrolling */
@@ -40,9 +40,10 @@ html, body {
     background-image: url('/assets/background_high.jpg'); /* Fullwidth background */
     background-size: fill;
     background-position: center top;
-
     background-repeat: no-repeat;
     background-attachment: local; /* Scrolls with content */
+    /* overscroll-behavior: none; Prevents rubber-banding and gap */
+
     /* Smooth scrolling handled in JS */
 }
 
@@ -64,15 +65,31 @@ html, body {
     }
     
     #main-text {
-    margin-top: 75vh; /* 85% of screen height from top */
+    margin-top: calc(100vh - 200px);  /* Top of text is always 200px from bottom initially */
     text-align: left; /* Left-aligned text */
+}
+
+#postcard {
+    position: absolute;
+    top: 25vh; /* 45% of screen height from top */
+    left: 66vh;
+    width: 300px;
+    height: auto; /* Height adjusts to maintain video's aspect ratio */
+    border-radius: 10px; /* Rounded corners */
+    transform: perspective(1000px) rotateY(20deg) rotateX(10deg); /* Fake 3D */
+    object-fit: cover; /* Ensures video fills the container; change to 'contain' if preferred */
+}
+
+
+#main-flag-video {
+    position: absolute;
+    top: calc(100vh - 600px);  /* 30vh above #main-text top; adjust as needed */
+    left: -70px;
+    width: 400px;  /* Assumed width for a small flag animation; adjust as needed */
 }
 }
 
-#main-text {
-    margin-top: 65vh; /* 85% of screen height from top */
-    text-align: left; /* Left-aligned text */
-}
+
 
 h1 {
     font-family: 'GT Alpina Trial', serif;
@@ -99,39 +116,30 @@ h1 {
     margin-bottom: 15px;
 }
 
+#main-text {
+    margin-top: calc(100vh - 150px);  /* Top of text is always 200px from bottom initially */
+    text-align: left; /* Left-aligned text */
+}
+
+
 #postcard {
     position: absolute;
     top: 25vh; /* 45% of screen height from top */
     left: 66vh;
     width: 300px;
-    height: 200px; /* 3:4 aspect ratio */
-    background-color: #e7e7e75b; /* Grey */
+    height: auto; /* Height adjusts to maintain video's aspect ratio */
     border-radius: 10px; /* Rounded corners */
     transform: perspective(1000px) rotateY(20deg) rotateX(10deg); /* Fake 3D */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    object-fit: cover; /* Ensures video fills the container; change to 'contain' if preferred */
 }
 
 /* New main flag video styling (positioned relative to #main-text) */
 #main-flag-video {
     position: absolute;
-    top: calc(0px - 30vh);  /* 30vh above #main-text top; adjust as needed */
-    width: 100px;  /* Assumed width for a small flag animation; adjust as needed */
+    top: calc(100vh - 600px);  /* 30vh above #main-text top; adjust as needed */
+    left: -60px;
+    width: 400px;  /* Assumed width for a small flag animation; adjust as needed */
 }
-
-/* Mobile positioning (8px left of main-container) */
-@media (max-width: 767px) {
-    #main-flag-video {
-        left: calc(0px - 8px - 100px);  /* Video's right edge 8px left of main-container's left edge */
-    }
-}
-
-/* Desktop positioning (32px left of main-container) */
-@media (min-width: 768px) {
-    #main-flag-video {
-        left: calc(0px - 32px - 100px);  /* Video's right edge 32px left of main-container's left edge */
-    }
-}
-
 /* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
 .hidden-element {
     position: absolute;
@@ -139,7 +147,7 @@ h1 {
     height: 100px;
     background-color: #eee;
     display: none; /* Hidden by default; shown via JS */
-    top: 300vh; /* All off bottom */
+    bottom: 0px; /* All off bottom */
 }
 
 
@@ -245,4 +253,17 @@ h1 {
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
     -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
     z-index: 5;
+}
+
+/* New: Full-screen fade overlay */
+#fade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white; adjust color/opacity as needed */
+    opacity: 0; /* Starts hidden; animated via JS */
+    pointer-events: none; /* Allow clicks through */
+    z-index: 5; /* Above content but below any top UI if needed */
 }

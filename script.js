@@ -7,19 +7,20 @@ gsap.registerPlugin(ScrollTrigger);
 const root = document.getElementById('root');
 const mainContainer = document.getElementById('main-container');
 const postcard = document.getElementById('postcard');
+const fadeOverlay = document.getElementById('fade-overlay'); // New: Reference to fade overlay
 
 // Set up smooth scroll using GSAP
-gsap.to(root, {
-    y: () => - (root.scrollHeight - window.innerHeight) + 'px',
-    ease: 'none',
-    scrollTrigger: {
-        trigger: root,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true,
-        invalidateOnRefresh: true
-    }
-});
+// gsap.to(root, {
+//     y: () => - (root.scrollHeight - window.innerHeight) + 'px',
+//     ease: 'none',
+//     scrollTrigger: {
+//         trigger: root,
+//         start: 'top top',
+//         end: 'bottom bottom',
+//         scrub: true,
+//         invalidateOnRefresh: true
+//     }
+// });
 
 // Animate postcard on scroll (initial fade-in) - Added scroller for smooth scroll compatibility
 gsap.from('#postcard', {
@@ -40,18 +41,21 @@ gsap.set(postcard, {
     x: '-50%'  // Translate for true centering (accounts for width)
 });
 
+// New: Initially hide fade overlay
+gsap.set(fadeOverlay, { opacity: 0 });
+
 // New: Scale and pin postcard as it approaches top
 ScrollTrigger.create({
     trigger: postcard,
     scroller: '#root',  // Track scrolling on #root (not window)
-    start: 'top 30vh',   // Starts when postcard top is at 15vh from viewport top
-    end: 'top 5vh',     // Ends when at 5vh
+    start: 'top 30vh',   // Starts when postcard top is at 30vh from viewport top (vh-based)
+    end: 'top 20px',     // Ends when at 20px from top (px-based, close to edge)
     scrub: true,
     invalidateOnRefresh: true,  // Handle resizes better
     // markers: true,  // Uncomment for visual debug markers
     onUpdate: (self) => {
-        const progress = self.progress;  // 0 at 15vh, 1 at 5vh
-        const scale = 1 - (progress * 0.8);  // Linear scale from 1 to 0.1
+        const progress = self.progress;  // 0 at start, 1 at end
+        const scale = 1 - (progress * 0.8);  // Linear scale from 1 to 0.2
         const postcardTop = postcard.getBoundingClientRect().top;  // Current top position relative to viewport
         const calculatedLeft = '50%';  // Centered (vw-relative implicitly via %)
         const currentOpacity = parseFloat(window.getComputedStyle(postcard).opacity);  // For greying debug
@@ -79,15 +83,23 @@ ScrollTrigger.create({
             overwrite: 'auto'
         });
 
-        // Pin at 5vh by moving to body and setting fixed position (keep centered)
+        // New: Fade in the overlay based on same progress (0 to 0.8 opacity)
+        gsap.to(fadeOverlay, {
+            opacity: 0.8 - (progress * 0.8),
+            duration: 0.1,
+            ease: 'power2.out',
+            overwrite: 'auto'
+        });
+
+        // Pin at 20px by moving to body and setting fixed position (keep centered)
         if (progress >= 1) {
             if (postcard.parentNode !== document.body) {
                 document.body.appendChild(postcard);  // Move out of #root to avoid transform inheritance
-                console.log('Postcard moved to body and pinned at 5vh with left: ' + calculatedLeft);
+                console.log('Postcard moved to body and pinned at 20px with left: ' + calculatedLeft);
             }
             gsap.set(postcard, {
                 position: 'fixed',
-                top: '5vh',
+                top: '20px',
                 left: calculatedLeft,
                 x: '-50%'  // Keep centered
             });
@@ -265,8 +277,9 @@ function updateEdgeIndicators() {
 }
 
 // Event listeners
-window.addEventListener('scroll', updateEdgeIndicators);
-root.addEventListener('scroll', updateEdgeIndicators);
+// window.addEventListener('scroll', updateEdgeIndicators);
+// root.addEventListener('scroll', updateEdgeIndicators);
+gsap.ticker.add(updateEdgeIndicators); // Calls on every frame (~60fps)
 window.addEventListener('resize', updateEdgeIndicators);
 updateEdgeIndicators(); // Initial check
 
