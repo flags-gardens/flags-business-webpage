@@ -262,7 +262,7 @@ h1 {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white; adjust color/opacity as needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent white; adjust color/opacity as needed */
     opacity: 0; /* Starts hidden; animated via JS */
     pointer-events: none; /* Allow clicks through */
     z-index: 5; /* Above content but below any top UI if needed */
