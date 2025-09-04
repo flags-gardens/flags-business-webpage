@@ -23,6 +23,40 @@
 }
 
 
+/* Desktop width */
+@media (min-width: 768px) {
+    #main-container {
+        width: 460px;
+        }
+        
+    #main-text {
+    margin-top: calc(100vh - 200px);  /* Top of text is always 200px from bottom initially */
+    text-align: left; /* Left-aligned text */
+    }
+
+    #postcard {
+        position: absolute;
+        width: 1000px;
+        height: auto; /* Height adjusts to maintain video's aspect ratio */
+    }
+
+    #main-flag-container {
+        top: calc(100vh - 600px);
+        left: -80px;
+        width: 1000px;
+    }
+    #bottom-house-image {
+    position: relative;
+    margin-top: 200px;
+    width: var(--house-width, calc(100vw / 3)); /* Fallback if JS fails */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Or cover/contain as needed */
+    z-index: 1; /* Adjust layering if needed */
+}
+
+}
+
+
 
 /* Lock body and html for smooth scrolling */
 html, body {
@@ -63,43 +97,12 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 340px; /* Default for mobile */
-    gap: 400px; 
+    width: 460px; /* Default for mobile */
+    gap: 100px;
     margin: 0 auto; /* Center the narrow container */
 }
 
-/* Desktop width */
-@media (min-width: 768px) {
-    #main-container {
-        width: 460px;
-        }
-        
-    #main-text {
-    margin-top: calc(100vh - 200px);  /* Top of text is always 200px from bottom initially */
-    text-align: left; /* Left-aligned text */
-    }
 
-    #postcard {
-        position: absolute;
-        width: 1000px;
-        height: auto; /* Height adjusts to maintain video's aspect ratio */
-    }
-
-    #main-flag-container {
-        top: calc(100vh - 600px);
-        left: -80px;
-        width: 1000px;
-    }
-    #bottom-house-image {
-    position: relative;
-    margin-top: 200px;
-    width: var(--house-width, calc(100vw / 3)); /* Fallback if JS fails */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Or cover/contain as needed */
-    z-index: 1; /* Adjust layering if needed */
-}
-
-}
 
 h1 {
     font-family: 'GT Alpina Trial', serif;
@@ -130,7 +133,6 @@ h1 {
 #main-text {
     margin-top: calc(100vh - 150px);  /* Top of text is always 200px from bottom initially */
     text-align: left; /* Left-aligned text */
-    overflow: hidden;
 }
 
 
@@ -153,10 +155,13 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center horizontally if needed */
-    top: calc(100vh - 500px); /* Same as original video position */
-    left: -110px; /* Same as original */
+    top: calc(100vh - 580px); /* Same as original video position */
+    left: -180px; /* Same as original */
     transform-origin: bottom center;
     width: 400px; /* Same as original video width */
+    overflow: hidden;  /* Clips flag overflow but keeps scrolling behavior */
+    max-height: 140vh;  /* Prevent it from getting too long */
+
 }
 
 #main-flag-video {
@@ -170,8 +175,23 @@ h1 {
 .stem-extension {
     width: 100%; /* Match video width */
     height: auto; /* Auto height to extend stem */
-    margin: 0; /* No margins for seamless stacking */
+    margin: -0; /* No margins for seamless stacking */
     transform: translateX(-6px)
+}
+
+.signatures {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: -50; /* Space between signatures */
+}
+
+.signature {
+    height: 82px; /* Uniform height */
+    width: auto; /* Maintain aspect ratio */
+    opacity: 1; /* Slightly faded */
+    margin-left: -20px;
 }
 
 .edge-flag-container {
@@ -194,27 +214,26 @@ h1 {
     object-fit: contain; /* Fit image within 100x100 without distortion */
 }
 
-
 #edge-flag-1 {
     position: relative;
-    left: 40vw;
-    width: 350px; /* Same size as original divs */
-}
-
-#edge-flag-2 {
     left: 40vw;
     width: 250px; /* Same size as original divs */
 }
 
+#edge-flag-2 {
+    left: 40vw;
+    width: 150px; /* Same size as original divs */
+}
+
 #edge-flag-3 {
     left: -40vw;
-    width: 400px; /* Same size as original divs */
+    width: 200px; /* Same size as original divs */
 }
 
 #edge-flag-4 {
     position: relative;
     left: -60vw;
-    width: 280px; /* Same size as original divs */
+    width: 180px; /* Same size as original divs */
 }
 
 /* Edge indicators (positions will be set dynamically via JS) */
@@ -237,6 +256,20 @@ h1 {
     left: 0;
 }
 
+#top-gradient {
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2; /* Above the existing blur-container but below interactive content if needed */
+    background: linear-gradient(to bottom, #B2C4C5, #b2c4c500); /* Fades to white */
+}
+
+
 /* New progressive blur container (200px high, full width, fixed at bottom) */
 #progressive-blur {
     position: fixed;
@@ -251,21 +284,10 @@ h1 {
 
 /* New progressive blur container (200px high, full width, fixed at bottom) */
 
-#top-gradient {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 2; /* Above the existing blur-container but below interactive content if needed */
-    background: linear-gradient(to bottom, #B2C4C5, #b2c4c500); /* Fades to white */
-}
 
 #progressive-blur-top {
     position: fixed;
-    opacity: 0;
+    opacity: 1;
     top: 0;
     left: 0;
     width: 100%;

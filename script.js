@@ -12,21 +12,21 @@ const topFade = document.getElementById('progressive-blur-top');
 const mainFlag = document.getElementById('main-flag-container');
 
 
-gsap.to(root, {
-    y: () => - (root.scrollHeight - window.innerHeight) + 'px',
-    ease: 'none',
-    scrollTrigger: {
-        trigger: root,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true,
-        invalidateOnRefresh: true
-    }
-});
+// gsap.to(root, {
+//     y: () => - (root.scrollHeight - window.innerHeight) + 'px',
+//     ease: 'none',
+//     scrollTrigger: {
+//         trigger: root,
+//         start: 'top top',
+//         end: 'bottom bottom',
+//         scrub: false,
+//         invalidateOnRefresh: true
+//     }
+// });
 
 
 gsap.from('#postcard', {
-    y: -400,
+    y: -200,
     opacity: 0,
     scale: 0.5,
     ease: 'power2.out',
@@ -49,7 +49,7 @@ const postcardTl = gsap.timeline({
         start: 'top bottom-=200',  // Starts when mainText top hits viewport bottom (immediate on scroll start)
         end: 'top 20%',       // Ends when mainText top is at 20% from viewport top (adjust this to control the scroll distance; e.g., 'top top' for full viewport height)
         scrub: true,          // Scrubs animation with scroll (reversible on scroll up)
-        markers: true,        // Uncomment for visual debug markers
+        markers: false,        // Uncomment for visual debug markers
         invalidateOnRefresh: true,  // Handle resizes better
     }
 });
@@ -66,14 +66,14 @@ postcardTl.from(mainFlag, {
     y: 600,
     ease: 'power2.out', // Linear with scroll (no easing for scrub)
     opacity: 0,
-    duration: 0.5   // Relative duration (1 = full timeline)
+    duration: 0.3   // Relative duration (1 = full timeline)
 }, 0);
 
 postcardTl.to(topFade, {
     '--gradient-start': 0,
     '--gradient-end': 0,
     ease: 'none',
-    duration: 1
+    duration: 0.5
 }, 0); 
 
 
@@ -288,7 +288,7 @@ function updateHouseWidth() {
     const mainTextWidth = mainText.offsetWidth;
     console.log(`Main text width: ${mainTextWidth}px`);
     // Set CSS custom property based on main-text width
-    document.documentElement.style.setProperty('--house-width', `${mainTextWidth * 2.5}px`);
+    document.documentElement.style.setProperty('--house-width', `${mainTextWidth * 2.2}px`);
     console.log(`Updated --house-width to ${mainTextWidth * 1.5}px`);
 }
 
