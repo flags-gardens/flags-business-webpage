@@ -5,9 +5,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Smooth scrolling setup
 const root = document.getElementById('root');
-const mainContainer = document.getElementById('main-container');
 const postcard = document.getElementById('postcard');
 const fadeOverlay = document.getElementById('fade-overlay'); // New: Reference to fade overlay
+const mainText = document.getElementById('main-text');
+const topFade = document.getElementById('progressive-blur-top');
+const mainFlag = document.getElementById('main-flag-container');
 
 // Set up smooth scroll using GSAP
 // gsap.to(root, {
@@ -22,7 +24,6 @@ const fadeOverlay = document.getElementById('fade-overlay'); // New: Reference t
 //     }
 // });
 
-// Animate postcard on scroll (initial fade-in) - Added scroller for smooth scroll compatibility
 gsap.from('#postcard', {
     y: -100,
     opacity: 0,
@@ -30,95 +31,103 @@ gsap.from('#postcard', {
     scrollTrigger: {
         scroller: '#root',  // Fix: Track on #root
         trigger: '#main-text',
-        start: 'top 100%',
+        start: 'top bottom',
         toggleActions: 'play none none reverse'
     }
 });
 
-// Initially center the postcard (overrides CSS left: 66vh)
 gsap.set(postcard, {
     left: '50%',
-    x: '-50%'  // Translate for true centering (accounts for width)
+    x: '-50%',  // Translate for true centering (accounts for width)
+    top: '50%', // Initial top position (15% of viewport height)
+    y: '-50%', 
 });
 
-// New: Initially hide fade overlay
-gsap.set(fadeOverlay, { opacity: 0 });
 
-// New: Scale and pin postcard as it approaches top (starts immediately on scroll)
-ScrollTrigger.create({
-    trigger: postcard,
-    scroller: '#root',  // Track scrolling on #root (not window)
-    start: 'top bottom',  // Changed: Starts as soon as postcard top hits viewport bottom (immediate on scroll start)
-    end: 'top 20px',     // Ends when at 20px from top (px-based, close to edge)
-    scrub: true,
-    invalidateOnRefresh: true,  // Handle resizes better
-    // markers: true,  // Uncomment for visual debug markers
-    onUpdate: (self) => {
-        const progress = self.progress;  // 0 at start, 1 at end
-        const scale = 1 - (progress * 0.8);  // Linear scale from 1 to 0.2
-        const postcardTop = postcard.getBoundingClientRect().top;  // Current top position relative to viewport
-        const calculatedLeft = '50%';  // Centered (vw-relative implicitly via %)
-        const currentOpacity = parseFloat(window.getComputedStyle(postcard).opacity);  // For greying debug
-
-        // Enhanced Debugging: Log left values, opacity, and more
-        console.log('Postcard ScrollTrigger Update:', {
-            progress: progress.toFixed(2),
-            calculatedScale: scale.toFixed(2),
-            postcardTop: postcardTop.toFixed(0) + 'px',
-            currentOpacity: currentOpacity.toFixed(2) + ' (if <1, may appear grey in inspector)',
-            calculatedLeft: calculatedLeft,
-            windowInnerWidth: window.innerWidth,
-            currentParent: postcard.parentNode.id || 'body',  // Track if it's in #root or body
-            isPinned: progress >= 1
-        });
-
-        if (progress === 0 && postcardTop > window.innerHeight * 0.15) {
-            console.warn('Postcard trigger not activating yet - postcard top is at ' + postcardTop + 'px (needs to be <= 15vh)');
-        }
-
-        gsap.to(postcard, {
-            scale: scale,
-            duration: 0.1,  // Swift update
-            ease: 'power2.out',
-            overwrite: 'auto'
-        });
-
-        // New: Fade in the overlay based on same progress (0 to 0.8 opacity)
-        gsap.to(fadeOverlay, {
-            opacity: 0.8 - (progress * 0.8),
-            duration: 0.1,
-            ease: 'power2.out',
-            overwrite: 'auto'
-        });
-
-        // Pin at 20px by moving to body and setting fixed position (keep centered)
-        if (progress >= 1) {
-            if (postcard.parentNode !== document.body) {
-                document.body.appendChild(postcard);  // Move out of #root to avoid transform inheritance
-                console.log('Postcard moved to body and pinned at 20px with left: ' + calculatedLeft);
-            }
-            gsap.set(postcard, {
-                position: 'fixed',
-                top: '20px',
-                left: calculatedLeft,
-                x: '-50%'  // Keep centered
-            });
-        } else {
-            // Unpin: Move back to #root and reset to absolute (keep centered)
-            if (postcard.parentNode === document.body) {
-                root.insertBefore(postcard, mainContainer);  // Insert back as sibling to #main-container
-                console.log('Postcard moved back to #root and unpinned, resetting left to 50% (centered)');
-            }
-            gsap.set(postcard, {
-                position: 'absolute',
-                top: '25vh',  // Reset to original CSS top
-                left: calculatedLeft,
-                x: '-50%'  // Keep centered
-            });
-        }
-    },
-    toggleActions: 'play none none reverse'  // Enable full reversal on scroll up (scales back up and unpinns)
+// Create a timeline for the postcard animation (shrink, move up, and adjust y for alignment)
+const postcardTl = gsap.timeline({
+    scrollTrigger: {
+        trigger: mainText,
+        scroller: '#root',  // Track scrolling on #root (not window)
+        start: 'top bottom',  // Starts when mainText top hits viewport bottom (immediate on scroll start)
+        end: 'top 20%',       // Ends when mainText top is at 20% from viewport top (adjust this to control the scroll distance; e.g., 'top top' for full viewport height)
+        scrub: true,          // Scrubs animation with scroll (reversible on scroll up)
+        // markers: true,        // Uncomment for visual debug markers
+        invalidateOnRefresh: true,  // Handle resizes better
+    }
 });
+
+// Animate postcard: move up to 20px from top, adjust y to 0 (since transform-origin is top center), and shrink
+postcardTl.to(postcard, {
+    top: '20px',  // Final position: 20px from top edge
+    y: 0,         // Reset y transform so the top aligns exactly at 20px (no centering offset)
+    scale: 0.2,   // Shrink to 20% size (adjust as needed)
+    ease: 'none', // Linear with scroll (no easing for scrub)
+    duration: 1   // Relative duration (1 = full timeline)
+});
+
+// Animate postcard: move up to 20px from top, adjust y to 0 (since transform-origin is top center), and shrink
+postcardTl.from(mainFlag, {
+    top: 'bottom' - 20,  // Final position: 20px from top edge
+    scale: 0.5,   // Shrink to 20% size (adjust as needed)
+    ease: 'power2.out', // Linear with scroll (no easing for scrub)
+    duration: 1   // Relative duration (1 = full timeline)
+});
+
+postcardTl.to(topFade, {
+    '--gradient-start': 0,
+    '--gradient-end': 0,
+    ease: 'none',
+    duration: 1
+}, 0); // Starts at the same time as the postcard animation
+
+// // New: Scale and pin postcard as it approaches top (starts immediately on scroll)
+// ScrollTrigger.create({
+//     trigger: mainText,
+//     scroller: '#root',  // Track scrolling on #root (not window)
+//     start: 'top bottom-=200px',  // Changed: Starts as soon as postcard top hits viewport bottom (immediate on scroll start)
+//     end: 'top bottom-=300px',     // Ends when at 20px from top (px-based, close to edge)
+//     markers: true,
+//     scrub: true,
+//     invalidateOnRefresh: true,  // Handle resizes better
+//     // markers: true,  // Uncomment for visual debug markers
+//     onUpdate: (self) => {
+//         const progress = self.progress;  // 0 at start, 1 at end
+//         const scale = 1 - (progress * 0.8);  // Linear scale from 1 to 0.2
+//         const postcardTop = postcard.getBoundingClientRect().top;  // Current top position relative to viewport
+//         const postcardNewTop = '50vh' * (1 - progress) 
+//         const calculatedLeft = '50%';  // Centered (vw-relative implicitly via %)
+//         const currentOpacity = parseFloat(window.getComputedStyle(postcard).opacity);  // For greying debug
+
+//         // Enhanced Debugging: Log left values, opacity, and more
+//         console.log('Postcard ScrollTrigger Update:', {
+//             progress: progress.toFixed(2),
+//             calculatedScale: scale.toFixed(2),
+//             postcardTop: postcardTop.toFixed(0) + 'px',
+//             currentOpacity: currentOpacity.toFixed(2) + ' (if <1, may appear grey in inspector)',
+//             calculatedLeft: calculatedLeft,
+//             windowInnerWidth: window.innerWidth,
+//             currentParent: postcard.parentNode.id || 'body',  // Track if it's in #root or body
+//             isPinned: progress >= 1
+//         });
+//         gsap.to(postcard, {
+//             scale: scale,
+//             top: postcardNewTop, 
+//             duration: 0.5,  // Swift update
+//             ease: 'power2.out',
+//             overwrite: 'auto'
+//         });
+
+//         // New: Fade in the overlay based on same progress (0 to 0.8 opacity)
+//         gsap.to(fadeOverlay, {
+//             opacity: 0.8 - (progress * 0.8),
+//             duration: 0.5,
+//             ease: 'power2.out',
+//             overwrite: 'auto'
+//         });
+//     },
+//     toggleActions: 'play none none reverse'  // Enable full reversal on scroll up (scales back up and unpinns)
+// });
 
 // Edge indicators logic: One dynamic indicator per off-screen element, bound by ID
 const indicatorMap = new Map(); // Key: hidden element ID, Value: indicator element
@@ -155,7 +164,7 @@ function updateEdgeIndicators() {
     const padding = 16; // Distance from edges
     const currentScrollTop = root.scrollTop;
 
-    const hiddenElements = document.querySelectorAll('.hidden-element');
+    const hiddenElements = document.querySelectorAll('.edge-flag');
     const activeIndicators = []; // For load animation
 
     hiddenElements.forEach(el => {
@@ -283,5 +292,3 @@ gsap.ticker.add(updateEdgeIndicators); // Calls on every frame (~60fps)
 window.addEventListener('resize', updateEdgeIndicators);
 updateEdgeIndicators(); // Initial check
 
-// Make hidden elements visible for testing
-document.querySelectorAll('.hidden-element').forEach(el => el.style.display = 'block');

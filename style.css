@@ -1,4 +1,7 @@
-/* Embed GT Alpina Trial (regular and italic variants) */
+
+
+
+
 @font-face {
     font-family: 'GT Alpina Trial';
     src: url('fonts/gt-alpina-trial.woff2') format('woff2'),
@@ -14,7 +17,7 @@
     font-style: italic;
 }
 
-/* Embed ABC Stefan Unlicensed Trial */
+
 @font-face {
     font-family: 'ABC Stefan Unlicensed Trial';
     src: url('fonts/ABCStefan-Simple-Trial.woff2') format('woff2'),
@@ -23,13 +26,19 @@
     font-style: normal;
 }
 
+
+/* ----- variables ---- */
+
+
+
+
+
 /* Lock body and html for smooth scrolling */
 html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
     height: 100%;
-    background-image: url('/assets/background_high.jpg');
 }
 
 /* Move background to #root for scrolling */
@@ -37,15 +46,24 @@ html, body {
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden; /* Prevents x-axis scrolling */
-    background-image: url('/assets/background_high.jpg'); /* Fullwidth background */
+    background-image: url('/assets/sky_expanded_improved.jpg'); /* Fullwidth background */
     background-size: fill;
-    background-position: center top;
+    background-position: center bottom;
     background-repeat: no-repeat;
     background-attachment: local; /* Scrolls with content */
     /* overscroll-behavior: none; Prevents rubber-banding and gap */
 
-    /* Smooth scrolling handled in JS */
 }
+
+#bottom-house-image {
+    position: relative;
+    top: 400px;
+    width: calc(100vw); /* 1/3 vw on desktop */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Or cover/contain as needed */
+    z-index: 1; /* Adjust layering if needed */
+}
+
 
 #main-container {
     position: relative; /* For absolute positioning of hidden elements and video */
@@ -53,8 +71,6 @@ html, body {
     flex-direction: column;
     align-items: center;
     width: 340px; /* Default for mobile */
-    padding: 20px;
-    min-height: 200vh; /* Ensure scrollable content for testing */
     margin: 0 auto; /* Center the narrow container */
 }
 
@@ -62,28 +78,34 @@ html, body {
 @media (min-width: 768px) {
     #main-container {
         width: 460px;
-    }
-    
+        }
+        
     #main-text {
     margin-top: calc(100vh - 200px);  /* Top of text is always 200px from bottom initially */
     text-align: left; /* Left-aligned text */
+    }
+
+    #postcard {
+        position: absolute;
+        width: 1000px;
+        height: auto; /* Height adjusts to maintain video's aspect ratio */
+    }
+
+    #main-flag-container {
+        top: calc(100vh - 600px);
+        left: -80px;
+        width: 1000px;
+    }
+    #bottom-house-image {
+    position: relative;
+    top: 500px;
+    width: calc(100vw / 3); /* 1/3 vw on desktop */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Or cover/contain as needed */
+    z-index: 1; /* Adjust layering if needed */
 }
 
-#postcard {
-    width: 600px;
- 
 }
-
-
-#main-flag-video {
-    position: absolute;
-    top: calc(100vh - 600px);  /* 30vh above #main-text top; adjust as needed */
-    left: -70px;
-    width: 400px;  /* Assumed width for a small flag animation; adjust as needed */
-}
-}
-
-
 
 h1 {
     font-family: 'GT Alpina Trial', serif;
@@ -106,6 +128,7 @@ h1 {
     font-size: 15px;
     background: linear-gradient(to bottom, rgba(0,0,0,0.7), #83604A); /* Vertical gradient */
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 15px;
 }
@@ -117,49 +140,78 @@ h1 {
 
 
 #postcard {
-    position: absolute;
-    top: 15vh; /* 45% of screen height from top */
-    left: 66vh;
-    width: 1000px;
+    position: fixed;
+    width: 300px;
     height: auto; /* Height adjusts to maintain video's aspect ratio */
-    border-radius: 10px; /* Rounded corners */
-    transform: perspective(1000px) rotateY(20deg) rotateX(10deg); /* Fake 3D */
+    pointer-events: none;
+    transform-origin: top center;
     object-fit: cover; /* Ensures video fills the container; change to 'contain' if preferred */
+    z-index: 6;
+    
 }
 
-/* New main flag video styling (positioned relative to #main-text) */
-#main-flag-video {
+#main-flag-container {
     position: absolute;
-    top: calc(100vh - 600px);  /* 30vh above #main-text top; adjust as needed */
-    left: -60px;
-    width: 400px;  /* Assumed width for a small flag animation; adjust as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally if needed */
+    top: calc(100vh - 600px); /* Same as original video position */
+    left: -85px; /* Same as original */
+    transform-origin: bottom center;
+    width: 400px; /* Same as original video width */
 }
-/* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
-.hidden-element {
+
+#main-flag-video {
+    position: relative; /* Now relative within container */
+    top: 0;
+    left: 0;
+    width: 100%; /* Fill container width */
+    height: auto; /* Maintain aspect ratio without increasing height */
+}
+
+.stem-extension {
+    width: 100%; /* Match video width */
+    height: auto; /* Auto height to extend stem */
+    margin: 0; /* No margins for seamless stacking */
+    transform: translateX(-6px)
+}
+
+.edge-flag-container {
     position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    bottom: 0px; /* All off bottom */
+    align-items: flex-end;    /* ↓ Bottom */
+}
+
+/* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
+.edge-flag {
+    position: relative;
     width: 200px; /* Same size as original divs */
+    transform-origin: bottom center;
     height: auto;
-    display: none; /* Hidden by default; shown via JS */
     bottom: 0px; /* All off bottom */
     object-fit: contain; /* Fit image within 100x100 without distortion */
 }
 
 
-
-#hidden-1 {
-    left: -20px;
+#edge-flag-1 {
+    width: 150px; /* Same size as original divs */
 }
 
-#hidden-2 {
-    left: 150px;
+#edge-flag-2 {
+    width: 150px; /* Same size as original divs */
 }
 
-#hidden-3 {
-    left: 250px;
+#edge-flag-3 {
+
+    width: 100px; /* Same size as original divs */
 }
 
-#hidden-4 {
-    left: 850px;
+#edge-flag-4 {
+
+    width: 180px; /* Same size as original divs */
 }
 
 /* Edge indicators (positions will be set dynamically via JS) */
@@ -182,20 +234,6 @@ h1 {
     left: 0;
 }
 
-/* Existing fading blur container (unchanged) */
-#blur-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 240px;
-    backdrop-filter: blur(10px); /* Background blur */
-    mask-image: linear-gradient(to top, black 0%, transparent 100%); /* Fade to top */
-    -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%); /* Safari support */
-    pointer-events: none; /* Allow clicks through */
-    z-index: 1; /* Layer above background but below content */
-}
-
 /* New progressive blur container (200px high, full width, fixed at bottom) */
 #progressive-blur {
     position: fixed;
@@ -206,6 +244,22 @@ h1 {
     overflow: hidden;
     pointer-events: none;
     z-index: 2; /* Above the existing blur-container but below interactive content if needed */
+}
+
+/* New progressive blur container (200px high, full width, fixed at bottom) */
+#progressive-blur-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3; /* Above the existing blur-container but below interactive content if needed */
+    background: linear-gradient(to bottom, rgba(215, 215, 215, var(--gradient-start)), rgba(255, 255, 255, var(--gradient-end))); /* Fades to white */
+
+    --gradient-start: 1; /* For layer 4 */
+    --gradient-end: 0.514; /* For layer 5 */
 }
 
 /* Blur layers (stacked with increasing blur and masked gradients) */
@@ -249,15 +303,54 @@ h1 {
     z-index: 5;
 }
 
-/* New: Full-screen fade overlay */
-#fade-overlay {
+/* top progressive blur */
+
+
+#progressive-blur-top > .blur-layer:nth-child(1) {
+    backdrop-filter: blur(1px);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 1) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 0) 88.8%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 1) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 0) 88.8%);
+    z-index: 1;
+}
+
+#progressive-blur-top > .blur-layer:nth-child(2) {
+    backdrop-filter: blur(2px);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 0) 94.4%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 0) 94.4%);
+    z-index: 2;
+}
+
+#progressive-blur-top > .blur-layer:nth-child(3) {
+    backdrop-filter: blur(4px);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 0) 100%);
+    z-index: 3;
+}
+
+#progressive-blur-top > .blur-layer:nth-child(4) {
+    backdrop-filter: blur(8px);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 1) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 1) 100%);
+    z-index: 4;
+}
+
+#progressive-blur-top > .blur-layer:nth-child(5) {
+    backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
+    z-index: 5;
+}
+
+
+/* #fade-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent white; adjust color/opacity as needed */
-    opacity: 0; /* Starts hidden; animated via JS */
-    pointer-events: none; /* Allow clicks through */
-    z-index: 5; /* Above content but below any top UI if needed */
-}
+    background-color: rgba(0, 0, 0, 0.8);
+
+    opacity: 0; 
+    pointer-events: none; 
+    z-index: 5;
+} */
