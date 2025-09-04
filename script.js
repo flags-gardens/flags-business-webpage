@@ -11,23 +11,26 @@ const mainText = document.getElementById('main-text');
 const topFade = document.getElementById('progressive-blur-top');
 const mainFlag = document.getElementById('main-flag-container');
 
-// Set up smooth scroll using GSAP
-// gsap.to(root, {
-//     y: () => - (root.scrollHeight - window.innerHeight) + 'px',
-//     ease: 'none',
-//     scrollTrigger: {
-//         trigger: root,
-//         start: 'top top',
-//         end: 'bottom bottom',
-//         scrub: true,
-//         invalidateOnRefresh: true
-//     }
-// });
+
+gsap.to(root, {
+    y: () => - (root.scrollHeight - window.innerHeight) + 'px',
+    ease: 'none',
+    scrollTrigger: {
+        trigger: root,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        invalidateOnRefresh: true
+    }
+});
+
 
 gsap.from('#postcard', {
-    y: -100,
+    y: -400,
     opacity: 0,
-    duration: 1,
+    scale: 0.5,
+    ease: 'power2.out',
+    duration: 2,
     scrollTrigger: {
         scroller: '#root',  // Fix: Track on #root
         trigger: '#main-text',
@@ -36,12 +39,6 @@ gsap.from('#postcard', {
     }
 });
 
-gsap.set(postcard, {
-    left: '50%',
-    x: '-50%',  // Translate for true centering (accounts for width)
-    top: '50%', // Initial top position (15% of viewport height)
-    y: '-50%', 
-});
 
 
 // Create a timeline for the postcard animation (shrink, move up, and adjust y for alignment)
@@ -49,37 +46,38 @@ const postcardTl = gsap.timeline({
     scrollTrigger: {
         trigger: mainText,
         scroller: '#root',  // Track scrolling on #root (not window)
-        start: 'top bottom',  // Starts when mainText top hits viewport bottom (immediate on scroll start)
+        start: 'top bottom-=200',  // Starts when mainText top hits viewport bottom (immediate on scroll start)
         end: 'top 20%',       // Ends when mainText top is at 20% from viewport top (adjust this to control the scroll distance; e.g., 'top top' for full viewport height)
         scrub: true,          // Scrubs animation with scroll (reversible on scroll up)
-        // markers: true,        // Uncomment for visual debug markers
+        markers: true,        // Uncomment for visual debug markers
         invalidateOnRefresh: true,  // Handle resizes better
     }
 });
 
 // Animate postcard: move up to 20px from top, adjust y to 0 (since transform-origin is top center), and shrink
 postcardTl.to(postcard, {
-    top: '20px',  // Final position: 20px from top edge
-    y: 0,         // Reset y transform so the top aligns exactly at 20px (no centering offset)
-    scale: 0.2,   // Shrink to 20% size (adjust as needed)
+    top: '400px',  // Final position: 20px from top edge
+    scale: 0.1,   // Shrink to 20% size (adjust as needed)
     ease: 'none', // Linear with scroll (no easing for scrub)
-    duration: 1   // Relative duration (1 = full timeline)
-});
+    duration: 0.5   // Relative duration (1 = full timeline)
+},0);
 
-// Animate postcard: move up to 20px from top, adjust y to 0 (since transform-origin is top center), and shrink
 postcardTl.from(mainFlag, {
-    top: 'bottom' - 20,  // Final position: 20px from top edge
-    scale: 0.5,   // Shrink to 20% size (adjust as needed)
+    y: 600,
     ease: 'power2.out', // Linear with scroll (no easing for scrub)
-    duration: 1   // Relative duration (1 = full timeline)
-});
+    opacity: 0,
+    duration: 0.5   // Relative duration (1 = full timeline)
+}, 0);
 
 postcardTl.to(topFade, {
     '--gradient-start': 0,
     '--gradient-end': 0,
     ease: 'none',
     duration: 1
-}, 0); // Starts at the same time as the postcard animation
+}, 0); 
+
+
+// Starts at the same time as the postcard animation
 
 // // New: Scale and pin postcard as it approaches top (starts immediately on scroll)
 // ScrollTrigger.create({
@@ -285,9 +283,18 @@ function updateEdgeIndicators() {
     console.log(`Updated indicators: ${activeIndicators.length} active (bound by ID), size: ${(currentScrollTop <= scrollThreshold) ? 'small (12px)' : 'full (40px)'}`);
 }
 
-// Event listeners
-// window.addEventListener('scroll', updateEdgeIndicators);
-// root.addEventListener('scroll', updateEdgeIndicators);
+function updateHouseWidth() {
+    const mainText = document.getElementById('main-text');
+    const mainTextWidth = mainText.offsetWidth;
+    console.log(`Main text width: ${mainTextWidth}px`);
+    // Set CSS custom property based on main-text width
+    document.documentElement.style.setProperty('--house-width', `${mainTextWidth * 2.5}px`);
+    console.log(`Updated --house-width to ${mainTextWidth * 1.5}px`);
+}
+
+window.addEventListener('load', updateHouseWidth);
+window.addEventListener('resize', updateHouseWidth);
+
 gsap.ticker.add(updateEdgeIndicators); // Calls on every frame (~60fps)
 window.addEventListener('resize', updateEdgeIndicators);
 updateEdgeIndicators(); // Initial check

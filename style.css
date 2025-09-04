@@ -1,7 +1,3 @@
-
-
-
-
 @font-face {
     font-family: 'GT Alpina Trial';
     src: url('fonts/gt-alpina-trial.woff2') format('woff2'),
@@ -25,11 +21,6 @@
     font-weight: normal;
     font-style: normal;
 }
-
-
-/* ----- variables ---- */
-
-
 
 
 
@@ -57,20 +48,23 @@ html, body {
 
 #bottom-house-image {
     position: relative;
-    top: 400px;
-    width: calc(100vw); /* 1/3 vw on desktop */
+    /* width: calc(100vw); 1/3 vw on desktop */
+    width: var(--house-width, calc(100vw / 3)); /* Fallback if JS fails */
+    /* Or use ratio: width: calc(var(--main-text-width) * 1.2); */
     height: auto; /* Maintain aspect ratio */
     object-fit: contain; /* Or cover/contain as needed */
     z-index: 1; /* Adjust layering if needed */
 }
-
+    
 
 #main-container {
     position: relative; /* For absolute positioning of hidden elements and video */
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     width: 340px; /* Default for mobile */
+    gap: 400px; 
     margin: 0 auto; /* Center the narrow container */
 }
 
@@ -98,8 +92,8 @@ html, body {
     }
     #bottom-house-image {
     position: relative;
-    top: 500px;
-    width: calc(100vw / 3); /* 1/3 vw on desktop */
+    margin-top: 200px;
+    width: var(--house-width, calc(100vw / 3)); /* Fallback if JS fails */
     height: auto; /* Maintain aspect ratio */
     object-fit: contain; /* Or cover/contain as needed */
     z-index: 1; /* Adjust layering if needed */
@@ -109,7 +103,7 @@ html, body {
 
 h1 {
     font-family: 'GT Alpina Trial', serif;
-    color: #00000056;
+    color: #2e2e2e56;
     font-style: italic;
     font-size: 42px;
     margin-bottom: 20px;
@@ -136,17 +130,21 @@ h1 {
 #main-text {
     margin-top: calc(100vh - 150px);  /* Top of text is always 200px from bottom initially */
     text-align: left; /* Left-aligned text */
+    overflow: hidden;
 }
 
 
 #postcard {
     position: fixed;
-    width: 300px;
+    width: 800px;
     height: auto; /* Height adjusts to maintain video's aspect ratio */
     pointer-events: none;
     transform-origin: top center;
     object-fit: cover; /* Ensures video fills the container; change to 'contain' if preferred */
     z-index: 6;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
     
 }
 
@@ -155,8 +153,8 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center horizontally if needed */
-    top: calc(100vh - 600px); /* Same as original video position */
-    left: -85px; /* Same as original */
+    top: calc(100vh - 500px); /* Same as original video position */
+    left: -110px; /* Same as original */
     transform-origin: bottom center;
     width: 400px; /* Same as original video width */
 }
@@ -181,6 +179,7 @@ h1 {
     display: flex;
     flex-direction: row;
     width: 100vw;
+    justify-content: center;
     bottom: 0px; /* All off bottom */
     align-items: flex-end;    /* ↓ Bottom */
 }
@@ -188,7 +187,7 @@ h1 {
 /* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
 .edge-flag {
     position: relative;
-    width: 200px; /* Same size as original divs */
+    width: calc(0.2*100vw); /* Same size as original divs */
     transform-origin: bottom center;
     height: auto;
     bottom: 0px; /* All off bottom */
@@ -197,21 +196,25 @@ h1 {
 
 
 #edge-flag-1 {
-    width: 150px; /* Same size as original divs */
+    position: relative;
+    left: 40vw;
+    width: 350px; /* Same size as original divs */
 }
 
 #edge-flag-2 {
-    width: 150px; /* Same size as original divs */
+    left: 40vw;
+    width: 250px; /* Same size as original divs */
 }
 
 #edge-flag-3 {
-
-    width: 100px; /* Same size as original divs */
+    left: -40vw;
+    width: 400px; /* Same size as original divs */
 }
 
 #edge-flag-4 {
-
-    width: 180px; /* Same size as original divs */
+    position: relative;
+    left: -60vw;
+    width: 280px; /* Same size as original divs */
 }
 
 /* Edge indicators (positions will be set dynamically via JS) */
@@ -247,8 +250,22 @@ h1 {
 }
 
 /* New progressive blur container (200px high, full width, fixed at bottom) */
+
+#top-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2; /* Above the existing blur-container but below interactive content if needed */
+    background: linear-gradient(to bottom, #B2C4C5, #b2c4c500); /* Fades to white */
+}
+
 #progressive-blur-top {
     position: fixed;
+    opacity: 0;
     top: 0;
     left: 0;
     width: 100%;
