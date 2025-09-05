@@ -1,65 +1,32 @@
 @font-face {
-    font-family: 'GT Alpina Trial';
-    src: url('fonts/gt-alpina-trial.woff2') format('woff2'),
-         url('fonts/gt-alpina-trial.woff') format('woff');
+    font-family: "GT Alpina Trial";
+    src:
+        url("fonts/gt-alpina-trial.woff2") format("woff2"),
+        url("fonts/gt-alpina-trial.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'GT Alpina Trial';
-    src: url('fonts/GT-Alpina-Standard-Regular-Italic-Trial.otf') format('opentype');
+    font-family: "GT Alpina Trial";
+    src: url("fonts/GT-Alpina-Standard-Regular-Italic-Trial.otf")
+        format("opentype");
     font-weight: normal;
     font-style: italic;
 }
 
-
 @font-face {
-    font-family: 'ABC Stefan Unlicensed Trial';
-    src: url('fonts/ABCStefan-Simple-Trial.woff2') format('woff2'),
-         url('fonts/ABCStefan-Simple-Trial.woff') format('woff');
+    font-family: "ABC Stefan Unlicensed Trial";
+    src:
+        url("fonts/ABCStefan-Simple-Trial.woff2") format("woff2"),
+        url("fonts/ABCStefan-Simple-Trial.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
-
-/* Desktop width */
-@media (min-width: 768px) {
-    #main-container {
-        width: 460px;
-        }
-        
-    #main-text {
-    margin-top: calc(100vh - 200px);  /* Top of text is always 200px from bottom initially */
-    text-align: left; /* Left-aligned text */
-    }
-
-    #postcard {
-        position: absolute;
-        width: 1000px;
-        height: auto; /* Height adjusts to maintain video's aspect ratio */
-    }
-
-    #main-flag-container {
-        top: calc(100vh - 600px);
-        left: -80px;
-        width: 1000px;
-    }
-    #bottom-house-image {
-    position: relative;
-    margin-top: 200px;
-    width: var(--house-width, calc(100vw / 3)); /* Fallback if JS fails */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Or cover/contain as needed */
-    z-index: 1; /* Adjust layering if needed */
-}
-
-}
-
-
-
 /* Lock body and html for smooth scrolling */
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -71,13 +38,12 @@ html, body {
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden; /* Prevents x-axis scrolling */
-    background-image: url('/assets/sky_expanded_improved.jpg'); /* Fullwidth background */
+    background-image: url("/assets/sky_expanded_lless_yellow.png"); /* Fullwidth background */
     background-size: fill;
     background-position: center bottom;
     background-repeat: no-repeat;
     background-attachment: local; /* Scrolls with content */
     /* overscroll-behavior: none; Prevents rubber-banding and gap */
-
 }
 
 #bottom-house-image {
@@ -89,7 +55,6 @@ html, body {
     object-fit: contain; /* Or cover/contain as needed */
     z-index: 1; /* Adjust layering if needed */
 }
-    
 
 #main-container {
     position: relative; /* For absolute positioning of hidden elements and video */
@@ -102,10 +67,8 @@ html, body {
     margin: 0 auto; /* Center the narrow container */
 }
 
-
-
 h1 {
-    font-family: 'GT Alpina Trial', serif;
+    font-family: "GT Alpina Trial", serif;
     color: #2e2e2e56;
     font-style: italic;
     font-size: 42px;
@@ -113,7 +76,7 @@ h1 {
 }
 
 .regular-text {
-    font-family: 'ABC Stefan Unlicensed Trial', sans-serif;
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
     font-size: 15px;
     color: #000000;
     opacity: 0.4;
@@ -121,9 +84,13 @@ h1 {
 }
 
 .gradient-text {
-    font-family: 'ABC Stefan Unlicensed Trial', sans-serif;
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
     font-size: 15px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.7), #83604A); /* Vertical gradient */
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.7),
+        #83604a
+    ); /* Vertical gradient */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -131,10 +98,11 @@ h1 {
 }
 
 #main-text {
-    margin-top: calc(100vh - 150px);  /* Top of text is always 200px from bottom initially */
+    margin-top: calc(
+        100vh - 100px
+    ); /* Top of text is always 200px from bottom initially */
     text-align: left; /* Left-aligned text */
 }
-
 
 #postcard {
     position: fixed;
@@ -147,7 +115,6 @@ h1 {
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
-    
 }
 
 #main-flag-container {
@@ -159,9 +126,8 @@ h1 {
     left: -180px; /* Same as original */
     transform-origin: bottom center;
     width: 400px; /* Same as original video width */
-    overflow: hidden;  /* Clips flag overflow but keeps scrolling behavior */
-    max-height: 140vh;  /* Prevent it from getting too long */
-
+    overflow: hidden; /* Clips flag overflow but keeps scrolling behavior */
+    max-height: 1200px; /* Prevent it from getting too long */
 }
 
 #main-flag-video {
@@ -175,8 +141,8 @@ h1 {
 .stem-extension {
     width: 100%; /* Match video width */
     height: auto; /* Auto height to extend stem */
-    margin: -0; /* No margins for seamless stacking */
-    transform: translateX(-6px)
+    margin-top: -2; /* No margins for seamless stacking */
+    transform: translateX(-6px);
 }
 
 .signatures {
@@ -201,16 +167,17 @@ h1 {
     width: 100vw;
     justify-content: center;
     bottom: 0px; /* All off bottom */
-    align-items: flex-end;    /* ↓ Bottom */
+    align-items: flex-end; /* ↓ Bottom */
+    overflow: hidden;
 }
 
 /* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
 .edge-flag {
     position: relative;
-    width: calc(0.2*100vw); /* Same size as original divs */
+    width: calc(0.2 * 100vw); /* Same size as original divs */
     transform-origin: bottom center;
     height: auto;
-    bottom: 0px; /* All off bottom */
+    bottom: -140px; /* All off bottom */
     object-fit: contain; /* Fit image within 100x100 without distortion */
 }
 
@@ -240,39 +207,55 @@ h1 {
 .edge-indicator {
     position: fixed;
     border-radius: 50%;
-    background-color: rgba(143, 143, 143, 0.968); /* Using #83604A with opacity */
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+    background-color: rgba(
+        143,
+        143,
+        143,
+        0.968
+    ); /* Using #83604A with opacity */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
     will-change: transform; /* GPU acceleration */
-    pointer-events: none;
-    display: none; /* Shown dynamically via JS */
     z-index: 10;
-    overflow: visible;  /* Allow image to overflow if needed */
+    overflow: visible; /* Allow image to overflow if needed */
 }
 
 /* Optional: Style for images inside indicators (e.g., center vertically) */
 .edge-indicator img {
     position: relative;
-    top: -5px;  /* Adjust to center the taller image; remove if not needed */
     left: 0;
+}
+
+.edge-indicator:hover {
+    transform: scale(1.1); /* Grow to 1.1 scale */
 }
 
 #top-gradient {
     position: fixed;
-    opacity: 0;
+    opacity: 1;
     top: 0;
     left: 0;
     width: 100%;
-    height: 200px;
+    height: 100vh;
     overflow: hidden;
     pointer-events: none;
     z-index: 2; /* Above the existing blur-container but below interactive content if needed */
-    background: linear-gradient(to bottom, #B2C4C5, #b2c4c500); /* Fades to white */
+    background: linear-gradient(
+        to bottom,
+        var(--gradient-color-start) var(--gradient-point-start),
+        var(--gradient-color-end) var(--gradient-point-end)
+    ); /* Fades to white */
+
+    --gradient-color-start: #CDCDC4;
+    --gradient-color-end: #cdcdc430;
+    --gradient-point-start: 0%;
+    --gradient-point-end: 100%
 }
 
 
 /* New progressive blur container (200px high, full width, fixed at bottom) */
 #progressive-blur {
     position: fixed;
+    opacity: 1;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -284,10 +267,9 @@ h1 {
 
 /* New progressive blur container (200px high, full width, fixed at bottom) */
 
-
 #progressive-blur-top {
     position: fixed;
-    opacity: 1;
+    opacity: 0;
     top: 0;
     left: 0;
     width: 100%;
@@ -295,10 +277,12 @@ h1 {
     overflow: hidden;
     pointer-events: none;
     z-index: 3; /* Above the existing blur-container but below interactive content if needed */
-    background: linear-gradient(to bottom, rgba(215, 215, 215, var(--gradient-start)), rgba(255, 255, 255, var(--gradient-end))); /* Fades to white */
+    background: linear-gradient(
+        to bottom,
+        rgba(215, 215, 215, var(--gradient-start)),
+        rgba(255, 255, 255, var(--gradient-end))
+    ); /* Fades to white */
 
-    --gradient-start: 1; /* For layer 4 */
-    --gradient-end: 0.514; /* For layer 5 */
 }
 
 /* Blur layers (stacked with increasing blur and masked gradients) */
@@ -309,77 +293,183 @@ h1 {
 
 #progressive-blur > .blur-layer:nth-child(1) {
     backdrop-filter: blur(1px);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 1) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 0) 88.8%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 1) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 0) 88.8%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 72%,
+        rgba(0, 0, 0, 1) 77.6%,
+        rgba(0, 0, 0, 1) 83.2%,
+        rgba(0, 0, 0, 0) 88.8%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 72%,
+        rgba(0, 0, 0, 1) 77.6%,
+        rgba(0, 0, 0, 1) 83.2%,
+        rgba(0, 0, 0, 0) 88.8%
+    );
     z-index: 1;
 }
 
 #progressive-blur > .blur-layer:nth-child(2) {
     backdrop-filter: blur(2px);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 0) 94.4%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 0) 94.4%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 77.6%,
+        rgba(0, 0, 0, 1) 83.2%,
+        rgba(0, 0, 0, 1) 88.8%,
+        rgba(0, 0, 0, 0) 94.4%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 77.6%,
+        rgba(0, 0, 0, 1) 83.2%,
+        rgba(0, 0, 0, 1) 88.8%,
+        rgba(0, 0, 0, 0) 94.4%
+    );
     z-index: 2;
 }
 
 #progressive-blur > .blur-layer:nth-child(3) {
     backdrop-filter: blur(4px);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 0) 100%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 83.2%,
+        rgba(0, 0, 0, 1) 88.8%,
+        rgba(0, 0, 0, 1) 94.4%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 83.2%,
+        rgba(0, 0, 0, 1) 88.8%,
+        rgba(0, 0, 0, 1) 94.4%,
+        rgba(0, 0, 0, 0) 100%
+    );
     z-index: 3;
 }
 
 #progressive-blur > .blur-layer:nth-child(4) {
     backdrop-filter: blur(8px);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 1) 100%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 1) 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 88.8%,
+        rgba(0, 0, 0, 1) 94.4%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 88.8%,
+        rgba(0, 0, 0, 1) 94.4%,
+        rgba(0, 0, 0, 1) 100%
+    );
     z-index: 4;
 }
 
 #progressive-blur > .blur-layer:nth-child(5) {
     backdrop-filter: blur(16px);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 94.4%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 94.4%,
+        rgba(0, 0, 0, 1) 100%
+    );
     z-index: 5;
 }
 
 /* top progressive blur */
 
-
 #progressive-blur-top > .blur-layer:nth-child(1) {
     backdrop-filter: blur(1px);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 1) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 0) 88.8%);
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 1) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 0) 88.8%);
+    mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 72%,
+        rgba(0, 0, 0, 1) 77.6%,
+        rgba(0, 0, 0, 1) 83.2%,
+        rgba(0, 0, 0, 0) 88.8%
+    );
+    -webkit-mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 72%,
+        rgba(0, 0, 0, 1) 77.6%,
+        rgba(0, 0, 0, 1) 83.2%,
+        rgba(0, 0, 0, 0) 88.8%
+    );
     z-index: 1;
 }
 
 #progressive-blur-top > .blur-layer:nth-child(2) {
     backdrop-filter: blur(2px);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 0) 94.4%);
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 77.6%, rgba(0, 0, 0, 1) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 0) 94.4%);
+    mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 77.6%,
+        rgba(0, 0, 0, 1) 83.2%,
+        rgba(0, 0, 0, 1) 88.8%,
+        rgba(0, 0, 0, 0) 94.4%
+    );
+    -webkit-mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 77.6%,
+        rgba(0, 0, 0, 1) 83.2%,
+        rgba(0, 0, 0, 1) 88.8%,
+        rgba(0, 0, 0, 0) 94.4%
+    );
     z-index: 2;
 }
 
 #progressive-blur-top > .blur-layer:nth-child(3) {
     backdrop-filter: blur(4px);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 0) 100%);
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 83.2%, rgba(0, 0, 0, 1) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 83.2%,
+        rgba(0, 0, 0, 1) 88.8%,
+        rgba(0, 0, 0, 1) 94.4%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 83.2%,
+        rgba(0, 0, 0, 1) 88.8%,
+        rgba(0, 0, 0, 1) 94.4%,
+        rgba(0, 0, 0, 0) 100%
+    );
     z-index: 3;
 }
 
 #progressive-blur-top > .blur-layer:nth-child(4) {
     backdrop-filter: blur(8px);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 1) 100%);
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 88.8%, rgba(0, 0, 0, 1) 94.4%, rgba(0, 0, 0, 1) 100%);
+    mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 88.8%,
+        rgba(0, 0, 0, 1) 94.4%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 88.8%,
+        rgba(0, 0, 0, 1) 94.4%,
+        rgba(0, 0, 0, 1) 100%
+    );
     z-index: 4;
 }
 
 #progressive-blur-top > .blur-layer:nth-child(5) {
     backdrop-filter: blur(16px);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 94.4%, rgba(0, 0, 0, 1) 100%);
+    mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 94.4%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0) 94.4%,
+        rgba(0, 0, 0, 1) 100%
+    );
     z-index: 5;
 }
-
 
 /* #fade-overlay {
     position: fixed;
@@ -389,7 +479,66 @@ h1 {
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.8);
 
-    opacity: 0; 
-    pointer-events: none; 
+    opacity: 0;
+    pointer-events: none;
     z-index: 5;
 } */
+
+/* Desktop width */
+@media (max-width: 900px) {
+    #main-container {
+        width: 340px;
+    }
+
+    #main-text {
+        margin-top: calc(100vh - 180px);
+        text-align: left; /* Left-aligned text */
+    }
+
+    #postcard {
+        width: 400px;
+    }
+
+    #main-flag-container {
+        top: calc(100vh - 600px);
+        left: -50px;
+        width: 200px;
+    }
+
+    .stem-extension {
+    width: 100%; /* Match video width */
+    height: auto; /* Auto height to extend stem */
+    margin-top: -2; /* No margins for seamless stacking */
+    transform: translateX(-3px);
+}
+    #bottom-house-image {
+        position: relative;
+        margin-top: 200px;
+        width: var(--house-width, calc(100vw / 3)); /* Fallback if JS fails */
+        height: auto; /* Maintain aspect ratio */
+        object-fit: contain; /* Or cover/contain as needed */
+        z-index: 1; /* Adjust layering if needed */
+    }
+
+    #edge-flag-1 {
+    position: relative;
+    left: 40vw;
+    width: 250px; /* Same size as original divs */
+}
+
+    #edge-flag-2 {
+        left: -100px;
+        width: 150px; /* Same size as original divs */
+    }
+
+    #edge-flag-3 {
+        left: -40vw;
+        width: 200px; /* Same size as original divs */
+    }
+
+    #edge-flag-4 {
+        position: relative;
+        left: -60vw;
+        width: 180px; /* Same size as original divs */
+    }
+}
