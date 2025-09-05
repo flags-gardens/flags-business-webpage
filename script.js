@@ -26,19 +26,19 @@ const isMobile = window.innerWidth <= 900;
 //   },
 // });
 
-gsap.from("#postcard", {
-  y: -200,
-  opacity: 0,
-  scale: 0.5,
-  ease: "power2.out",
-  duration: 2,
-  scrollTrigger: {
-    scroller: "#root", // Fix: Track on #root
-    trigger: "#main-text",
-    start: "top bottom",
-    toggleActions: "play none none reverse",
-  },
-});
+// gsap.from("#postcard", {
+//   y: -200,
+//   opacity: 0,
+//   scale: 0.5,
+//   ease: "power2.out",
+//   duration: 2,
+//   scrollTrigger: {
+//     scroller: "#root", // Fix: Track on #root
+//     trigger: "#main-text",
+//     start: "top bottom",
+//     toggleActions: "play none none reverse",
+//   },
+// });
 
 // Create a timeline for the postcard animation (shrink, move up, and adjust y for alignment)
 const postcardTl = gsap.timeline({

@@ -142,7 +142,7 @@ h1 {
     width: 100%; /* Match video width */
     height: auto; /* Auto height to extend stem */
     margin-top: -2; /* No margins for seamless stacking */
-    transform: translateX(-6px);
+    /* transform: translateX(-6px); */
 }
 
 .signatures {
@@ -500,7 +500,7 @@ h1 {
     }
 
     #main-flag-container {
-        top: calc(100vh - 600px);
+        top: calc(100vh - 400px);
         left: -50px;
         width: 200px;
     }
@@ -509,7 +509,6 @@ h1 {
     width: 100%; /* Match video width */
     height: auto; /* Auto height to extend stem */
     margin-top: -2; /* No margins for seamless stacking */
-    transform: translateX(-3px);
 }
     #bottom-house-image {
         position: relative;
