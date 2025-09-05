@@ -48,7 +48,7 @@ body {
 
 .inline-icon {
     width: auto;
-    height: 30px;
+    height: 22px;
     display: inline-block;
     vertical-align: middle; /* or text-bottom, baseline, etc. */
     object-fit: contain;

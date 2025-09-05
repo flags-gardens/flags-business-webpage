@@ -140,7 +140,7 @@ function updateEdgeIndicators() {
   const viewportHeight = window.innerHeight;
   const centerX = viewportWidth / 2;
   const centerY = viewportHeight / 2;
-  const padding = 16; // Distance from edges
+  const padding = 24; // Distance from edges
   const currentScrollTop = root.scrollTop;
 
   const hiddenElements = document.querySelectorAll(".edge-flag");
@@ -158,57 +158,61 @@ function updateEdgeIndicators() {
     const isOffLeft = rect.right < 0;
     const isOffRight = rect.left > viewportWidth;
 
-    if (isOffTop || isOffBottom || isOffLeft || isOffRight) {
+    // Check if ANY part is visible (for fading when even partially on-screen)
+    const isPartiallyVisible =
+      rect.bottom > 0 &&
+      rect.top < viewportHeight &&
+      rect.right > 0 &&
+      rect.left < viewportWidth;
+
+    if ((isOffTop || isOffBottom || isOffLeft || isOffRight) && !isPartiallyVisible) {
       // Get or create bound indicator
       if (!indicatorMap.has(elId)) {
         indicatorMap.set(elId, createIndicator(elId));
       }
       const indicator = indicatorMap.get(elId);
 
-      // Calculate vector and position
+      // Improved calculation with clamping
       const dx = targetCenterX - centerX;
       const dy = targetCenterY - centerY;
+      const angle = Math.atan2(dy, dx);
 
-      let posX,
-        posY,
-        indicatorSize =
-          currentScrollTop <= scrollThreshold ? smallSize : fullSize;
-      if (Math.abs(dy) > Math.abs(dx)) {
-        // Vertical edges
-        const t =
-          dy > 0
-            ? viewportHeight / 2 / Math.abs(dy)
-            : -viewportHeight / 2 / Math.abs(dy);
-        posX = centerX + dx * t;
-        posX = Math.max(
-          padding + indicatorSize / 2,
-          Math.min(posX, viewportWidth - padding - indicatorSize / 2),
-        );
-        posY = dy > 0 ? viewportHeight - padding - indicatorSize : padding;
+      let posX, posY;
+      let indicatorSize = currentScrollTop <= scrollThreshold ? smallSize : fullSize;
+
+      // Calculate edge position more accurately
+      const halfSize = indicatorSize / 2;
+      const maxX = viewportWidth - padding - halfSize;
+      const minX = padding + halfSize;
+      const maxY = viewportHeight - padding - halfSize;
+      const minY = padding + halfSize;
+
+      // Determine which edge to place indicator on
+      const absCosThetaX = Math.abs((maxX - centerX) / Math.cos(angle));
+      const absCosThetaY = Math.abs((maxY - centerY) / Math.sin(angle));
+
+      if (absCosThetaX < absCosThetaY) {
+        // Hit left or right edge first
+        posX = dx > 0 ? maxX : minX;
+        posY = centerY + Math.tan(angle) * (posX - centerX);
+        posY = Math.max(minY, Math.min(posY, maxY));
       } else {
-        // Horizontal edges
-        const t =
-          dx > 0
-            ? viewportWidth / 2 / Math.abs(dx)
-            : -viewportWidth / 2 / Math.abs(dx);
-        posY = centerY + dy * t;
-        posY = Math.max(
-          padding + indicatorSize / 2,
-          Math.min(posY, viewportHeight - padding - indicatorSize / 2),
-        );
-        posX = dx > 0 ? viewportWidth - padding - indicatorSize : padding;
+        // Hit top or bottom edge first
+        posY = dy > 0 ? maxY : minY;
+        posX = centerX + (posY - centerY) / Math.tan(angle);
+        posX = Math.max(minX, Math.min(posX, maxX));
       }
 
       // Set position instantly on init, animate on updates
       if (isInitialLoad) {
         gsap.set(indicator, {
-          left: posX - indicatorSize / 2,
-          top: posY - indicatorSize / 2,
+          left: posX - halfSize,
+          top: posY - halfSize,
         });
       } else {
         gsap.to(indicator, {
-          left: posX - indicatorSize / 2,
-          top: posY - indicatorSize / 2,
+          left: posX - halfSize,
+          top: posY - halfSize,
           duration: 0.5,
           opacity: 1,
           scale: 1,
@@ -224,7 +228,6 @@ function updateEdgeIndicators() {
         gsap.to(indicator, {
           width: shouldBeSmall ? smallSize : fullSize,
           height: shouldBeSmall ? smallSize : fullSize,
-          opacity: 1,
           duration: 0.3,
           ease: "power1.inOut",
         });
@@ -244,16 +247,16 @@ function updateEdgeIndicators() {
       // Show (but keep hidden until animation)
       gsap.set(indicator, { display: "block" });
     } else {
-      // Element is visible - fade out indicator if it exists
+      // Element is partially or fully visible - fade out indicator if it exists
       if (indicatorMap.has(elId)) {
         const indicator = indicatorMap.get(elId);
         gsap.to(indicator, {
           opacity: 0,
           scale: 0.5,
-          duration: 0.2,
+          duration: 0.3,
           onComplete: () => {
             gsap.set(indicator, { display: "none" });
-          }
+          },
         });
       }
     }
@@ -301,6 +304,7 @@ function updateEdgeIndicators() {
     `Updated indicators: ${activeIndicators.length} active (bound by ID), size: ${currentScrollTop <= scrollThreshold ? "small (12px)" : "full (40px)"}`,
   );
 }
+
 
 function updateHouseWidth() {
   const mainText = document.getElementById("main-text");
