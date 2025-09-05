@@ -104,10 +104,10 @@ function createIndicator(elId) {
 
   // ✅ Map different images to different element IDs
   const imageMap = {
-    "edge-flag-1": "assets/edge_indicators/flag_icon-1.png",
-    "edge-flag-2": "assets/edge_indicators/flag_icon-2.png",
-    "edge-flag-3": "assets/edge_indicators/flag_icon-3.png",
-    "edge-flag-4": "assets/edge_indicators/flag_icon-2.png",
+    "edge-flag-1": "/assets/flag_icon-1.png",
+    "edge-flag-2": "/assets/flag_icon-2.png",
+    "edge-flag-3": "/assets/flag_icon-3.png",
+    "edge-flag-4": "/assets/flag_icon-2.png",
   };
 
   // Use specific image or fallback to default

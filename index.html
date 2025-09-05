@@ -8,8 +8,6 @@
 
     <meta name="theme-color" content="#CDCDC4" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#CDCDC4" media="(prefers-color-scheme: dark)">
-    <link rel="preload" href="/assets/postcard_motion.webm" as="video">
-    <link rel="preload" href="/assets/postcard_motion.mov" as="video">
     <link rel="preload" href="/assets/edge_indicators/flag_icon-1.png" as="image">
 
     
@@ -40,7 +38,7 @@
         <div id="main-container">
             <div id="main-text">
                 <div id="main-flag-container">
-                    <video id="main-flag-video" autoplay loop muted playsinline>
+                    <video id="main-flag-video" preload="auto" autoplay loop muted playsinline>
                         <source src="assets/main_flag_motion.mov" type='video/quicktime'>
                         <source src="assets/main_flag_motion.webm" type='video/webm'>
                         Your browser does not support the video tag.
