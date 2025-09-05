@@ -1,6 +1,11 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import flagIcon1 from "./assets/edge_indicators/flag_icon_1.png";
+import flagIcon2 from "./assets/edge_indicators/flag_icon_2.png";
+import flagIcon3 from "./assets/edge_indicators/flag_icon_3.png";
+import flagIcon4 from "./assets/edge_indicators/flag_icon_4.png";
+
 gsap.registerPlugin(ScrollTrigger);
 
 // Smooth scrolling setup
@@ -104,10 +109,10 @@ function createIndicator(elId) {
 
   // ✅ Map different images to different element IDs
   const imageMap = {
-    "edge-flag-1": "/assets/signature_01.png",
-    "edge-flag-2": "/assets/signature_01.png",
-    "edge-flag-3": "/assets/flag_icon-3.png",
-    "edge-flag-4": "/assets/flag_icon-2.png",
+    "edge-flag-1": flagIcon1,
+    "edge-flag-2": flagIcon2,
+    "edge-flag-3": flagIcon3,
+    "edge-flag-4": flagIcon4,
   };
 
   // Use specific image or fallback to default

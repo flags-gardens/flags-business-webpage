@@ -38,7 +38,7 @@ body {
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden; /* Prevents x-axis scrolling */
-    background-image: url("/assets/sky_expanded_lless_yellow.png"); /* Fullwidth background */
+    background-image: url("./assets/sky_main.png"); /* Fullwidth background */
     background-size: fill;
     background-position: center bottom;
     background-repeat: no-repeat;
