@@ -46,6 +46,14 @@ body {
     /* overscroll-behavior: none; Prevents rubber-banding and gap */
 }
 
+.inline-icon {
+    width: auto;
+    height: 30px;
+    display: inline-block;
+    vertical-align: middle; /* or text-bottom, baseline, etc. */
+    object-fit: contain;
+}
+
 #bottom-house-image {
     position: relative;
     /* width: calc(100vw); 1/3 vw on desktop */

@@ -210,6 +210,8 @@ function updateEdgeIndicators() {
           left: posX - indicatorSize / 2,
           top: posY - indicatorSize / 2,
           duration: 0.5,
+          opacity: 1,
+          scale: 1,
         });
       }
 
@@ -222,6 +224,7 @@ function updateEdgeIndicators() {
         gsap.to(indicator, {
           width: shouldBeSmall ? smallSize : fullSize,
           height: shouldBeSmall ? smallSize : fullSize,
+          opacity: 1,
           duration: 0.3,
           ease: "power1.inOut",
         });
@@ -240,6 +243,19 @@ function updateEdgeIndicators() {
 
       // Show (but keep hidden until animation)
       gsap.set(indicator, { display: "block" });
+    } else {
+      // Element is visible - fade out indicator if it exists
+      if (indicatorMap.has(elId)) {
+        const indicator = indicatorMap.get(elId);
+        gsap.to(indicator, {
+          opacity: 0,
+          scale: 0.5,
+          duration: 0.2,
+          onComplete: () => {
+            gsap.set(indicator, { display: "none" });
+          }
+        });
+      }
     }
   });
 
