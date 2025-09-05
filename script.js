@@ -98,7 +98,7 @@ let isInitialLoad = true; // Flag for one-time load animation
 let prevScrollTop = 0; // Track for size changes
 const smallSize = 12; // Small diameter (px)
 const fullSize = 40; // Full diameter (px)
-const scrollThreshold = 30; // px from top for small size
+const scrollThreshold = 160; // px from top for small size
 
 function createIndicator(elId) {
   const indicator = document.createElement("div");
