@@ -62,7 +62,7 @@ const postcardTl = gsap.timeline({
 postcardTl.to(
   postcard,
   {
-    top: isMobile ? "230px" : "400px",  // Smaller value for mobile
+    top: isMobile ? "200px" : "400px",  // Smaller value for mobile
     scale: 0.1, // Shrink to 20% size (adjust as needed)
     ease: "back.inOut(2)", // Linear with scroll (no easing for scrub)
     duration: 4, // Relative duration (1 = full timeline)
@@ -85,7 +85,7 @@ postcardTl.to(
   topFade,
   {
     "--gradient-point-start": '0%',
-    "--gradient-point-end": '15%',
+    "--gradient-point-end": '10%',
     ease: "none",
     duration: 0.5,
   },
