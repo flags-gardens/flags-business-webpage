@@ -532,7 +532,7 @@ h1 {
     #bottom-house-image {
         position: relative;
         margin-top: 200px;
-        width: var(--house-width, calc(100vw / 3)); /* Fallback if JS fails */
+        width: calc(var(--house-width) * 0.65);
         height: auto; /* Maintain aspect ratio */
         object-fit: contain; /* Or cover/contain as needed */
         z-index: 1; /* Adjust layering if needed */
@@ -540,23 +540,24 @@ h1 {
 
     #edge-flag-1 {
     position: relative;
-    left: 40vw;
+    left: 200px;
     width: 250px; /* Same size as original divs */
 }
 
     #edge-flag-2 {
-        left: -100px;
+        left: 300px;
         width: 150px; /* Same size as original divs */
     }
 
     #edge-flag-3 {
-        left: -40vw;
+        left: 10px;
         width: 200px; /* Same size as original divs */
+        bottom: 2px;
     }
 
     #edge-flag-4 {
         position: relative;
-        left: -60vw;
+        left: -650px;
         width: 180px; /* Same size as original divs */
     }
 }

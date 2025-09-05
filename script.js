@@ -104,8 +104,8 @@ function createIndicator(elId) {
 
   // ✅ Map different images to different element IDs
   const imageMap = {
-    "edge-flag-1": "/assets/flag_icon-1.png",
-    "edge-flag-2": "/assets/flag_icon-2.png",
+    "edge-flag-1": "/assets/signature_01.png",
+    "edge-flag-2": "/assets/signature_01.png",
     "edge-flag-3": "/assets/flag_icon-3.png",
     "edge-flag-4": "/assets/flag_icon-2.png",
   };
@@ -257,7 +257,7 @@ function updateEdgeIndicators() {
     gsap.to(activeIndicators, {
       opacity: 1,
       scale: 1.2, // Grow beyond current (small) size
-      duration: 0.3,
+      duration: 0.2,
       stagger: 0.05, // 50ms between each
       ease: "power1.out",
       onComplete: () => {
