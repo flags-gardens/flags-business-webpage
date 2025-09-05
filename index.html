@@ -9,13 +9,21 @@
     <meta name="theme-color" content="#CDCDC4" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#CDCDC4" media="(prefers-color-scheme: dark)">
     <link rel="preload" href="/assets/edge_indicators/flag_icon-1.png" as="image">
-
     
+    <!-- Add preloads for critical assets to speed up loading -->
+    <link rel="preload" href="assets/postcard_motion.webm" as="video">
+    <link rel="preload" href="assets/main_flag_motion.webm" as="video">
+    <!-- Add more for other images/videos/fonts as needed -->
 
     <title>Dear Neighbors</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Loading screen: Shows immediately via CSS -->
+    <div id="loader">
+        <p>Loading...</p> <!-- Customize: Add spinner, logo, etc. -->
+    </div>
+
     <div id="top-gradient"></div>
     <!-- Moved blur containers OUTSIDE #root to make them truly fixed to the viewport -->
     <div id="progressive-blur-top">
@@ -34,7 +42,7 @@
         <div class="blur-layer"></div>
     </div> <!-- Progressive blur container -->
 
-    <div id="root">
+    <div id="root" class="hidden-until-loaded"> <!-- Add class to hide initially -->
         <div id="main-container">
             <div id="main-text">
                 <div id="main-flag-container">
@@ -81,6 +89,19 @@
 
         Your browser does not support the video tag.
     </video>
+
+    <!-- Inline script to handle loading screen (runs synchronously) -->
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const root = document.getElementById('root');
+            loader.style.opacity = '0'; // Fade out
+            setTimeout(() => {
+                loader.style.display = 'none'; // Remove after transition
+                if (root) root.classList.remove('hidden-until-loaded'); // Reveal content
+            }, 300); // Match CSS transition duration
+        });
+    </script>
 
     <script type="module" src="script.js"></script>
 </body>
