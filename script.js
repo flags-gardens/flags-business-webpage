@@ -439,14 +439,16 @@ document.querySelectorAll(".signature").forEach((signature) => {
       scale: 1.1,
       y: -10,
       duration: 0.3,
+      transform: 'rotate(5deg)',
       ease: "back.out(4)",
     })
 
   const clickTl = gsap.timeline({ paused: true });
   clickTl
     .to(signature, {
-      scale: 0.8,
+      scale: 0.9,
       duration: 0.05,
+
       ease: "power3.in",
     })
     .to(signature, {
