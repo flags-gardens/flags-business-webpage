@@ -368,8 +368,17 @@ document.querySelectorAll(".signature").forEach((signature) => {
   // Control timeline with events
   // Only add hover events on non-touch devices
   if (!isTouchDevice) {
-    signature.addEventListener("mouseenter", () => hoverTl.play());
-    signature.addEventListener("mouseleave", () => hoverTl.reverse());
+    
+    signature.addEventListener("mouseenter", () => {
+      hoverTl.timeScale(1); // Normal speed
+      hoverTl.play();
+    });
+
+    signature.addEventListener("mouseleave", () => {
+      hoverTl.timeScale(1.5); // Normal speed
+      hoverTl.reverse();
+    });
+    
     signature.addEventListener("click", () => clickTl.restart());
   }
   signature.addEventListener("touchstart", () => clickTl.restart());
