@@ -339,6 +339,7 @@ function updateFlagMaxHeight() {
 document.querySelectorAll(".signature").forEach((signature) => {
   const wrapper = signature.parentElement;
   const textElement = wrapper.querySelector(".signature-text");
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   // Create reusable timeline
   const hoverTl = gsap.timeline({ paused: true });
@@ -346,23 +347,32 @@ document.querySelectorAll(".signature").forEach((signature) => {
     .to(signature, {
       scale: 1.1,
       y: -10,
-      duration: 0.2,
-      ease: "power2.out",
+      duration: 0.3,
+      ease: "back.out(4)",
     })
-    .to(
-      textElement,
-      {
-        opacity: 1,
-        maxHeight: "100px",
-        duration: 0.3,
-        ease: "power2.out",
-      },
-      0,
-    ); // Start at same time (0 seconds)
+
+  const clickTl = gsap.timeline({ paused: true });
+  clickTl
+    .to(signature, {
+      scale: 0.8,
+      duration: 0.05,
+      ease: "power3.in",
+    })
+    .to(signature, {
+      scale: 1.00,
+      duration: 0.3,
+      ease: "back.inOut(8)",
+    })
+
 
   // Control timeline with events
-  signature.addEventListener("mouseenter", () => hoverTl.play());
-  signature.addEventListener("mouseleave", () => hoverTl.reverse());
+  // Only add hover events on non-touch devices
+  if (!isTouchDevice) {
+    signature.addEventListener("mouseenter", () => hoverTl.play());
+    signature.addEventListener("mouseleave", () => hoverTl.reverse());
+    signature.addEventListener("click", () => clickTl.restart());
+  }
+  signature.addEventListener("touchstart", () => clickTl.restart());
 });
 
 // Call on load and resize
@@ -376,3 +386,15 @@ window.addEventListener("resize", updateHouseWidth);
 gsap.ticker.add(updateEdgeIndicators); // Calls on every frame (~60fps)
 window.addEventListener("resize", updateEdgeIndicators);
 updateEdgeIndicators(); // Initial check
+
+const impressumLink = document.getElementById("impressum-link");
+const impressumOverlay = document.getElementById("impressum-overlay");
+
+impressumLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    impressumOverlay.classList.add("visible");
+});
+
+impressumOverlay.addEventListener("click", () => {
+    impressumOverlay.classList.remove("visible");
+});

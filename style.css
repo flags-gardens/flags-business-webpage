@@ -9,9 +9,17 @@
 
 @font-face {
     font-family: "GT Alpina Trial";
-    src: url("fonts/GT-Alpina-Standard-Regular-Italic-Trial.otf")
-        format("opentype");
+    src: url("fonts/GT-Alpina-Standard-Regular-Italic-Trial.woff2")
+    format("woff2");
     font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "ABC Otto";
+    src: url("fonts/ABCOttoItalicVariable-Trial.woff2")
+    format("woff2");
+    font-weight: 100 900;
     font-style: italic;
 }
 
@@ -62,6 +70,7 @@ body {
     height: auto; /* Maintain aspect ratio */
     object-fit: contain; /* Or cover/contain as needed */
     z-index: 1; /* Adjust layering if needed */
+    pointer-events: none;
 }
 
 #main-container {
@@ -76,11 +85,17 @@ body {
 }
 
 h1 {
-    font-family: "GT Alpina Trial", serif;
-    color: #2e2e2e56;
+    /* font-family: "GT Alpina Trial", serif; */
+    font-family: 'ABC Otto';
     font-style: italic;
+    font-weight: 500;
     font-size: 42px;
-    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+    color: #000000c1;
+    margin-bottom: 32px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;;
 }
 
 .regular-text {
@@ -136,6 +151,7 @@ h1 {
     width: 400px; /* Same as original video width */
     overflow: hidden; /* Clips flag overflow but keeps scrolling behavior */
     max-height: 1200px; /* Prevent it from getting too long */
+    pointer-events: none;
 }
 
 #main-flag-video {
@@ -158,12 +174,11 @@ h1 {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: -50; /* Space between signatures */
 }
 
 .signature {
     height: 82px; /* Uniform height */
-    width: auto; /* Maintain aspect ratio */
+    width: 82; /* Maintain aspect ratio */
     opacity: 1; /* Slightly faded */
     margin-left: -20px;
 }
@@ -177,6 +192,7 @@ h1 {
     bottom: 0px; /* All off bottom */
     align-items: flex-end; /* ↓ Bottom */
     overflow: hidden;
+    pointer-events: none;
 }
 
 /* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
@@ -225,6 +241,7 @@ h1 {
     will-change: transform; /* GPU acceleration */
     z-index: 10;
     overflow: visible; /* Allow image to overflow if needed */
+    pointer-events: none;
 }
 
 /* Optional: Style for images inside indicators (e.g., center vertically) */
@@ -568,4 +585,56 @@ h1 {
         left: -650px;
         width: 180px; /* Same size as original divs */
     }
+}
+
+#impressum-link {
+    position: absolute;
+    color: #a0a0a0; /* Light grey */
+    font-size: 12px;
+    cursor: pointer;
+    bottom: 24px;
+    right: 24px;
+    transition: color 0.3s;
+    z-index: 10;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#impressum-link:hover {
+    color: #808080; /* Darker grey */
+    text-decoration: underline;
+}
+
+#impressum-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #CDCDC4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 10000;
+}
+
+#impressum-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#impressum-container {
+    background-color: #ffffff00;
+    padding: 40px;
+    border-radius: 5px;
+    max-width: 600px;
+    width: 90%;
+    text-align: left;
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+}
+
+#impressum-container p {
+    margin: 0 0 10px 0;
 }
