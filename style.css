@@ -130,7 +130,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center horizontally if needed */
-    top: calc(100vh - 580px); /* Same as original video position */
+    top: calc(100vh - 520px); /* Same as original video position */
     left: -180px; /* Same as original */
     transform-origin: bottom center;
     width: 400px; /* Same as original video width */
