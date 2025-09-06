@@ -125,6 +125,16 @@ h1 {
         100vh - 100px
     ); /* Top of text is always 200px from bottom initially */
     text-align: left; /* Left-aligned text */
+
+}
+
+#briefmarke {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    z-index: 6;
+    pointer-events: none;
 }
 
 #postcard {
@@ -242,12 +252,14 @@ h1 {
     z-index: 10;
     overflow: visible; /* Allow image to overflow if needed */
     pointer-events: none;
+    transform-origin: center center;
 }
 
 /* Optional: Style for images inside indicators (e.g., center vertically) */
 .edge-indicator img {
     position: relative;
     left: 0;
+    transform-origin: center center;
 }
 
 .edge-indicator:hover {

@@ -55,6 +55,10 @@ const postcardTl = gsap.timeline({
     scrub: true, // Scrubs animation with scroll (reversible on scroll up)
     markers: false, // Uncomment for visual debug markers
     invalidateOnRefresh: true, // Handle resizes better
+    onUpdate: (self) => {  
+      updatePostcardInteractivity(self.progress);  // Check on every scrub update
+      console.log(`Scroll progress: ${self.progress}`);
+    },
   },
 });
 
@@ -87,7 +91,7 @@ postcardTl.to(
     "--gradient-point-start": '0%',
     "--gradient-point-end": '10%',
     ease: "none",
-    duration: 0.5,
+    duration: 3,
   },
   0,
 );
@@ -335,6 +339,68 @@ function updateFlagMaxHeight() {
   }
 }
 
+
+
+
+// Function to enable/disable postcard clickability based on minimization state
+function updatePostcardInteractivity(progress) {
+  if (progress >= 0.95) {  // Consider "minimized" at ~95% timeline progress (adjust threshold as needed)
+    postcard.style.pointerEvents = 'auto';  // Enable clicks
+    postcard.style.cursor = 'pointer';  // Ensure cursor is visible
+  } else {
+    postcard.style.pointerEvents = 'none';  // Disable clicks
+    postcard.style.cursor = 'default';  // Reset cursor
+  }
+}
+
+// Initial check (in case page loads with scroll already applied)
+updatePostcardInteractivity(postcardTl.scrollTrigger ? postcardTl.scrollTrigger.progress : 0);
+
+// Click event: Animate scroll to top
+postcard.addEventListener('mouseenter', () => {
+  if (postcardTl.scrollTrigger.progress < 0.95) return; // Only if minimized
+  gsap.to(postcard, {
+    scale: 0.115,
+    duration: 0.3,
+    ease: "power1.out",
+  });
+});
+
+postcard.addEventListener('mouseleave', () => {
+  if (postcardTl.scrollTrigger.progress < 0.95) return; // Only if minimized
+  gsap.to(postcard, {
+    scale: 0.1,
+    duration: 0.3,
+    ease: "power1.out",
+  });
+});
+
+postcard.addEventListener('click', () => {
+  // Only proceed if minimized (double-check to be safe)
+  if (postcardTl.scrollTrigger.progress < 0.95) return;
+
+  // Temporarily disable pointer-events to prevent multiple clicks
+  postcard.style.pointerEvents = 'none';
+
+  // Animate root.scrollTop to 0 over 300ms
+  gsap.to(root, {
+    scrollTop: 0,  // Tween to top
+    duration: 0.9,  // 300ms
+    ease: 'power1.inOut',  // Soft, smooth easing
+    onComplete: () => {
+      // Re-enable interactivity (will be disabled by updatePostcardInteractivity if not minimized)
+      updatePostcardInteractivity(postcardTl.scrollTrigger.progress);
+    },
+  });
+});
+
+
+
+
+// Handle resize/load to re-check interactivity
+window.addEventListener('resize', () => updatePostcardInteractivity(postcardTl.scrollTrigger.progress));
+window.addEventListener('load', () => updatePostcardInteractivity(postcardTl.scrollTrigger.progress));
+
 // More elegant GSAP approach
 document.querySelectorAll(".signature").forEach((signature) => {
   const wrapper = signature.parentElement;
@@ -379,7 +445,7 @@ document.querySelectorAll(".signature").forEach((signature) => {
       hoverTl.reverse();
     });
     
-    signature.addEventListener("click", () => clickTl.restart());
+    signature.addEventListener("mousedown", () => clickTl.restart());
   }
   signature.addEventListener("touchstart", () => clickTl.restart());
 });
