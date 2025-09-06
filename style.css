@@ -577,7 +577,8 @@ h1 {
     #edge-flag-1 {
     position: relative;
     left: 200px;
-    width: 250px; /* Same size as original divs */
+    width: 150px; /* Same size as original divs */
+    bottom: 40px;
 }
 
     #edge-flag-2 {
@@ -587,8 +588,8 @@ h1 {
 
     #edge-flag-3 {
         left: 10px;
-        width: 200px; /* Same size as original divs */
-        bottom: 2px;
+        width: 100px; /* Same size as original divs */
+        bottom: 40px;
     }
 
     #edge-flag-4 {
