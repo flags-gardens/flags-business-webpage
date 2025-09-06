@@ -121,9 +121,8 @@ h1 {
 }
 
 #main-text {
-    margin-top: calc(
-        100vh - 100px
-    ); /* Top of text is always 200px from bottom initially */
+    margin-top: calc(100vh - 100px); /* Top of text is always 200px from bottom initially */
+    opacity: 0.4;
     text-align: left; /* Left-aligned text */
 
 }

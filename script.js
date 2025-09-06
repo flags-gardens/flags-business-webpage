@@ -46,12 +46,26 @@ const isMobile = window.innerWidth <= 900;
 // });
 
 // Create a timeline for the postcard animation (shrink, move up, and adjust y for alignment)
+
+const miscTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: mainText,
+    scroller: "#root", // Track scrolling on #root (not window)
+    start: "top bottom-=200", // Starts when mainText top hits viewport bottom (immediate on scroll start)
+    end: "top 30%", // Ends when mainText top is at 20% from viewport top (adjust this to control the scroll distance; e.g., 'top top' for full viewport height)
+    scrub: true, // Scrubs animation with scroll (reversible on scroll up)
+    markers: false, // Uncomment for visual debug markers
+    invalidateOnRefresh: true, // Handle resizes better
+  },
+});
+
+
 const postcardTl = gsap.timeline({
   scrollTrigger: {
     trigger: mainText,
     scroller: "#root", // Track scrolling on #root (not window)
     start: "top bottom-=200", // Starts when mainText top hits viewport bottom (immediate on scroll start)
-    end: "top 40%", // Ends when mainText top is at 20% from viewport top (adjust this to control the scroll distance; e.g., 'top top' for full viewport height)
+    end: "top 10%", // Ends when mainText top is at 20% from viewport top (adjust this to control the scroll distance; e.g., 'top top' for full viewport height)
     scrub: true, // Scrubs animation with scroll (reversible on scroll up)
     markers: false, // Uncomment for visual debug markers
     invalidateOnRefresh: true, // Handle resizes better
@@ -68,13 +82,24 @@ postcardTl.to(
   {
     top: isMobile ? "200px" : "400px",  // Smaller value for mobile
     scale: 0.1, // Shrink to 20% size (adjust as needed)
-    ease: "back.inOut(2)", // Linear with scroll (no easing for scrub)
-    duration: 4, // Relative duration (1 = full timeline)
+    ease: "back.inOut", // Linear with scroll (no easing for scrub)
+    duration: 2, // Relative duration (1 = full timeline)
   },
   0,
 );
 
-postcardTl.from(
+postcardTl.to(
+  '#main-text',
+  {
+    ease: "power1.out", 
+    opacity: 1,
+    duration: 1,
+  },
+  0.5,
+);
+
+
+miscTl.from(
   mainFlag,
   {
     y: 600,
@@ -82,10 +107,10 @@ postcardTl.from(
     opacity: 0,
     duration: 2, // Relative duration (1 = full timeline)
   },
-  1.5,
+  2.5,
 );
 
-postcardTl.to(
+miscTl.to(
   topFade,
   {
     "--gradient-point-start": '0%',
