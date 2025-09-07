@@ -710,8 +710,11 @@ h1 {
         transform: translateX(-50%);
         text-align: center;
         z-index: 11;
-        background-color: #ffffff1e;
+        background: rgba(255, 255, 255, 0.15);  /* translucency is key */
+        color: #00000051;
         border-radius: 50px;
+        backdrop-filter: blur(50px);
+        -webkit-backdrop-filter: blur(50px);     /* Safari */
         transition: all 0.3s ease;
         will-change: transform; /* GPU acceleration for smooth animations */
     }
@@ -739,16 +742,19 @@ h1 {
     place-items: center;
     position: absolute;
     font-family: 'inter', sans-serif;
+    border: 1px solid rgba(0, 0, 0, 0.147);
     padding: 0px 16px;
     font-weight: 500;
-    width: 300px;
+    width: 320px;
     height: 50px;
-    bottom: 95px;
+    bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     z-index: 11;
-    background-color: #ffffff1e;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);     /* Safari */
+    background: rgba(255, 255, 255, 0.566);
     border-radius: 50px;
     transition: all 0.3s ease;
     will-change: transform; /* GPU acceleration for smooth animations */
@@ -759,12 +765,12 @@ h1 {
     font-family: "Inter", sans-serif;
     position: absolute;
     opacity: 1;
-    width: 300px;
+    width: 340px;
     display: inline-block;
     vertical-align: middle;
     line-height: normal; /* reset for multi-line */
     font-size: 16px;
-    color: #00000051;
+    color: #00000095;
 }
 
 #impressum-overlay {
