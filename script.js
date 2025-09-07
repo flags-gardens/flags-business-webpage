@@ -500,3 +500,8 @@ impressumLink.addEventListener("click", (e) => {
 impressumOverlay.addEventListener("click", () => {
     impressumOverlay.classList.remove("visible");
 });
+
+
+
+// Add this after your existing impressum overlay code
+

@@ -32,6 +32,26 @@
     font-style: normal;
 }
 
+
+@font-face {
+    font-family: "Inter";
+    src:
+        url("Inter-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+:root {
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 50px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+}
+
+
 /* Lock body and html for smooth scrolling */
 html,
 body {
@@ -40,6 +60,8 @@ body {
     overflow: hidden;
     height: 100%;
 }
+
+
 
 /* Move background to #root for scrolling */
 #root {
@@ -51,6 +73,7 @@ body {
     background-position: center bottom;
     background-repeat: no-repeat;
     background-attachment: local; /* Scrolls with content */
+    padding-bottom: var(--safe-area-bottom);
     /* overscroll-behavior: none; Prevents rubber-banding and gap */
 }
 
@@ -539,6 +562,80 @@ h1 {
     opacity: 1;
 }
 
+
+
+/* Scroll resistance overlay */
+#scroll-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        #CDCDC4,
+        #cdcdc4e1
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10; /* Above impressum overlay */
+}
+
+#scroll-overlay-content {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+}
+
+#sas, #berlin, #esf {
+    width: auto;
+    height: 70px;
+    margin: 0 20px;
+    object-fit: contain;
+}
+
+#scroll-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+
+#scroll-overlay-content h2 {
+    font-family: 'ABC Otto';
+    font-style: italic;
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+#scroll-overlay-content p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+#close-overlay {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#close-overlay:hover {
+    background: #333;
+}
+
+
 /* Desktop width */
 @media (max-width: 900px) {
     #main-container {
@@ -597,6 +694,27 @@ h1 {
         left: -650px;
         width: 180px; /* Same size as original divs */
     }
+
+    #supporter-container {
+        display: grid;
+        place-items: center;
+        position: absolute;
+        font-family: helvetica, arial, sans-serif;
+        opacity: 0;
+        padding: 0px 12px;
+        font-weight: 500;
+        width: 300px;
+        height: 50px;
+        bottom: 95px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        z-index: 11;
+        background-color: #ffffff1e;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        will-change: transform; /* GPU acceleration for smooth animations */
+    }
 }
 
 #impressum-link {
@@ -613,6 +731,39 @@ h1 {
 
 #impressum-link:hover {
     color: #808080; /* Darker grey */
+}
+
+#supporter-container {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    font-family: 'inter', sans-serif;
+    padding: 0px 16px;
+    font-weight: 500;
+    width: 300px;
+    height: 50px;
+    bottom: 95px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 11;
+    background-color: #ffffff1e;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    will-change: transform; /* GPU acceleration for smooth animations */
+}
+
+
+#supporter-text {
+    font-family: "Inter", sans-serif;
+    position: absolute;
+    opacity: 1;
+    width: 300px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal; /* reset for multi-line */
+    font-size: 16px;
+    color: #00000051;
 }
 
 #impressum-overlay {

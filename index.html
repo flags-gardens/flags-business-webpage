@@ -52,7 +52,7 @@
         </div>
         <!-- Progressive blur container -->
 
-        <div id="root" class="hidden-until-loaded">
+        <div id="root">
             <!-- Add class to hide initially -->
             <div id="main-container">
                 <div id="main-text">
@@ -172,6 +172,9 @@
                     <img src="assets/signature_03.png" class="signature" />
                     <img src="assets/signature_04.png" class="signature" />
                 </div>
+                <div id="supporter-container">
+                    <p id="supporter-text">Supported by the <img src="assets/eu.png" class="inline-icon" alt="icon"/>, city of <img src="assets/ber.png" class="inline-icon" alt="icon"/> and <img src="assets/sas.png" class="inline-icon" alt="icon"/></p>
+                </div>
                 <img
                     id="bottom-house-image"
                     src="assets/house_roof.png"
@@ -205,6 +208,7 @@
                 </div>
             </div>
             <a href="#" id="impressum-link">Impressum</a>
+
         </div>
         <!-- Replaced div with video; keep id="postcard" for scripting -->
         <video id="postcard" autoplay loop muted playsinline>
@@ -228,12 +232,12 @@
                 loader.style.opacity = "0"; // Fade out
                 setTimeout(() => {
                     loader.style.display = "none"; // Remove after transition
-                    if (root) root.classList.remove("hidden-until-loaded"); // Reveal content
                 }, 300); // Match CSS transition duration
             });
         </script>
 
         <script type="module" src="script.js"></script>
+        <script type="module" src="supporterPopout.js"></script>
         
 
         <div id="impressum-overlay">
@@ -242,6 +246,13 @@
                 <p><strong>Address</strong> <br> Luisenstrasse 53, <br> 10117 Berlin</p>
                 <p><strong>Representatives</strong><br>Boris Sidokhin<br>Chris Köbke<br>Paul Kliem<br>Joris Peters</p>
                 <p><strong>Contact</strong> <br><a href="mailto:hey@flags.is">hey@flags.is</a></p>
+            </div>
+        </div>
+        <div id="scroll-overlay">
+            <div id="scroll-overlay-content">
+                <img id="esf"  src="/assets/esf_logo.png" alt="european social fund">
+                <img id="berlin" src="/assets/berlin_logo.png" alt="stadt berlin">
+                <img id="sas" src="/assets/sas_logo.png" alt="science and startups">
             </div>
         </div>
         
