@@ -68,7 +68,7 @@ body {
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden; /* Prevents x-axis scrolling */
-    background-image: url("./assets/sky_main.png"); /* Fullwidth background */
+    background-image: url("./assets/sky_main.jpg"); /* Fullwidth background */
     background-size: cover;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -76,6 +76,33 @@ body {
     padding-bottom: var(--safe-area-bottom);
     /* overscroll-behavior: none; Prevents rubber-banding and gap */
 }
+
+
+#root::-webkit-scrollbar {
+    width: 12px; /* Adjust width as needed */
+}
+
+#root::-webkit-scrollbar-track {
+    background: transparent; /* Makes track invisible, showing page background */
+}
+
+#root::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent thumb for usability */
+    border-radius: 10px; /* Rounded */
+    border: 3px solid transparent; /* Optional padding */
+    background-clip: content-box; /* Prevents thumb from touching edges */
+}
+
+#root::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5); /* Darker on hover */
+}
+
+/* Firefox */
+#root {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent; /* Thumb color / track color */
+}
+
 
 .inline-icon {
     width: auto;
