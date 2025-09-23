@@ -8,6 +8,9 @@ let overscrollAmount = 0;
 let sentenceTriggered = false;
 let resetTimeout = null;
 
+let closeOnScrollHandler = null;
+let closeOnTouchMoveHandler = null;
+
 const setBackgroundColor = gsap.quickSetter(elements.supporterContainer, "backgroundColor");
 
 function getInterpolatedColor(progress) {
@@ -89,6 +92,12 @@ function triggerSupporterPopout() {
   });
   
   elements.scrollOverlay.classList.add('active');
+
+  closeOnScrollHandler = () => resetSupporterTrigger();
+  elements.scrollOverlay.addEventListener('wheel', closeOnScrollHandler);
+
+  closeOnTouchMoveHandler = () => resetSupporterTrigger();
+  elements.scrollOverlay.addEventListener('touchmove', closeOnTouchMoveHandler);
 }
 
 function resetSupporterTrigger() {
@@ -105,6 +114,15 @@ function resetSupporterTrigger() {
     ease: "power2.inOut",
     overwrite: true
   });
+
+  if (closeOnScrollHandler) {
+    elements.scrollOverlay.removeEventListener('wheel', closeOnScrollHandler);
+    closeOnScrollHandler = null;
+  }
+  if (closeOnTouchMoveHandler) {
+    elements.scrollOverlay.removeEventListener('touchmove', closeOnTouchMoveHandler);
+    closeOnTouchMoveHandler = null;
+  }
 }
 
 export function initSupporterPopout() {
