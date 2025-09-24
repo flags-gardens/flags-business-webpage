@@ -10,6 +10,8 @@ let resetTimeout = null;
 
 let closeOnScrollHandler = null;
 let closeOnTouchMoveHandler = null;
+let closeOnTouchStartHandler = null;
+let touchStartY = 0;
 
 const setBackgroundColor = gsap.quickSetter(elements.supporterContainer, "backgroundColor");
 
@@ -93,10 +95,24 @@ function triggerSupporterPopout() {
   
   elements.scrollOverlay.classList.add('active');
 
-  closeOnScrollHandler = () => resetSupporterTrigger();
+  closeOnScrollHandler = (e) => {
+    if (e.deltaY < 0) {
+      resetSupporterTrigger();
+    }
+  };
   elements.scrollOverlay.addEventListener('wheel', closeOnScrollHandler);
 
-  closeOnTouchMoveHandler = () => resetSupporterTrigger();
+  closeOnTouchStartHandler = (e) => {
+    touchStartY = e.touches[0].clientY;
+  };
+  elements.scrollOverlay.addEventListener('touchstart', closeOnTouchStartHandler);
+
+  closeOnTouchMoveHandler = (e) => {
+    const currentY = e.touches[0].clientY;
+    if (currentY > touchStartY) { // Swiping down
+      resetSupporterTrigger();
+    }
+  };
   elements.scrollOverlay.addEventListener('touchmove', closeOnTouchMoveHandler);
 }
 
@@ -118,6 +134,10 @@ function resetSupporterTrigger() {
   if (closeOnScrollHandler) {
     elements.scrollOverlay.removeEventListener('wheel', closeOnScrollHandler);
     closeOnScrollHandler = null;
+  }
+  if (closeOnTouchStartHandler) {
+    elements.scrollOverlay.removeEventListener('touchstart', closeOnTouchStartHandler);
+    closeOnTouchStartHandler = null;
   }
   if (closeOnTouchMoveHandler) {
     elements.scrollOverlay.removeEventListener('touchmove', closeOnTouchMoveHandler);
