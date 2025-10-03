@@ -171,6 +171,42 @@
                     <img src="assets/signature_03.png" class="signature" />
                     <img src="assets/signature_04.png" class="signature" />
                 </div>
+
+                <!-- Newsletter Signup -->
+                <div id="newsletter-container">
+                    <div id="newsletter-form-container">
+                        <div id="newsletter-error-message" class="newsletter-message newsletter-message--error" style="display: none;">
+                            The registration couldn't be saved. Please try again.
+                        </div>
+                        <div id="newsletter-success-message" class="newsletter-message newsletter-message--success" style="display: none;">
+                            Thank you! Please check your email to confirm.
+                        </div>
+                        <form id="newsletter-form" method="POST" action="https://06900fb9.sibforms.com/serve/MUIFAAplION3Dnj5bZTSJK-_IKy-WCSVIa3y3ax56G13AhAABg5mdJN7B4oIgthbs8InjtLhf4__IgKuzTzRD3K1bjI3wTrcLD38JdqInbN3DoxJIN9C51FCX_9VHyBLFE3CPRIv34c9IFvrnMuG9y3748gYYTCWvvvKhE3z7GED9VsUjjbWNZnp-iR8XOUD6gBnmt1ter5Bnd_a" data-type="subscription">
+                            <p class="newsletter-text">Stay up to date, and get informed when we launch.</p>
+                            <div class="newsletter-input-group">
+                                <input 
+                                    class="newsletter-input" 
+                                    type="email" 
+                                    id="EMAIL" 
+                                    name="EMAIL" 
+                                    autocomplete="email" 
+                                    placeholder="your@email.com" 
+                                    required 
+                                />
+                                <button class="newsletter-button" type="submit">
+                                    <svg class="newsletter-loader" viewBox="0 0 512 512" style="display: none;">
+                                        <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+                                    </svg>
+                                    <span class="newsletter-button-text">Sign up</span>
+                                </button>
+                            </div>
+                            <p class="newsletter-note">Unsubscribe at any time.</p>
+                            <input type="text" name="email_address_check" value="" style="position: absolute; left: -5000px;" aria-hidden="true" tabindex="-1">
+                            <input type="hidden" name="locale" value="en">
+                        </form>
+                    </div>
+                </div>
+
                 <div id="supporter-container">
                     <p id="supporter-text">Supported by the <img src="assets/legal/eu_minimal.png" class="inline-icon" alt="icon"/>, city of <img src="assets/legal/berlin_minimal.png" class="inline-icon" alt="icon"/> and <img src="assets/legal/sas_minimal.png" class="inline-icon" alt="icon"/></p>
                 </div>
@@ -236,7 +272,6 @@
         </script>
 
         <script type="module" src="main.js"></script>
-        
 
         <div id="impressum-overlay">
             <div id="impressum-container">
@@ -256,3 +291,4 @@
         
     </body>
 </html>
+

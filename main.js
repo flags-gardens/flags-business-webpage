@@ -5,6 +5,7 @@ import { initEdgeIndicators } from './modules/animations/edgeIndicators.js';
 import { initSignatures } from './modules/animations/signatures.js';
 import { initImpressum } from './modules/interactions/impressum.js';
 import { initSupporterPopout } from './modules/interactions/supporterPopout.js';
+import { initNewsletter } from './modules/interactions/newsletter.js';
 import { initLayoutUpdates } from './modules/utils/layout.js';
 
 // Initialize all modules when DOM is ready
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize interactions
   initImpressum();
   initSupporterPopout();
+  initNewsletter();
   
   // Initialize layout utilities
   initLayoutUpdates();

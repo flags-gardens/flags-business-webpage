@@ -810,3 +810,230 @@ h1 {
 #impressum-container p {
     margin: 0 0 10px 0;
 }
+
+/* Newsletter Signup Styles */
+#newsletter-container {
+    width: 100%;
+    margin: 60px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#newsletter-form-container {
+    width: 100%;
+    max-width: 460px;
+}
+
+.newsletter-message {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 15px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.newsletter-message--error {
+    color: #661d1d;
+    background-color: #ffeded;
+    border: 1px solid #ff494933;
+}
+
+.newsletter-message--success {
+    color: #666666;
+    opacity: 1;
+    background-color: transparent;
+    border: none;
+    padding: 20px 0;
+    font-size: 15px;
+    text-align: left;
+}
+
+.newsletter-text {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 15px;
+    color: #000000;
+    opacity: 0.6;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.newsletter-input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.newsletter-input {
+    flex: 1;
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #000000;
+    transition: all 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.newsletter-input:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.newsletter-input::placeholder {
+    color: rgba(0, 0, 0, 0.35);
+}
+
+.newsletter-button {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 24px;
+    background-color: #000000c1;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.newsletter-button:hover {
+    background-color: #000000;
+    transform: translateY(-1px);
+}
+
+.newsletter-button:active {
+    transform: translateY(0);
+}
+
+.newsletter-loader {
+    width: 16px;
+    height: 16px;
+    fill: #ffffff;
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.newsletter-note {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 12px;
+    color: #000000;
+    opacity: 0.4;
+    margin: 0;
+    text-align: left;
+}
+
+/* Mobile adjustments for newsletter */
+@media (max-width: 900px) {
+    #newsletter-container {
+        margin: 40px 0 0 0;
+    }
+    
+    #newsletter-form-container {
+        max-width: 340px;
+    }
+    
+    .newsletter-input-group {
+        flex-direction: column;
+    }
+    
+    .newsletter-button {
+        width: 100%;
+    }
+}
+
+/* Confirmation Page Styles */
+#confirmation-content {
+    width: 100%;
+    max-width: 460px;
+    text-align: left;
+    margin-top: calc(50vh - 150px);
+    padding: 40px 0;
+}
+
+#confirmation-content h1 {
+    font-family: 'ABC Otto';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 42px;
+    letter-spacing: -0.5px;
+    color: #000000c1;
+    margin-bottom: 32px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.confirmation-text {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 15px;
+    color: #000000;
+    opacity: 0.75;
+    margin-bottom: 20px;
+    line-height: 24px;
+}
+
+.confirmation-note {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 15px;
+    color: #000000;
+    opacity: 0.4;
+    margin-bottom: 40px;
+    line-height: 24px;
+}
+
+.confirmation-button {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 24px;
+    background-color: #000000c1;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.confirmation-button:hover {
+    background-color: #000000;
+    transform: translateY(-1px);
+}
+
+.confirmation-button:active {
+    transform: translateY(0);
+}
+
+/* Mobile adjustments for confirmation page */
+@media (max-width: 900px) {
+    #confirmation-content {
+        max-width: 340px;
+        margin-top: calc(50vh - 100px);
+        padding: 20px 0;
+    }
+    
+    #confirmation-content h1 {
+        font-size: 32px;
+    }
+}
+
+
