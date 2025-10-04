@@ -1051,4 +1051,27 @@ h1 {
     }
 }
 
+#inline-signup-banner {
+    width: 100%;
+    height: 60px;
+    background-color: #D0D2BB;
+    padding-top: 4px;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    border-radius: 12px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#inline-signup-banner p {
+    margin: 0;
+}
+
+#inline-signup-banner img {
+    width: 180px;
+    height: auto;
+}
+
 
