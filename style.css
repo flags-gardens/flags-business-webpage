@@ -67,6 +67,7 @@ body {
 
 /* Move background to #root for scrolling */
 #root {
+    position: relative; /* Add this for positioning context */
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden; /* Prevents x-axis scrolling */
@@ -111,7 +112,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 460px; /* Default for mobile */
-    gap: 100px;
+    gap: 60px;
     margin: 0 auto; /* Center the narrow container */
 }
 
@@ -209,11 +210,23 @@ h1 {
     /* transform: translateX(-6px); */
 }
 
+.signatures-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: -60px; /* Pull up to overlap with flag stem */
+    z-index: 5; /* Above flag stem */
+}
+
 .signatures {
+    margin-left: 16px ;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-bottom: 100px;
 }
 
 .signature {
@@ -732,7 +745,7 @@ h1 {
         transform: translateX(-50%);
         text-align: center;
         z-index: 11;
-        background: rgba(255, 255, 255, 0.15);  /* translucency is key */
+        background: rgba(255, 255, 255, 0.75);  /* translucency is key */
         color: #00000051;
         border-radius: 50px;
         /*backdrop-filter: blur(50px)
@@ -747,7 +760,6 @@ h1 {
     color: #a0a0a0; /* Light grey */
     font-size: 12px;
     cursor: pointer;
-    bottom: 24px;
     right: 24px;
     transition: color 0.2s;
     z-index: 10;
@@ -764,19 +776,17 @@ h1 {
     place-items: center;
     position: absolute;
     font-family: 'inter', sans-serif;
-    border: 1px solid rgba(0, 0, 0, 0.147);
+    border: 1px solid rgba(0, 0, 0, 0.247);
     padding: 0px 16px;
     font-weight: 500;
-    width: 320px;
+    width: 370px;
     height: 50px;
     bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     z-index: 11;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);     /* Safari */
-    background: rgba(255, 255, 255, 0.566);
+    background: rgba(255, 255, 255, 0.966);
     border-radius: 50px;
     transition: all 0.3s ease;
     will-change: transform; /* GPU acceleration for smooth animations */
@@ -784,10 +794,11 @@ h1 {
 
 
 #supporter-text {
-    font-family: "Inter", sans-serif;
+    /* font-family: "Inter", sans-serif; */
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
     position: absolute;
     opacity: 1;
-    width: 340px;
+    width: 350px;
     display: inline-block;
     vertical-align: middle;
     line-height: normal; /* reset for multi-line */
@@ -882,7 +893,7 @@ h1 {
 .newsletter-input-group {
     display: flex;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 24px;
 }
 
 
@@ -1191,7 +1202,7 @@ h1 {
     border-radius: 12px;
     align-items: center;
     justify-content: flex-start; /* Align content to the top */
-    margin: 20px 0;
+    margin-bottom: 64px;
     overflow: hidden; /* Hide the overflowing part of the image */
     transition: background-color 0.3s ease;
 }
