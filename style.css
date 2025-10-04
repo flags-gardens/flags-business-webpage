@@ -60,6 +60,7 @@ body {
     overflow: hidden;
     height: 100%;
     background-color: #CDCDC4;
+    transition: background-color 0.2s ease;
 }
 
 
@@ -325,6 +326,20 @@ h1 {
     overflow: hidden;
     pointer-events: none;
     z-index: 2; /* Above the existing blur-container but below interactive content if needed */
+    transition: opacity 0.5s ease;
+}
+
+#bottom-gradient {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: linear-gradient(to top, #E59261, #e5916100);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3; /* Higher than #progressive-blur */
+    transition: opacity 0.2s ease;
 }
 
 /* New progressive blur container (200px high, full width, fixed at bottom) */

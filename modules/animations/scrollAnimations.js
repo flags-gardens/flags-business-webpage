@@ -22,6 +22,13 @@ function updatePostcardInteractivity(progress) {
   }
 }
 
+function setThemeColor(color) {
+    const themeColorMetaTags = document.querySelectorAll('meta[name="theme-color"]');
+    themeColorMetaTags.forEach(tag => {
+        tag.setAttribute('content', color);
+    });
+}
+
 export function initScrollAnimations() {
   const mobile = isMobile();
   
@@ -101,6 +108,41 @@ export function initScrollAnimations() {
     0
   );
   
+  const initialThemeColor = '#CDCDC4'; // From index.html
+
+  // Change theme color on scroll
+  ScrollTrigger.create({
+      trigger: "#bottom-house-image",
+      scroller: elements.root,
+      start: "top bottom-=180", // When the top of the house image hits the bottom of the viewport
+      onEnter: () => {
+          elements.progressiveBlur.style.opacity = 0;
+          elements.bottomGradient.style.opacity = 1;
+      },
+      onLeaveBack: () => {
+          elements.progressiveBlur.style.opacity = 1;
+          elements.bottomGradient.style.opacity = 0;
+      },
+  });
+
+  // Change theme color on scroll
+  ScrollTrigger.create({
+      trigger: "#bottom-house-image",
+      scroller: elements.root,
+      start: "top bottom-=90", // When the top of the house image hits the bottom of the viewport
+      onEnter: () => {
+          setThemeColor('#E59261');
+          document.body.style.backgroundColor = '#E59261';
+
+      },
+      onLeaveBack: () => {
+          setThemeColor(initialThemeColor);
+          document.body.style.backgroundColor = initialThemeColor;
+      },
+  });
+
+
+
   // Initial check
   updatePostcardInteractivity(postcardTl.scrollTrigger ? postcardTl.scrollTrigger.progress : 0);
   
