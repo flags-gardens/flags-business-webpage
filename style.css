@@ -257,13 +257,13 @@ h1 {
 }
 
 #edge-flag-3 {
-    left: -40vw;
+    left: -45vw;
     width: 200px; /* Same size as original divs */
 }
 
 #edge-flag-4 {
     position: relative;
-    left: -60vw;
+    left: -65vw;
     width: 180px; /* Same size as original divs */
 }
 
@@ -1227,7 +1227,7 @@ h1 {
     background-color: rgba(0, 0, 0, 0.2);
     border-color: rgba(255, 255, 255, 0.2);
     color: white;
-    text-align: center;
+    text-align: left;
 }
 
 .badge-card .newsletter-input::placeholder {

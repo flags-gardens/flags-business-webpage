@@ -17,7 +17,6 @@ function closeSignupCard() {
     });
 
     gsap.to(cardOverlay, { opacity: 0, onComplete: () => gsap.set(cardOverlay, { display: "none" }) });
-    elements.root.classList.remove('no-rubber-band');
 
 
 }
@@ -34,11 +33,6 @@ export function initSignupCard() {
                 opacity: 1,
                 duration: 0.05 
             });
-
-            elements.root.classList.add('no-rubber-band');
-
-
-
 
 
             // Animate the card
