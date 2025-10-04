@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 import { elements } from '../../shared/elements.js';
 import { config } from '../../shared/config.js';
-import { isAtBottom } from '../../shared/device.js';
+import { isMobile, isAtBottom } from '../../shared/device.js';
 
 let overscrollAmount = 0;
 let sentenceTriggered = false;
@@ -146,6 +146,8 @@ function resetSupporterTrigger() {
 }
 
 export function initSupporterPopout() {
+  if (isMobile()) return;
+
   const root = elements.root;
   
   gsap.ticker.add(decayOverscroll);

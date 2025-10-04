@@ -731,7 +731,7 @@ h1 {
         background: rgba(255, 255, 255, 0.15);  /* translucency is key */
         color: #00000051;
         border-radius: 50px;
-        backdrop-filter: blur(50px);
+        /*backdrop-filter: blur(50px)
         -webkit-backdrop-filter: blur(50px);     /* Safari */
         transition: all 0.3s ease;
         will-change: transform; /* GPU acceleration for smooth animations */

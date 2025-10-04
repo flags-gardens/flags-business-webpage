@@ -32,7 +32,6 @@ export const elements = {
   
   // Collections (cached since NodeLists don't change)
   get signatures() { return document.querySelectorAll(".signature"); },
-  get blurLayers() { return document.querySelectorAll("#progressive-blur .blur-layer"); },
   get edgeFlags() { return document.querySelectorAll(".edge-flag"); },
   get stemExtensions() { return document.querySelectorAll(".stem-extension"); }
 };
