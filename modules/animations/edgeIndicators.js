@@ -42,7 +42,7 @@ function updateEdgeIndicators() {
     const elId = el.id;
     const rect = el.getBoundingClientRect();
     const targetCenterX = rect.left + rect.width / 2;
-    const targetCenterY = rect.top + rect.height / 2;
+    const targetCenterY = rect.bottom;
     
     const isOffTop = rect.bottom < 0;
     const isOffBottom = rect.top > height;

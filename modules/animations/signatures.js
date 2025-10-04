@@ -46,3 +46,43 @@ export function initSignatures() {
     signature.addEventListener("touchstart", () => clickTl.restart());
   });
 }
+
+export function initSignupCardAnimation() {
+    const signupBanner = document.querySelector("#inline-signup-banner");
+    const signupCard = document.querySelector("#inline-signup-banner img");
+
+    if (signupBanner && signupCard) {
+        // Looping animation
+        const loopTl = gsap.to(signupCard, {
+            y: -10,
+            rotation: 7,
+            duration: 4,
+            ease: "power1.inOut",
+            repeat: -1,
+            yoyo: true,
+            repeatDelay: 1,
+        });
+
+        // Hover animation
+        const hoverTl = gsap.timeline({ paused: true });
+        hoverTl.to(signupCard, {
+            y: -35, // Move it up further
+            rotation: 3,            
+            duration: 0.3,
+            ease: "power2.out",
+        });
+
+        signupBanner.addEventListener("mouseenter", () => {
+            loopTl.pause();
+            hoverTl.play();
+        });
+
+        signupBanner.addEventListener("mouseleave", () => {
+            hoverTl.reverse();
+            // Resume the looping animation after the hover animation is complete
+            gsap.delayedCall(hoverTl.duration(), () => {
+                loopTl.play();
+            });
+        });
+    }
+}

@@ -1,4 +1,3 @@
-// modules/utils/layout.js
 import { elements } from '../../shared/elements.js';
 
 export function updateHouseWidth() {
@@ -29,17 +28,30 @@ export function updateFlagMaxHeight() {
   }
 }
 
+export function positionImpressumLink() {
+    const mainContainer = elements.mainContainer;
+    const impressumLink = elements.impressumLink;
+
+    if (mainContainer && impressumLink) {
+        const mainHeight = mainContainer.offsetHeight;
+        impressumLink.style.top = `${mainHeight - 30}px`;
+    }
+}
+
 export function initLayoutUpdates() {
   updateHouseWidth();
   updateFlagMaxHeight();
+  positionImpressumLink();
   
   window.addEventListener("load", () => {
     updateHouseWidth();
     updateFlagMaxHeight();
+    positionImpressumLink();
   });
   
   window.addEventListener("resize", () => {
     updateHouseWidth();
     updateFlagMaxHeight();
+    positionImpressumLink();
   });
 }

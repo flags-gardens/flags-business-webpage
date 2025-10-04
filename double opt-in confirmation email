@@ -1,0 +1,101 @@
+<!--To be updated on Brevo.com -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Welcome to Flags</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+    *{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+    body{font-family:inter,helvetica,arial,sans-serif;}
+    table{margin:0 auto;}
+    div,a,li,td{-webkit-text-size-adjust:none;}
+    @media screen{body{font-family:inter,helvetica,arial,sans-serif;}}
+    @media only screen and (max-width:640px){table[class=full]{width:100%!important;}}
+    @media only screen and (max-width:479px){table[class=fullcenter]{width:100%!important;text-align:center!important;}}
+  </style>
+</head>
+<body style="margin:0;padding:0;">
+<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#CDCDC4" style="background:#CDCDC4;">
+  <tbody>
+  <tr>
+    <td>
+      <table class="full" align="center" width="570" border="0" cellpadding="0" cellspacing="0" style="padding:0 5px;">
+        <tbody>
+        <tr>
+          <td height="50" width="100%"></td>
+        </tr>
+        <!---------------------- begin Content -------------------->
+        <!-- Title -->
+        <tr>
+          <td align="left" style="padding:0 30px;text-align:left;font-size:32px;line-height:40px;font-weight:400;font-style:italic;letter-spacing:-0.5px;color:rgba(0,0,0,0.75);" valign="middle" width="100%">
+            Welcome to Flags,
+          </td>
+        </tr>
+        <!-- /Title -->
+        <tr>
+          <td height="25" width="100%"></td>
+        </tr>
+        <!-- Body Text -->
+        <tr>
+          <td align="left" style="padding:0 30px;text-align:left;font-size:15px;color:rgba(0,0,0,0.75);line-height:24px;font-weight:400;" valign="middle" width="100%">
+            We're excited to have you with us. Please confirm signing up to our newsletter:
+          </td>
+        </tr>
+        <!-- /Body Text -->
+        <tr>
+          <td height="30" width="100%"></td>
+        </tr>
+        <!-- Button -->
+        <tr>
+          <td align="left" style="padding:0 30px;text-align:left;" valign="middle" width="100%">
+            <table cellspacing="0" cellpadding="0" border="0" align="left" class="fullcenter">
+              <tbody>
+              <tr>
+                <td style="background:#83604a;-webkit-border-radius:25px;-moz-border-radius:25px;border-radius:25px;padding:0 32px;font-weight:500;color:#ffffff;" align="center" bgcolor="#83604a" height="48">
+                  <a href="https://flags.is/confirm.html?brevo_url={{ doubleoptin }}&email={{ contact.EMAIL }}" target="_blank" style="color:#ffffff;font-size:15px;text-decoration:none;line-height:24px;width:100%;display:block;">Confirm Sign-Up</a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td height="30" width="100%"></td>
+        </tr>
+        <!-- Footer Text -->
+        <tr>
+          <td align="left" style="padding:0 30px;text-align:left;font-size:14px;color:rgba(0,0,0,0.4);line-height:22px;font-weight:400;" valign="middle" width="100%">
+            If you received this email by mistake, simply delete it, and you won't be subscribed.
+          </td>
+        </tr>
+        <!-- /Footer Text -->
+        <tr>
+          <td height="50" width="100%"></td>
+        </tr>
+        <!---------------------- end Content ---------------------->
+        <tr>
+          <td height="30" width="100%"></td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:0 20px;text-align:center;font-size:14px;color:rgba(0,0,0,0.4);line-height:22px;font-weight:400;" valign="middle" width="100%">
+            Flags - The City in Your Pocket,<br />to Explore and Connect
+          </td>
+        </tr>
+        <tr>
+          <td height="30" width="100%"></td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Welcome to Flags</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png"/>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="root">
+            <div id="main-container">
+                <div id="confirmation-content">
+                    <h1>Welcome to Flags,</h1>
+                    <p class="confirmation-text">
+                        Thank you for confirming! You're now part of our community and will be among the first to know when we launch.
+                    </p>
+                    <p class="confirmation-note">
+                        We'll be in touch soon with updates about Flags.
+                    </p>
+                    <a href="/" class="confirmation-button">Back to Flags</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Handle the confirmation process
+            document.addEventListener('DOMContentLoaded', function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const brevoUrl = urlParams.get('brevo_url');
+                const email = urlParams.get('email');
+                
+                if (brevoUrl && email) {
+                    // Create a hidden iframe to trigger the original Brevo confirmation
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = decodeURIComponent(brevoUrl);
+                    document.body.appendChild(iframe);
+                    
+                    // Also try a direct fetch as backup
+                    fetch(decodeURIComponent(brevoUrl), {
+                        method: 'GET',
+                        mode: 'no-cors'
+                    }).catch(error => {
+                        console.log('Confirmation processed');
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
