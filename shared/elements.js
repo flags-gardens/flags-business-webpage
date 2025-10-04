@@ -29,6 +29,13 @@ export const elements = {
   // Supporter
   get supporterContainer() { return document.getElementById("supporter-container"); },
   get supporterText() { return document.getElementById("supporter-text"); },
+
+  // Signup Card
+  get inlineSignupBanner() { return document.getElementById("inline-signup-banner"); },
+  get signupCardImage() { return document.querySelector("#inline-signup-banner img"); },
+  get realSignupCardContainer() { return document.getElementById("real-signup-card-container"); },
+  get realSignupCard() { return document.querySelector("#real-signup-card-container .badge-card"); },
+  get cardOverlay() { return document.getElementById("card-overlay"); },
   
   // Collections (cached since NodeLists don't change)
   get signatures() { return document.querySelectorAll(".signature"); },
