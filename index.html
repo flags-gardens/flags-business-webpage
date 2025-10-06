@@ -60,25 +60,26 @@
                 <div id="main-text">
                     <!-- <img id="briefmarke" alt="briefmarke" src="assets/briefmarke2.png"/> -->
                     <div id="main-flag-container">
-                        <video
-                            id="main-flag-video"
-                            preload="auto"
-                            autoplay
-                            loop
-                            muted
-                            playsinline
-                        >
-                            <source
-                                src="assets/videos/main_flag_motion_compressed.mov"
-                                type="video/quicktime"
-                            />
-                            <source
-                                src="assets/videos/main_flag_motion_655kb.webm"
-                                type="video/webm"
-                            />
-                            <img src="/assets/videos/fallback_flag.png" alt="Flag Waving Fallbackimage">
-                            Your browser does not support the video tag.
-                        </video>
+                        <video id="main-flag-video" preload="auto" autoplay loop muted playsinline> </video>
+                        <script type="module">
+                            (function() {
+                                const video = document.getElementById('main-flag-video');
+                                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                                const source = document.createElement('source');
+                                
+                                if (isSafari) {
+                                    // ✅ Vite processes these and generates hashes
+                                    source.src = new URL('./assets/videos/main_flag_motion_compressed.mov', import.meta.url).href;
+                                    source.type = 'video/quicktime; codecs="hvc1"';
+                                } else {
+                                    source.src = new URL('./assets/videos/main_flag_motion_compressed.webm', import.meta.url).href;
+                                    source.type = 'video/webm; codecs="vp9"';
+                                }
+                                
+                                video.appendChild(source);
+                                video.load();
+                            })();
+                        </script>
                         <img
                             src="assets/flag_modular_stem_main.png"
                             alt="Flag stem extension"
@@ -165,7 +166,7 @@
                     </p>
                     <div id="inline-signup-banner">
                         <p class="gradient-text">Signup to get a launch surprise soon.</p>
-                        <img src="assets/signup_card_full.png" alt="placeholder image" />
+                        <img src="assets/signup_card_full_2.png" alt="placeholder image" />
                     </div>
                     <p class="gradient-text">
                         Warmly, <br />
@@ -221,19 +222,26 @@
 
         </div>
         <!-- Replaced div with video; keep id="postcard" for scripting -->
-        <video id="postcard" autoplay loop muted playsinline>
-            <source
-                src="assets/videos/postcard_motion_compressed.mov"
-                type="video/quicktime"
-            />
-            <source
-                src="assets/videos/postcard_motion.webm"
-                type="video/webm"
-            />
-            <img src="/assets/videos/fallback_postcard.webp" alt="Flag Waving Fallbackimage">
-            Your browser does not support the video tag.
-        </video>
-
+        <video id="postcard" autoplay loop muted playsinline></video>
+            <script type="module">
+            (function() {
+                const video = document.getElementById('postcard');
+                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                const source = document.createElement('source');
+                
+                if (isSafari) {
+                    // ✅ Vite processes these and generates hashes
+                    source.src = new URL('./assets/videos/postcard_motion_compressed.mov', import.meta.url).href;
+                    source.type = 'video/mp4; codecs="hvc1"';
+                } else {
+                    source.src = new URL('./assets/videos/postcard_motion_compressed.webm', import.meta.url).href;
+                    source.type = 'video/webm; codecs="vp9"';
+                }
+                
+                video.appendChild(source);
+                video.load();
+            })();
+    </script>
         <!-- Inline script to handle loading screen (runs synchronously) -->
         <script>
             window.addEventListener("load", () => {
