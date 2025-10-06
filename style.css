@@ -798,7 +798,7 @@ h1 {
     font-family: "ABC Stefan Unlicensed Trial", sans-serif;
     position: absolute;
     opacity: 1;
-    width: 350px;
+    width: 360px;
     display: inline-block;
     vertical-align: middle;
     line-height: normal; /* reset for multi-line */
@@ -1127,7 +1127,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
     padding-top: 40px;
 }
 
