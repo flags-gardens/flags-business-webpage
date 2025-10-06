@@ -1143,12 +1143,14 @@ h1 {
     height: 100%;
 }
 
+
 .badge-right {
-    width: 140px;
-    height: 140px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* Optionally limit max dimensions */
+    max-width: 100px;
+    max-height: 100px;
 }
 
 .badge-right img {
