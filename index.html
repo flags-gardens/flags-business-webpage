@@ -13,7 +13,7 @@
         <meta name="keywords" content="flags, social, platform, local, map, events, city, explore">
 
         <!-- Viewport (for mobile) -->
-        
+
 
 
         <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png"/>
@@ -66,16 +66,16 @@
                                 const video = document.getElementById('main-flag-video');
                                 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
                                 const source = document.createElement('source');
-                                
+
                                 if (isSafari) {
                                     // ✅ Vite processes these and generates hashes
-                                    source.src = new URL('./assets/videos/main_flag_motion_compressed.mov', import.meta.url).href;
+                                    source.src = new URL('https://assets.flags.is/flags_webpage/main_flag_motion_compressed.mov', import.meta.url).href;
                                     source.type = 'video/quicktime; codecs="hvc1"';
                                 } else {
-                                    source.src = new URL('./assets/videos/main_flag_motion_compressed.webm', import.meta.url).href;
+                                    source.src = new URL('https://assets.flags.is/flags_webpage/main_flag_motion_compressed.webm', import.meta.url).href;
                                     source.type = 'video/webm; codecs="vp9"';
                                 }
-                                
+
                                 video.appendChild(source);
                                 video.load();
                             })();
@@ -131,19 +131,19 @@
                         Our cities are filled with colorful festivals, hidden galleries, corner cafés, and backyard theaters. Yet, the digital tools we use fall short of capturing this richness.
                     </p>
                     <p class="gradient-text">
-                        Flags is a spatial map for local life. <br><br> An 
+                        Flags is a spatial map for local life. <br><br> An
                         <img
                             src="assets/inline_icon.png"
                             class="inline-icon"
                             alt="icon"
                         />
-                        'Impressionist City' that captures how our surroundings feel, not just how they look. You'll discover events and places as "flags" planted by creators. Find one that inspires you, step outside and experience it in person. There, you can collect unique digital 
+                        'Impressionist City' that captures how our surroundings feel, not just how they look. You'll discover events and places as "flags" planted by creators. Find one that inspires you, step outside and experience it in person. There, you can collect unique digital
                         <img
                             src="assets/inline_icon.png"
                             class="inline-icon"
                             alt="icon"
                         />
-                        artifacts — a concert poster, a gallery piece, or the story from a reading. These artifacts build your personal board of city memories, an authentic way to show who you are and connect with others. 
+                        artifacts — a concert poster, a gallery piece, or the story from a reading. These artifacts build your personal board of city memories, an authentic way to show who you are and connect with others.
                         <br /><br />
                         For those who shape our city — from museums and
                         festivals to neighborhood initiatives — Flags gives you
@@ -228,16 +228,16 @@
                 const video = document.getElementById('postcard');
                 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
                 const source = document.createElement('source');
-                
+
                 if (isSafari) {
                     // ✅ Vite processes these and generates hashes
-                    source.src = new URL('./assets/videos/postcard_motion_compressed.mov', import.meta.url).href;
+                    source.src = new URL('https://assets.flags.is/flags_webpage/postcard_motion_compressed.mov', import.meta.url).href;
                     source.type = 'video/mp4; codecs="hvc1"';
                 } else {
-                    source.src = new URL('./assets/videos/postcard_motion_compressed.webm', import.meta.url).href;
+                    source.src = new URL('https://assets.flags.is/flags_webpage/postcard_motion_compressed.webm', import.meta.url).href;
                     source.type = 'video/webm; codecs="vp9"';
                 }
-                
+
                 video.appendChild(source);
                 video.load();
             })();
@@ -299,14 +299,14 @@
                 <form id="newsletter-form" method="POST" action="https://d735abe8.sibforms.com/serve/MUIFAEyLnRc4NZikYZh_YVSYroRprsikk9rKdjPJUU4HQW4kWs178osCgeinvTBsoIblYQq-1S9zg33AMdmMIGZ1EtvaCMhWWWDRZ79rOMZMZoWaDyOSD1PoGXlysfO1M65gGZqnKBcIKNT7ILUR6-miH9ALGwGVhXBUMEFdwdGvOSMmZbII6zIIZUj9utMB1Bwxx3xa7Kicj4B_" data-type="subscription">
 
                     <div class="newsletter-input-group">
-                        <input 
-                            class="newsletter-input" 
-                            type="email" 
-                            id="EMAIL" 
-                            name="EMAIL" 
-                            autocomplete="email" 
-                            placeholder="your@email.com" 
-                            required 
+                        <input
+                            class="newsletter-input"
+                            type="email"
+                            id="EMAIL"
+                            name="EMAIL"
+                            autocomplete="email"
+                            placeholder="your@email.com"
+                            required
                         />
                         <button class="newsletter-button" type="submit">
                             <svg class="newsletter-loader" viewBox="0 0 512 512" style="display: none;">
@@ -321,7 +321,6 @@
                 </form>
             </div>
         </div>
-        
+
     </body>
 </html>
-
