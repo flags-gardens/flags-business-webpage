@@ -107,17 +107,66 @@ export function initScrollAnimations() {
     },
   });
 
-  // ── Feature texts — sequential fade-in ──
-  [elements.featureText1, elements.featureText2, elements.featureText3].forEach((el) => {
-    gsap.from(el, {
-      opacity: 0,
-      y: 60,
+  // ── Feature labels fly out of card scene on scroll ──
+  const featureLabels = elements.featureLabels;
+  featureLabels.forEach((label, i) => {
+    // Phase 1: reveal the label (fade in + slight outward push)
+    gsap.to(label, {
+      opacity: 1,
       ease: 'none',
       scrollTrigger: {
-        trigger: el,
+        trigger: elements.cardScene,
+        scroller: root,
+        start: `bottom 70%`,
+        end: `bottom 55%`,
+        scrub: true,
+      },
+    });
+
+    // Phase 2: fly the label downward out of the card scene
+    gsap.to(label, {
+      y: 300 + i * 60,
+      x: 0,
+      opacity: 0,
+      ease: 'power1.in',
+      scrollTrigger: {
+        trigger: elements.cardScene,
+        scroller: root,
+        start: `bottom ${50 - i * 5}%`,
+        end: `bottom ${25 - i * 5}%`,
+        scrub: true,
+      },
+    });
+  });
+
+  // ── Feature list title ──
+  const featureTitle = document.getElementById('feature-list-title');
+  if (featureTitle) {
+    gsap.from(featureTitle, {
+      opacity: 0,
+      y: 40,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: elements.featureList,
         scroller: root,
         start: 'top bottom-=50',
-        end: 'top 65%',
+        end: 'top 70%',
+        scrub: true,
+      },
+    });
+  }
+
+  // ── Feature list items fly in from above (as if arriving from card scene) ──
+  elements.featureListItems.forEach((item, i) => {
+    gsap.from(item, {
+      y: -80,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: elements.featureList,
+        scroller: root,
+        start: `top ${85 - i * 12}%`,
+        end: `top ${60 - i * 12}%`,
         scrub: true,
       },
     });

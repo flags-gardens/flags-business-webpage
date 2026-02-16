@@ -70,7 +70,7 @@ export function initBalatroTilt() {
           transparent 60%
         );
         mix-blend-mode: soft-light;
-        z-index: 6;
+        z-index: 10;
         ${maskCss}
       `;
       item.parentElement.appendChild(shineEl);

@@ -19,9 +19,9 @@ export const elements = {
   get testimonial1() { return document.getElementById("testimonial-1"); },
   get testimonial2() { return document.getElementById("testimonial-2"); },
   get cardScene() { return document.getElementById("card-scene"); },
-  get featureText1() { return document.getElementById("feature-text-1"); },
-  get featureText2() { return document.getElementById("feature-text-2"); },
-  get featureText3() { return document.getElementById("feature-text-3"); },
+  get featureLabels() { return document.querySelectorAll(".feature-label"); },
+  get featureList() { return document.getElementById("feature-list"); },
+  get featureListItems() { return document.querySelectorAll(".feature-list-item"); },
 
   // Effects
   get topGradient() { return document.getElementById("top-gradient"); },
