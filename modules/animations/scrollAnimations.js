@@ -2,158 +2,164 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { elements } from '../../shared/elements.js';
-import { isMobile } from '../../shared/device.js';
 import { config } from '../../shared/config.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-let postcardTl;
-let miscTl;
-
-// Function to update postcard interactivity
-function updatePostcardInteractivity(progress) {
-  const postcard = elements.postcard;
-  if (progress >= config.postcardMinimizedThreshold) {
-    postcard.style.pointerEvents = 'auto';
-    postcard.style.cursor = 'pointer';
-  } else {
-    postcard.style.pointerEvents = 'none';
-    postcard.style.cursor = 'default';
-  }
-}
-
-function setThemeColor(color) {
-    const themeColorMetaTags = document.querySelectorAll('meta[name="theme-color"]');
-    themeColorMetaTags.forEach(tag => {
-        tag.setAttribute('content', color);
-    });
-}
-
 export function initScrollAnimations() {
-  const mobile = isMobile();
-  
-  // Misc animations timeline
-  miscTl = gsap.timeline({
+  const root = elements.root;
+
+  // ── Parallax sky background ──
+  // Move sky-bg at 50% scroll speed via GSAP
+  gsap.to(elements.skyBg, {
+    yPercent: -15,
+    ease: 'none',
     scrollTrigger: {
-      trigger: elements.mainText,
-      scroller: elements.root,
-      start: "top bottom-=200",
-      end: "top 30%",
+      trigger: elements.mainContainer,
+      scroller: root,
+      start: 'top top',
+      end: 'bottom bottom',
       scrub: true,
-      markers: false,
-      invalidateOnRefresh: true,
     },
   });
-  
-  // Postcard timeline
-  postcardTl = gsap.timeline({
+
+  // ── Top gradient fade-out ──
+  gsap.to(elements.topGradient, {
+    '--gradient-point-start': '0%',
+    '--gradient-point-end': '5%',
+    ease: 'none',
     scrollTrigger: {
-      trigger: elements.mainText,
-      scroller: elements.root,
-      start: "top bottom-=200",
-      end: "top 10%",
+      trigger: elements.heroSection,
+      scroller: root,
+      start: 'top top',
+      end: 'bottom top',
       scrub: true,
-      markers: false,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        updatePostcardInteractivity(self.progress);
-        console.log(`Scroll progress: ${self.progress}`);
-      },
     },
   });
-  
-  // Postcard animation
-  postcardTl.to(
-    elements.postcard,
-    {
-      top: mobile ? "200px" : "400px",
-      scale: 0.1,
-      ease: "back.inOut",
-      duration: 2,
+
+  // ── Flag entrance ──
+  gsap.from(elements.mainFlag, {
+    y: 600,
+    opacity: 0,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: elements.heroSection,
+      scroller: root,
+      start: 'top bottom-=100',
+      end: 'top 40%',
+      scrub: true,
     },
-    0
-  );
-  
-  postcardTl.to(
-    elements.mainText,
-    {
-      ease: "power1.out",
-      opacity: 1,
-      duration: 1,
+  });
+
+  // ── Hero text fade-out ──
+  gsap.to(elements.heroSection, {
+    opacity: 0,
+    y: -60,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: elements.heroSection,
+      scroller: root,
+      start: 'bottom 80%',
+      end: 'bottom 30%',
+      scrub: true,
     },
-    0.5
-  );
-  
-  // Flag animation
-  miscTl.from(
-    elements.mainFlag,
-    {
-      y: 600,
-      ease: "power2.out",
+  });
+
+  // ── Testimonial 1 ──
+  gsap.from(elements.testimonial1, {
+    opacity: 0,
+    y: 80,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: elements.testimonial1,
+      scroller: root,
+      start: 'top bottom-=100',
+      end: 'top 60%',
+      scrub: true,
+    },
+  });
+
+  // ── Testimonial 2 ──
+  gsap.from(elements.testimonial2, {
+    opacity: 0,
+    y: 80,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: elements.testimonial2,
+      scroller: root,
+      start: 'top bottom-=100',
+      end: 'top 60%',
+      scrub: true,
+    },
+  });
+
+  // ── Card scene entrance ──
+  gsap.from(elements.cardScene, {
+    opacity: 0,
+    y: 100,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: elements.cardScene,
+      scroller: root,
+      start: 'top bottom-=50',
+      end: 'top 50%',
+      scrub: true,
+    },
+  });
+
+  // ── Feature texts — sequential fade-in ──
+  [elements.featureText1, elements.featureText2, elements.featureText3].forEach((el) => {
+    gsap.from(el, {
       opacity: 0,
-      duration: 2,
-    },
-    2.5
-  );
-  
-  // Top gradient animation
-  miscTl.to(
-    elements.topGradient,
-    {
-      "--gradient-point-start": '0%',
-      "--gradient-point-end": '10%',
-      ease: "none",
-      duration: 3,
-    },
-    0
-  );
-  
-  const initialThemeColor = '#CDCDC4'; // From index.html
-
-  // if (mobile) {
-  //     ScrollTrigger.create({
-  //         trigger: "#bottom-house-image",
-  //         scroller: elements.root,
-  //         start: "top bottom-=180",
-  //         onEnter: () => {
-  //             elements.bottomGradient.style.opacity = 1;
-  //         },
-  //         onLeaveBack: () => {
-  //             elements.bottomGradient.style.opacity = 0;
-  //         },
-  //     });
-
-  //     ScrollTrigger.create({
-  //         trigger: "#bottom-house-image",
-  //         scroller: elements.root,
-  //         start: "top bottom-=90", // When the top of the house image hits the bottom of the viewport
-  //         onEnter: () => {
-  //         setThemeColor('#E59261');
-  //             document.body.style.backgroundColor = '#E59261';
-  //         },
-  //         onLeaveBack: () => {
-  //             setThemeColor(initialThemeColor);
-  //             document.body.style.backgroundColor = initialThemeColor;
-  //         },
-  //     });
-  // }
-
-  // Change theme color on scroll
-
-
-
-
-  // Initial check
-  updatePostcardInteractivity(postcardTl.scrollTrigger ? postcardTl.scrollTrigger.progress : 0);
-  
-  // Handle resize
-  window.addEventListener('resize', () => {
-    updatePostcardInteractivity(postcardTl.scrollTrigger.progress);
+      y: 60,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: el,
+        scroller: root,
+        start: 'top bottom-=50',
+        end: 'top 65%',
+        scrub: true,
+      },
+    });
   });
-  
-  window.addEventListener('load', () => {
-    updatePostcardInteractivity(postcardTl.scrollTrigger.progress);
+
+  // ── Supporter container — show at bottom of page ──
+  ScrollTrigger.create({
+    trigger: elements.bottomHouse,
+    scroller: root,
+    start: 'top bottom',
+    onEnter: () => {
+      gsap.to(elements.supporterContainer, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: 'power2.out',
+        onComplete: () => {
+          elements.supporterContainer.style.pointerEvents = 'auto';
+        },
+      });
+    },
+    onLeaveBack: () => {
+      gsap.to(elements.supporterContainer, {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+      });
+      elements.supporterContainer.style.pointerEvents = 'none';
+    },
   });
-  
-  return { postcardTl, miscTl };
+
+  // ── Flag max-height — extend pole as page grows ──
+  const updateFlagHeight = () => {
+    const mainContainer = elements.mainContainer;
+    const flagContainer = elements.mainFlag;
+    if (mainContainer && flagContainer) {
+      const maxHeight = mainContainer.offsetHeight - flagContainer.offsetTop;
+      flagContainer.style.maxHeight = `${maxHeight}px`;
+    }
+  };
+
+  updateFlagHeight();
+  window.addEventListener('resize', updateFlagHeight);
+  ScrollTrigger.addEventListener('refresh', updateFlagHeight);
 }

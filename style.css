@@ -1,3 +1,7 @@
+/* ============================================
+   FONTS
+   ============================================ */
+
 @font-face {
     font-family: "GT Alpina Trial";
     src:
@@ -32,7 +36,6 @@
     font-style: normal;
 }
 
-
 @font-face {
     font-family: "Inter";
     src:
@@ -41,9 +44,6 @@
     font-style: normal;
 }
 
-
-
-
 :root {
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 50px);
@@ -51,263 +51,343 @@
   --safe-area-right: env(safe-area-inset-right, 0px);
 }
 
+/* ============================================
+   BASE
+   ============================================ */
 
-/* Lock body and html for smooth scrolling */
 html,
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
     height: 100%;
-    background-color: #CDCDC4;
-    transition: background-color 0.2s ease;
+    background-color: #7EB3CC;
 }
 
+/* Parallax sky — fixed behind everything, GSAP moves translateY */
+#sky-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 130vh; /* taller than viewport so it can translate */
+    background-image: url("./assets/sky_blue.png");
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    z-index: 0;
+    will-change: transform;
+    pointer-events: none;
+}
 
+/* ============================================
+   ROOT / SCROLL CONTAINER
+   ============================================ */
 
-/* Move background to #root for scrolling */
 #root {
-    position: relative; /* Add this for positioning context */
+    position: relative;
     height: 100vh;
     overflow-y: auto;
-    overflow-x: hidden; /* Prevents x-axis scrolling */
-    background-image: url("./assets/sky_main.jpg"); /* Fullwidth background */
-    background-size: cover;
-    background-position: center bottom;
-    background-repeat: no-repeat;
-    background-attachment: local; /* Scrolls with content */
+    overflow-x: hidden;
+    z-index: 1;
     padding-bottom: var(--safe-area-bottom);
-    /* overscroll-behavior: none; Prevents rubber-banding and gap */
 }
 
 #root.no-rubber-band {
     overscroll-behavior-y: contain;
 }
 
-
-
-.inline-icon {
-    width: auto;
-    height: 22px;
-    display: inline-block;
-    vertical-align: middle; /* or text-bottom, baseline, etc. */
-    object-fit: contain;
-}
-
-#bottom-house-image {
-    position: relative;
-    /* width: calc(100vw); 1/3 vw on desktop */
-    width: var(--house-width, calc(100vw / 3)); /* Fallback if JS fails */
-    /* Or use ratio: width: calc(var(--main-text-width) * 1.2); */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Or cover/contain as needed */
-    z-index: 1; /* Adjust layering if needed */
-    pointer-events: none;
-}
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
 
 #main-container {
-    position: relative; /* For absolute positioning of hidden elements and video */
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 460px; /* Default for mobile */
-    gap: 60px;
-    margin: 0 auto; /* Center the narrow container */
+    width: 100%;
+    margin: 0 auto;
 }
 
-h1 {
-    /* font-family: "GT Alpina Trial", serif; */
-    font-family: 'ABC Otto';
-    font-style: italic;
-    font-weight: 500;
-    font-size: 42px;
-    letter-spacing: -0.5px;
-    color: #000000c1;
-    margin-bottom: 32px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;;
-}
-
-.regular-text {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 15px;
-    color: #000000;
-    opacity: 0.4;
-    margin-bottom: 15px;
-}
-
-.gradient-text {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 15px;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.7),
-        #83604a
-    ); /* Vertical gradient */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 15px;
-}
-
-#main-text {
-    margin-top: calc(100vh - 100px); /* Top of text is always 200px from bottom initially */
-    opacity: 0.4;
-    text-align: left; /* Left-aligned text */
-
-}
-
-#briefmarke {
-    position: absolute;
-    width: 200px;
-    height: auto;
-    object-fit: contain;
-    z-index: 6;
-    pointer-events: none;
-}
-
-#postcard {
-    position: fixed;
-    width: 800px;
-    height: auto; /* Height adjusts to maintain video's aspect ratio */
-    pointer-events: none;
-    transform-origin: top center;
-    object-fit: cover; /* Ensures video fills the container; change to 'contain' if preferred */
-    z-index: 6;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
-}
+/* ============================================
+   FLAG POLE (LEFT SPINE)
+   ============================================ */
 
 #main-flag-container {
     position: absolute;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center horizontally if needed */
-    top: calc(100vh - 520px); /* Same as original video position */
-    left: -180px; /* Same as original */
+    align-items: center;
+    top: 58vh;
+    left: calc(50% - 340px);
     transform-origin: bottom center;
-    width: 400px; /* Same as original video width */
-    overflow: hidden; /* Clips flag overflow but keeps scrolling behavior */
-    max-height: 1200px; /* Prevent it from getting too long */
+    width: 400px;
+    overflow: hidden;
     pointer-events: none;
+    z-index: 2;
 }
 
 #main-flag-video {
-    position: relative; /* Now relative within container */
+    position: relative;
     top: 0;
     left: 0;
-    width: 100%; /* Fill container width */
-    height: auto; /* Maintain aspect ratio without increasing height */
+    width: 100%;
+    height: auto;
 }
 
 .stem-extension {
-    width: 100%; /* Match video width */
-    height: auto; /* Auto height to extend stem */
-    margin-top: -2; /* No margins for seamless stacking */
-    /* transform: translateX(-6px); */
-}
-
-.signatures-wrapper {
-    position: relative;
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: -60px; /* Pull up to overlap with flag stem */
-    z-index: 5; /* Above flag stem */
-}
-
-.signatures {
-    margin-left: 16px ;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 100px;
-}
-
-.signature {
-    height: 82px; /* Uniform height */
-    width: 82; /* Maintain aspect ratio */
-    opacity: 1; /* Slightly faded */
-    margin-left: -20px;
-}
-
-.edge-flag-container {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    justify-content: center;
-    bottom: 0px; /* All off bottom */
-    align-items: flex-end; /* ↓ Bottom */
-    overflow: hidden;
-    pointer-events: none;
-}
-
-/* Hidden elements for testing (absolutely positioned off-screen at bottom with different horizontals) */
-.edge-flag {
-    position: relative;
-    width: calc(0.2 * 100vw); /* Same size as original divs */
-    transform-origin: bottom center;
     height: auto;
-    bottom: -140px; /* All off bottom */
-    object-fit: contain; /* Fit image within 100x100 without distortion */
+    margin-top: -2px;
 }
 
-#edge-flag-1 {
+/* ============================================
+   CONTENT SPINE (RIGHT OF POLE)
+   ============================================ */
+
+#content-spine {
     position: relative;
-    left: 40vw;
-    width: 250px; /* Same size as original divs */
+    width: 460px;
+    margin-left: 40px; /* slight offset right of the pole */
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    z-index: 3;
 }
 
-#edge-flag-2 {
-    left: 40vw;
-    width: 150px; /* Same size as original divs */
+/* ============================================
+   HERO
+   ============================================ */
+
+#hero-section {
+    width: 100%;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-#edge-flag-3 {
-    left: -45vw;
-    width: 200px; /* Same size as original divs */
+#hero-logo {
+    width: 400px;
+    height: auto;
+    margin-bottom: 16px;
 }
 
-#edge-flag-4 {
+#hero-subtitle {
+    font-family: 'ABC Otto';
+    font-style: italic;
+    font-weight: 200;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+/* ============================================
+   TESTIMONIALS
+   ============================================ */
+
+.testimonial {
+    padding: 8vh 0;
+    text-align: left;
+}
+
+.testimonial blockquote {
+    font-family: 'ABC Otto';
+    font-style: italic;
+    font-weight: 200;
+    font-size: 36px;
+    line-height: 1.2;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 24px 0;
+    padding: 0;
+    border: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.testimonial blockquote strong {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.testimonial-attribution {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     position: relative;
-    left: -65vw;
-    width: 180px; /* Same size as original divs */
 }
 
-/* Edge indicators (positions will be set dynamically via JS) */
-.edge-indicator {
-    position: fixed;
-    border-radius: 50%;
-    background-color: rgba(
-        143,
-        143,
-        143,
-        0.968
-    ); /* Using #83604A with opacity */
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-    will-change: transform; /* GPU acceleration */
-    z-index: 10;
-    overflow: visible; /* Allow image to overflow if needed */
+.testimonial-source {
+    font-weight: 600;
+}
+
+.testimonial-logo {
+    height: 60px;
+    rotate: -6deg;
+    width: auto;
+    opacity: 0.7;
+}
+
+/* ============================================
+   CARD SCENE
+   ============================================ */
+
+#card-scene {
+    padding: 8vh 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#card-scene-title {
+    font-family: 'ABC Otto';
+    font-style: italic;
+    font-weight: 300;
+    font-size: 32px;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 -50px 0;
+    text-align: center;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    transition: opacity 0.4s ease;
+    -webkit-font-smoothing: antialiased;
+}
+
+#card-scene-title em {
+    font-style: italic;
+}
+
+.card-title-logo {
+    height: 28px;
+    width: auto;
+    vertical-align: baseline;
+    position: relative;
+    top: 2px;
+}
+
+.card-scene-inner {
+    position: relative;
+    left: -25px;
+    width: 340px;
+    height: 440px; 
+}
+
+.card-image {
+    position: absolute;
+    width: 280px;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+/* Stickers — clustered on top of card (frame 4 positions) */
+.sticker {
+    position: absolute;
+    z-index: 4;
+    filter: drop-shadow(0 .8px .8px rgba(0, 0, 0, 0.15));
+}
+
+.sticker-sandwich {
+    top: 130px;
+    left: 38px;
+    width: 100px;
+    height: auto;
+    rotate: 18deg;
+}
+
+.sticker-curry {
+    top: 165px;
+    left: 130px;
+    width: 90px;
+    height: auto;
+}
+
+.sticker-granita {
+    top: 125px;
+    right: 50px;
+    transform: rotate(6deg);
+    width: 60px;
+    height: auto;
+}
+
+/* Photos — polaroid style, tucked behind card */
+.photo {
+    position: absolute;
+    z-index: 1;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.photo-left {
+    bottom: 100px;
+    left: -30px;
+    width: 200px;
+    height: auto;
+    rotate: 2deg;;
+}
+
+.photo-right {
+    bottom: 80px;
+    right: -40px;
+    width: 140px;
+    height: auto;
+    rotate: 34deg; 
+}
+
+.photo-bottom {
+    bottom: 80px;
+    left: 70px;
+    width: 200px;
+    height: auto;
+    rotate: -15deg; 
+}
+
+/* ============================================
+   FEATURE TEXT
+   ============================================ */
+
+.feature-text {
+    padding: 12vh 0;
+    text-align: left;
+}
+
+.feature-text p {
+    font-family: 'ABC Otto';
+    font-style: italic;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   HOUSE (BOTTOM)
+   ============================================ */
+
+#bottom-house-image {
+    position: relative;
+    width: var(--house-width, 700px);
+    height: auto;
+    object-fit: contain;
+    z-index: 1;
     pointer-events: none;
-    transform-origin: center center;
+    margin-top: 10vh;
 }
 
-/* Optional: Style for images inside indicators (e.g., center vertically) */
-.edge-indicator img {
-    position: relative;
-    left: 0;
-    transform-origin: center center;
-}
-
-.edge-indicator:hover {
-    transform: scale(1.1); /* Grow to 1.1 scale */
-}
+/* ============================================
+   TOP GRADIENT
+   ============================================ */
 
 #top-gradient {
     position: fixed;
@@ -318,288 +398,96 @@ h1 {
     height: 100vh;
     overflow: hidden;
     pointer-events: none;
-    z-index: 2; /* Above the existing blur-container but below interactive content if needed */
+    z-index: 2;
     background: linear-gradient(
         to bottom,
         var(--gradient-color-start) var(--gradient-point-start),
         var(--gradient-color-end) var(--gradient-point-end)
-    ); /* Fades to white */
-
-    --gradient-color-start: #CDCDC4;
-    --gradient-color-end: #cdcdc430;
+    );
+    --gradient-color-start: #859CCF;
+    --gradient-color-end: #7eb3cc00;
     --gradient-point-start: 0%;
-    --gradient-point-end: 100%
+    --gradient-point-end: 20%;
 }
 
+/* ============================================
+   SUPPORTER
+   ============================================ */
 
-/* New progressive blur container (200px high, full width, fixed at bottom) */
-#progressive-blur {
-    position: fixed;
-    opacity: 1;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 600px;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 2; /* Above the existing blur-container but below interactive content if needed */
-    transition: opacity 0.5s ease;
+.inline-icon {
+    width: auto;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: contain;
 }
 
-#bottom-gradient {
+#supporter-container {
+    display: grid;
+    place-items: center;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background: linear-gradient(to top, #E59261, #e5916100);
+    font-family: 'inter', sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 0px 16px;
+    font-weight: 500;
+    width: 370px;
+    height: 50px;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 11;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    will-change: transform;
     opacity: 0;
     pointer-events: none;
-    z-index: 3; /* Higher than #progressive-blur */
-    transition: opacity 0.2s ease;
 }
 
-/* New progressive blur container (200px high, full width, fixed at bottom) */
-
-#progressive-blur-top {
-    position: fixed;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 3; /* Above the existing blur-container but below interactive content if needed */
-    background: linear-gradient(
-        to bottom,
-        rgba(215, 215, 215, var(--gradient-start)),
-        rgba(255, 255, 255, var(--gradient-end))
-    ); /* Fades to white */
-
-}
-
-/* Blur layers (stacked with increasing blur and masked gradients) */
-.blur-layer {
+#supporter-text {
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
     position: absolute;
-    inset: 0; /* Full size of parent */
+    opacity: 1;
+    width: 360px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
 }
 
-#progressive-blur > .blur-layer:nth-child(1) {
-    backdrop-filter: blur(1px);
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 72%,
-        rgba(0, 0, 0, 1) 77.6%,
-        rgba(0, 0, 0, 1) 83.2%,
-        rgba(0, 0, 0, 0) 88.8%
-    );
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 72%,
-        rgba(0, 0, 0, 1) 77.6%,
-        rgba(0, 0, 0, 1) 83.2%,
-        rgba(0, 0, 0, 0) 88.8%
-    );
-    z-index: 1;
-}
+/* ============================================
+   LOADER
+   ============================================ */
 
-#progressive-blur > .blur-layer:nth-child(2) {
-    backdrop-filter: blur(2px);
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 77.6%,
-        rgba(0, 0, 0, 1) 83.2%,
-        rgba(0, 0, 0, 1) 88.8%,
-        rgba(0, 0, 0, 0) 94.4%
-    );
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 77.6%,
-        rgba(0, 0, 0, 1) 83.2%,
-        rgba(0, 0, 0, 1) 88.8%,
-        rgba(0, 0, 0, 0) 94.4%
-    );
-    z-index: 2;
-}
-
-#progressive-blur > .blur-layer:nth-child(3) {
-    backdrop-filter: blur(4px);
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 83.2%,
-        rgba(0, 0, 0, 1) 88.8%,
-        rgba(0, 0, 0, 1) 94.4%,
-        rgba(0, 0, 0, 0) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 83.2%,
-        rgba(0, 0, 0, 1) 88.8%,
-        rgba(0, 0, 0, 1) 94.4%,
-        rgba(0, 0, 0, 0) 100%
-    );
-    z-index: 3;
-}
-
-#progressive-blur > .blur-layer:nth-child(4) {
-    backdrop-filter: blur(8px);
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 88.8%,
-        rgba(0, 0, 0, 1) 94.4%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 88.8%,
-        rgba(0, 0, 0, 1) 94.4%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    z-index: 4;
-}
-
-#progressive-blur > .blur-layer:nth-child(5) {
-    backdrop-filter: blur(16px);
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 94.4%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 94.4%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    z-index: 5;
-}
-
-/* top progressive blur */
-
-#progressive-blur-top > .blur-layer:nth-child(1) {
-    backdrop-filter: blur(1px);
-    mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 72%,
-        rgba(0, 0, 0, 1) 77.6%,
-        rgba(0, 0, 0, 1) 83.2%,
-        rgba(0, 0, 0, 0) 88.8%
-    );
-    -webkit-mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 72%,
-        rgba(0, 0, 0, 1) 77.6%,
-        rgba(0, 0, 0, 1) 83.2%,
-        rgba(0, 0, 0, 0) 88.8%
-    );
-    z-index: 1;
-}
-
-#progressive-blur-top > .blur-layer:nth-child(2) {
-    backdrop-filter: blur(2px);
-    mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 77.6%,
-        rgba(0, 0, 0, 1) 83.2%,
-        rgba(0, 0, 0, 1) 88.8%,
-        rgba(0, 0, 0, 0) 94.4%
-    );
-    -webkit-mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 77.6%,
-        rgba(0, 0, 0, 1) 83.2%,
-        rgba(0, 0, 0, 1) 88.8%,
-        rgba(0, 0, 0, 0) 94.4%
-    );
-    z-index: 2;
-}
-
-#progressive-blur-top > .blur-layer:nth-child(3) {
-    backdrop-filter: blur(4px);
-    mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 83.2%,
-        rgba(0, 0, 0, 1) 88.8%,
-        rgba(0, 0, 0, 1) 94.4%,
-        rgba(0, 0, 0, 0) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 83.2%,
-        rgba(0, 0, 0, 1) 88.8%,
-        rgba(0, 0, 0, 1) 94.4%,
-        rgba(0, 0, 0, 0) 100%
-    );
-    z-index: 3;
-}
-
-#progressive-blur-top > .blur-layer:nth-child(4) {
-    backdrop-filter: blur(8px);
-    mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 88.8%,
-        rgba(0, 0, 0, 1) 94.4%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 88.8%,
-        rgba(0, 0, 0, 1) 94.4%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    z-index: 4;
-}
-
-#progressive-blur-top > .blur-layer:nth-child(5) {
-    backdrop-filter: blur(16px);
-    mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 94.4%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0) 94.4%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    z-index: 5;
-}
-
-/* Loading screen styles */
 #loader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #CDCDC4; /* Match your theme color */
+    background-color: #7EB3CC;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Above everything */
-    transition: opacity 0.3s ease-out; /* Fade-out animation */
-    pointer-events: none; /* Allow clicks through if needed */
+    z-index: 9999;
+    transition: opacity 0.3s ease-out;
+    pointer-events: none;
 }
 
 #loader p {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif; /* Match your fonts */
+    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
     font-size: 24px;
-    color: #2e2e2e;
+    color: #ffffff;
 }
 
-/* Hide main content until loaded to prevent flashes */
-.hidden-until-loaded {
-    opacity: 0;
-    transition: opacity 0.3s ease-in;
-}
+/* ============================================
+   SCROLL OVERLAY (LEGAL)
+   ============================================ */
 
-.hidden-until-loaded:not(.hidden-until-loaded) {
-    opacity: 1;
-}
-
-
-
-/* Scroll resistance overlay */
 #scroll-overlay {
     position: fixed;
     top: 0;
@@ -608,8 +496,8 @@ h1 {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        #CDCDC4,
-        #cdcdc4e1
+        #7EB3CC,
+        #7eb3cce1
     );
     display: flex;
     justify-content: center;
@@ -617,7 +505,7 @@ h1 {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
-    z-index: 10; /* Above impressum overlay */
+    z-index: 10;
 }
 
 #scroll-overlay-content {
@@ -638,651 +526,79 @@ h1 {
     pointer-events: auto;
 }
 
+/* ============================================
+   MOBILE (<=900px)
+   ============================================ */
 
-
-#scroll-overlay-content h2 {
-    font-family: 'ABC Otto';
-    font-style: italic;
-    font-size: 32px;
-    margin-bottom: 20px;
-    color: #000;
-}
-
-#scroll-overlay-content p {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 30px;
-}
-
-#close-overlay {
-    background: #000;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-#close-overlay:hover {
-    background: #333;
-}
-
-
-/* Desktop width */
 @media (max-width: 900px) {
-    #main-container {
-        width: 340px;
-    }
-
-    #main-text {
-        margin-top: calc(100vh - 180px);
-        text-align: left; /* Left-aligned text */
-    }
-
-    #postcard {
-        width: 400px;
-    }
-
     #main-flag-container {
-        top: calc(100vh - 400px);
-        left: -50px;
+        top: 45vh;
+        left: 10px;
+        width: 180px;
+    }
+
+    #content-spine {
+        width: 280px;
+        margin-left: 60px;
+    }
+
+    #hero-section {
+        height: 100vh;
+    }
+
+    #hero-logo {
         width: 200px;
     }
 
-    .stem-extension {
-    width: 100%; /* Match video width */
-    height: auto; /* Auto height to extend stem */
-    margin-top: -2; /* No margins for seamless stacking */
-}
+    #hero-subtitle {
+        font-size: 17px;
+    }
+
+    .testimonial {
+        padding: 10vh 0;
+    }
+
+    .testimonial blockquote {
+        font-size: 24px;
+        line-height: 1.4;
+    }
+
+    .card-scene-inner {
+        width: 260px;
+        height: 380px;
+    }
+
+    .card-image {
+        width: 220px;
+    }
+
+    .sticker {
+        width: 55px;
+    }
+
+    .photo {
+        width: 110px;
+    }
+
+    .feature-text p {
+        font-size: 24px;
+    }
+
     #bottom-house-image {
-        position: relative;
-        margin-top: 200px;
-        width: calc(var(--house-width) * 0.65);
-        height: auto; /* Maintain aspect ratio */
-        object-fit: contain; /* Or cover/contain as needed */
-        z-index: 1; /* Adjust layering if needed */
-    }
-
-    #edge-flag-1 {
-    position: relative;
-    left: 200px;
-    width: 150px; /* Same size as original divs */
-    bottom: 40px;
-}
-
-    #edge-flag-2 {
-        left: 350px;
-        width: 150px; /* Same size as original divs */
-    }
-
-    #edge-flag-3 {
-        left: 10px;
-        width: 100px; /* Same size as original divs */
-        bottom: 40px;
-    }
-
-    #edge-flag-4 {
-        position: relative;
-        left: -650px;
-        width: 180px; /* Same size as original divs */
+        width: calc(var(--house-width, 500px) * 0.65);
+        margin-top: 5vh;
     }
 
     #supporter-container {
-        display: grid;
-        place-items: center;
-        position: absolute;
-        font-family: helvetica, arial, sans-serif;
-        opacity: 0;
-        padding: 0px 12px;
-        font-weight: 500;
         width: 300px;
-        height: 50px;
         bottom: 95px;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        z-index: 11;
-        background: rgba(255, 255, 255, 0.75);  /* translucency is key */
+        padding: 0px 12px;
+        background: rgba(255, 255, 255, 0.75);
         color: #00000051;
-        border-radius: 50px;
-        /*backdrop-filter: blur(50px)
-        -webkit-backdrop-filter: blur(50px);     /* Safari */
-        transition: all 0.3s ease;
-        will-change: transform; /* GPU acceleration for smooth animations */
-    }
-}
-
-#impressum-link {
-    position: absolute;
-    color: #a0a0a0; /* Light grey */
-    font-size: 12px;
-    cursor: pointer;
-    right: 24px;
-    transition: color 0.2s;
-    z-index: 10;
-    font-family: Arial, Helvetica, sans-serif;
-    text-decoration: none;
-}
-
-#impressum-link:hover {
-    color: #808080; /* Darker grey */
-}
-
-#supporter-container {
-    display: grid;
-    place-items: center;
-    position: absolute;
-    font-family: 'inter', sans-serif;
-    border: 1px solid rgba(0, 0, 0, 0.247);
-    padding: 0px 16px;
-    font-weight: 500;
-    width: 370px;
-    height: 50px;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    z-index: 11;
-    background: rgba(255, 255, 255, 0.966);
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    will-change: transform; /* GPU acceleration for smooth animations */
-}
-
-
-#supporter-text {
-    /* font-family: "Inter", sans-serif; */
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    position: absolute;
-    opacity: 1;
-    width: 360px;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: normal; /* reset for multi-line */
-    font-size: 16px;
-    color: #00000095;
-}
-
-#impressum-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #CDCDC4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    z-index: 10000;
-}
-
-#impressum-overlay.visible {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-#impressum-container {
-    background-color: #ffffff00;
-    padding: 40px;
-    border-radius: 5px;
-    max-width: 600px;
-    width: 90%;
-    text-align: left;
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-}
-
-#impressum-container p {
-    margin: 0 0 10px 0;
-}
-
-/* Newsletter Signup Styles */
-#newsletter-container {
-    width: 100%;
-    margin: 60px 0 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#newsletter-form-container {
-    width: 100%;
-    max-width: 460px;
-}
-
-.newsletter-message {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 15px;
-    padding: 16px 20px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    text-align: center;
-    transition: opacity 0.3s ease;
-}
-
-.newsletter-message--error {
-    color: #661d1d;
-    background-color: #ffeded;
-    border: 1px solid #ff494933;
-}
-
-.newsletter-message--success {
-    color: #666666;
-    opacity: 1;
-    background-color: transparent;
-    border: none;
-    padding: 20px 0;
-    font-size: 15px;
-    text-align: left;
-}
-
-.newsletter-text {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 15px;
-    color: #000000;
-    opacity: 0.6;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.newsletter-input-group {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-}
-
-
-.newsletter-input {
-    flex: 1;
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 16px;
-    padding: 12px 16px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.5);
-    box-sizing: border-box;
-    color: #000000;
-    transition: all 0.2s ease;
-    -webkit-appearance: none;
-    appearance: none;
-}
-
-.newsletter-input:focus {
-    outline: none;
-    border-color: rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.8);
-}
-
-.newsletter-input::placeholder {
-    color: rgba(0, 0, 0, 0.35);
-}
-
-.newsletter-button {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 12px 24px;
-    background-color: #000000c1;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-
-.newsletter-button:hover {
-    background-color: #000000;
-    transform: translateY(-1px);
-}
-
-.newsletter-button:active {
-    transform: translateY(0);
-}
-
-.newsletter-loader {
-    width: 16px;
-    height: 16px;
-    fill: #ffffff;
-    animation: rotate 1s linear infinite;
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.newsletter-note {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 12px;
-    color: #000000;
-    opacity: 0.4;
-    margin: 0;
-    text-align: left;
-}
-
-/* Mobile adjustments for newsletter */
-@media (max-width: 900px) {
-    #newsletter-container {
-        margin: 40px 0 0 0;
-    }
-    
-    #newsletter-form-container {
-        max-width: 340px;
-    }
-    
-    .newsletter-input-group {
-        flex-direction: column;
-    }
-    
-    .newsletter-button {
-        width: 100%;
-    }
-}
-
-/* Confirmation Page Styles */
-#confirmation-content {
-    width: 100%;
-    max-width: 460px;
-    text-align: left;
-    margin-top: calc(50vh - 150px);
-    padding: 40px 0;
-}
-
-#confirmation-content h1 {
-    font-family: 'ABC Otto';
-    font-style: italic;
-    font-weight: 500;
-    font-size: 42px;
-    letter-spacing: -0.5px;
-    color: #000000c1;
-    margin-bottom: 32px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-}
-
-.confirmation-text {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 15px;
-    color: #000000;
-    opacity: 0.75;
-    margin-bottom: 20px;
-    line-height: 24px;
-}
-
-.confirmation-note {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 15px;
-    color: #000000;
-    opacity: 0.4;
-    margin-bottom: 40px;
-    line-height: 24px;
-}
-
-.confirmation-button {
-    font-family: "ABC Stefan Unlicensed Trial", sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 12px 24px;
-    background-color: #000000c1;
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 8px;
-    display: inline-block;
-    transition: all 0.2s ease;
-}
-
-.confirmation-button:hover {
-    background-color: #000000;
-    transform: translateY(-1px);
-}
-
-.confirmation-button:active {
-    transform: translateY(0);
-}
-
-/* Mobile adjustments for confirmation page */
-@media (max-width: 900px) {
-    #confirmation-content {
-        max-width: 340px;
-        margin-top: calc(50vh - 100px);
-        padding: 20px 0;
-    }
-    
-    #confirmation-content h1 {
-        font-size: 32px;
-    }
-}
-
-#card-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 99;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-#real-signup-card-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    pointer-events: none;
-}
-
-#real-signup-card-container .badge-card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: auto;
-}
-
-.badge-card {
-    background-color: #A0A461;
-    border: 1px solid #8C8C8C;
-    box-shadow: 0.198px 0.198px 0.396px 0 rgba(255, 255, 255, 0.50) inset, 0 1.038px 0.396px 0 rgba(255, 255, 255, 0.60) inset;
-    border-radius: 20px;
-    width: 94%;
-    max-width: 450px;
-    padding: 40px;
-    position: relative;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
-}
-
-.card-hole {
-    position: absolute;
-    top: 45px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 130px;
-    height: 40px;
-    background-color: #a8a8a8;
-    border-radius: 20px;
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.badge-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    padding-top: 40px;
-}
-
-.logo-left {
-    width: 90px;
-    height: 90px;
-    background-color: white;
-    border-radius: 50%;
-}
-
-.logo-left img {
-    width: 100%;
-    height: 100%;
-}
-
-
-.badge-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    /* Optionally limit max dimensions */
-    max-width: 100px;
-    max-height: 100px;
-}
-
-.badge-right img {
-    width: 100%;
-    height: 100%;
-}
-
-.verified-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 4px 12px 4px 4px;
-    border-radius: 20px;
-    margin-bottom: 6px;
-}
-
-.checkmark-img {
-    width: 24px;
-    height: 24px;
-}
-
-.verified-text {
-    color: #2c2c2cc7;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.card-title {
-    font-size: 52px;
-    font-weight: bold;
-    color: white;
-    margin: 0 0 6px 0;
-    line-height: 1.1;
-}
-
-.card-subtitle {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0 0 20px 0;
-}
-
-#inline-signup-banner {
-    width: 100%;
-    height: 64px;
-    background-color: #D0D2BB;
-    outline: 1px solid rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    padding-top: 8px;
-    border-radius: 12px;
-    align-items: center;
-    justify-content: flex-start; /* Align content to the top */
-    margin-bottom: 64px;
-    overflow: hidden; /* Hide the overflowing part of the image */
-    transition: background-color 0.3s ease;
-}
-
-#inline-signup-banner:hover {
-    background-color: #C0C2AB;
-}
-
-#inline-signup-banner p {
-    margin: 0;
-}
-
-#inline-signup-banner img {
-    width: 180px;
-    height: auto;
-}
-
-.badge-card .newsletter-text {
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-    margin-top: 30px;
-}
-.badge-card #newsletter-form-container {
-    width: 100%;
-    max-width: 100%; /* Override the 460px */
-}
-
-.badge-card .newsletter-input-group {
-    flex-direction: column;
-}
-
-.badge-card .newsletter-input {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-align: left;
-}
-
-.badge-card .newsletter-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.badge-card .newsletter-button {
-    background-color: white;
-    color: #98a850;
-}
-
-.badge-card .newsletter-note {
-    text-align: center;
-}
-
-@media (max-width: 600px) {
-    .badge-card {
-        padding: 20px;
     }
 
-    .card-title {
-        font-size: 36px;
-    }
-
-    .card-subtitle {
-        font-size: 16px;
+    #supporter-text {
+        width: 280px;
+        color: #00000095;
     }
 }
-
-.badge-card .newsletter-message--success {
-    color: white;
-    text-align: center;
-}
-
-.badge-card #newsletter-form {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.badge-card .newsletter-input-group {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-

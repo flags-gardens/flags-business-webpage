@@ -13,7 +13,8 @@ let closeOnTouchMoveHandler = null;
 let closeOnTouchStartHandler = null;
 let touchStartY = 0;
 
-const setBackgroundColor = gsap.quickSetter(elements.supporterContainer, "backgroundColor");
+// quickSetter initialized lazily in initSupporterPopout
+let setBackgroundColor = null;
 
 function getInterpolatedColor(progress) {
   const alpha = 0.1176 + progress * (1 - 0.1176);

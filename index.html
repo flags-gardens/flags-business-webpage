@@ -12,10 +12,6 @@
         <!-- Meta Keywords (less important but still useful) -->
         <meta name="keywords" content="flags, social, platform, local, map, events, city, explore">
 
-        <!-- Viewport (for mobile) -->
-
-
-
         <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png"/>
         <link rel="icon" href="./favicon.ico" type="image/x-icon" />
         <meta property="og:type" content="website" />
@@ -25,300 +21,155 @@
         <meta property="og:image" content="/assets/og-image.jpg" />
         <meta
             name="theme-color"
-            content="#CDCDC4"
+            content="#5B8FAF"
             media="(prefers-color-scheme: light)"
         />
         <meta
             name="theme-color"
-            content="#CDCDC4"
+            content="#5B8FAF"
             media="(prefers-color-scheme: dark)"
         />
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <!-- Loading screen: Shows immediately via CSS -->
+        <!-- Loading screen -->
         <div id="loader">
             <p>Loading...</p>
-            <!-- Customize: Add spinner, logo, etc. -->
         </div>
+
+        <!-- Parallax sky background (GSAP-driven) -->
+        <div id="sky-bg"></div>
 
         <div id="top-gradient"></div>
 
-        <div id="progressive-blur">
-            <div class="blur-layer"></div>
-            <div class="blur-layer"></div>
-            <div class="blur-layer"></div>
-            <div class="blur-layer"></div>
-            <div class="blur-layer"></div>
-        </div>
-        <div id="bottom-gradient"></div>
-        <!-- Progressive blur container -->
-
         <div id="root">
-            <!-- Add class to hide initially -->
             <div id="main-container">
-                <div id="main-text">
-                    <!-- <img id="briefmarke" alt="briefmarke" src="assets/briefmarke2.png"/> -->
-                    <div id="main-flag-container">
-                        <video id="main-flag-video" preload="auto" autoplay loop muted playsinline> </video>
-                        <script type="module">
-                            (function() {
-                                const video = document.getElementById('main-flag-video');
-                                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-                                const source = document.createElement('source');
 
-                                if (isSafari) {
-                                    // ✅ Vite processes these and generates hashes
-                                    source.src = new URL('https://assets.flags.is/flags_webpage/main_flag_motion_compressed.mov', import.meta.url).href;
-                                    source.type = 'video/quicktime; codecs="hvc1"';
-                                } else {
-                                    source.src = new URL('https://assets.flags.is/flags_webpage/main_flag_motion_compressed.webm', import.meta.url).href;
-                                    source.type = 'video/webm; codecs="vp9"';
-                                }
+                <!-- Flag pole (left spine) — kept as-is -->
+                <div id="main-flag-container">
+                    <video id="main-flag-video" preload="auto" autoplay loop muted playsinline> </video>
+                    <script type="module">
+                        (function() {
+                            const video = document.getElementById('main-flag-video');
+                            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                            const source = document.createElement('source');
 
-                                video.appendChild(source);
-                                video.load();
-                            })();
-                        </script>
-                        <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                        <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                        <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                        <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                        <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                        <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                        <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                        <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                                                <img
-                            src="assets/flag_modular_stem_main.png"
-                            alt="Flag stem extension"
-                            class="stem-extension"
-                        />
-                    </div>
-                    <h1>Dear Neighbour,</h1>
-                    <p class="regular-text">
-                        Our cities are filled with colorful festivals, hidden galleries, corner cafés, and backyard theaters. Yet, the digital tools we use fall short of capturing this richness.
-                    </p>
-                    <p class="gradient-text">
-                        Flags is a spatial map for local life. <br><br> An
-                        <img
-                            src="assets/inline_icon.png"
-                            class="inline-icon"
-                            alt="icon"
-                        />
-                        'Impressionist City' that captures how our surroundings feel, not just how they look. You'll discover events and places as "flags" planted by creators. Find one that inspires you, step outside and experience it in person. There, you can collect unique digital
-                        <img
-                            src="assets/inline_icon.png"
-                            class="inline-icon"
-                            alt="icon"
-                        />
-                        artifacts — a concert poster, a gallery piece, or the story from a reading. These artifacts build your personal board of city memories, an authentic way to show who you are and connect with others.
-                        <br /><br />
-                        For those who shape our city — from museums and
-                        festivals to neighborhood initiatives — Flags gives you
-                        a living home on the map — a digital stage for your
-                        space and offerings. Without ads, reach people where
-                        they are, in the moments that matter, turning a passerby
-                        into a visitor, and a visitor into part of your
-                        community. <br /><br />
-                        Our core innovation puts the city in your pocket. This
-                        means you can explore it offline on the U-Bahn, fly between districts without
-                        loading times, and own what you
-                        <img
-                            src="assets/inline_icon.png"
-                            class="inline-icon"
-                            alt="icon"
-                        />
-                        collect. We believe only you should hold the keys to
-                        your local life. <br /><br />
-                        Claim your city. Your first flag awaits. <br />
-                    </p>
-                    <div id="inline-signup-banner">
-                        <p class="gradient-text">Signup to get a launch surprise soon.</p>
-                        <img src="assets/signup_card_full_2.png" alt="placeholder image" />
-                    </div>
-                    <p class="gradient-text">
-                        Warmly, <br />
-                        Paul, Boris, Joris and Chris
-                    </p>
-                </div>
-                <div class="signatures-wrapper">
-                    <div class="signatures">
-                        <img src="assets/signature_01.png" class="signature" />
-                        <img src="assets/signature_02.png" class="signature" />
-                        <img src="assets/signature_03.png" class="signature" />
-                        <img src="assets/signature_04.png" class="signature" />
-                    </div>
+                            if (isSafari) {
+                                source.src = new URL('./assets/videos/main_flag_motion_compressed.mov', import.meta.url).href;
+                                source.type = 'video/quicktime; codecs="hvc1"';
+                            } else {
+                                source.src = new URL('./assets/videos/main_flag_motion_compressed.webm', import.meta.url).href;
+                                source.type = 'video/webm; codecs="vp9"';
+                            }
+
+                            video.appendChild(source);
+                            video.load();
+                        })();
+                    </script>
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
                 </div>
 
+                <!-- Hero (centered in viewport, independent of content spine) -->
+                <section id="hero-section">
+                    <img id="hero-logo" src="assets/images/dashi logo.png" alt="DASHI" />
+                    <p id="hero-subtitle">You are getting recognized!</p>
+                </section>
 
-                <div id="supporter-container">
-                    <p id="supporter-text">Supported by the <img src="assets/legal/eu_minimal.png" class="inline-icon" alt="icon"/>, city of <img src="assets/legal/berlin_minimal.png" class="inline-icon" alt="icon"/> and <img src="assets/legal/sas_minimal.png" class="inline-icon" alt="icon"/></p>
+                <!-- Content sections (right of pole) -->
+                <div id="content-spine">
+
+                    <!-- Testimonial 1 -->
+                    <section id="testimonial-1" class="testimonial">
+                        <blockquote>
+                            "This respect for <strong>tradition</strong> and <strong>history</strong> coupled with an eye to exploration and evolution is what makes <strong>Dashi</strong> so special as a restaurant right in the heart of <strong>Berlin</strong>."
+                        </blockquote>
+                        <p class="testimonial-attribution">
+                            — <span class="testimonial-source">Cee Cee Newsletter</span>
+                            <img src="assets/images/CeeCeeLogo.png" alt="Cee Cee" class="testimonial-logo" />
+                        </p>
+                    </section>
+
+                    <!-- Testimonial 2 -->
+                    <section id="testimonial-2" class="testimonial">
+                        <blockquote>
+                            "One of my <strong>favourite spots</strong> in Berlin. The food is always <strong>incredible</strong> and the atmosphere is <strong>unmatched</strong>."
+                        </blockquote>
+                        <p class="testimonial-attribution">
+                            — <span class="testimonial-source">Floris</span>
+                        </p>
+                    </section>
+
+                    <!-- Card scene -->
+                    <section id="card-scene">
+                        <h2 id="card-scene-title">
+                            <img src="assets/images/dashi logo.png" alt="DASHI" class="card-title-logo" />'s <em>Artefacts</em>
+                        </h2>
+                        <div class="card-scene-inner">
+                            <img src="assets/images/card.png" alt="DASHI StampCard" class="card-image" />
+                            <img src="assets/images/Group 297.png" alt="Sandwich sticker" class="sticker sticker-sandwich" />
+                            <img src="assets/images/Group 298.png" alt="Curry sticker" class="sticker sticker-curry" />
+                            <img src="assets/images/Group 299.png" alt="Granita sticker" class="sticker sticker-granita" />
+                            <img src="assets/images/Frame 5447.png" alt="Dining area" class="photo photo-left" />
+                            <img src="assets/images/Frame 5309.png" alt="Green plate" class="photo photo-right" />
+                            <img src="assets/images/Frame 5448.png" alt="Bar area" class="photo photo-bottom" />
+                        </div>
+                    </section>
+
+                    <!-- Feature texts -->
+                    <section id="feature-text-1" class="feature-text">
+                        <p>Personalised Artefacts collected by your Guests!</p>
+                    </section>
+
+                    <section id="feature-text-2" class="feature-text">
+                        <p>Enable loyalty program for your Customers</p>
+                    </section>
+
+                    <section id="feature-text-3" class="feature-text">
+                        <p>Customize how your potential guests see you</p>
+                    </section>
+
                 </div>
+
+                <!-- House at bottom -->
                 <img
                     id="bottom-house-image"
                     src="assets/house_roof_berlin.png"
-                    alt="Bottom aligned image"
+                    alt="Building"
                 />
-                <div class="edge-flag-container">
-                    <img
-                        class="edge-flag"
-                        id="edge-flag-1"
-                        src="assets/edge-flags/edge_flag_01.png"
-                        alt="Flag 1"
-                    />
-                    <img
-                        class="edge-flag"
-                        id="edge-flag-2"
-                        src="assets/edge-flags/edge_flag_02.png"
-                        alt="Flag 2"
-                    />
-                    <img
-                        class="edge-flag"
-                        id="edge-flag-3"
-                        src="assets/edge-flags/edge_flag_03.png"
-                        alt="Flag 3"
-                    />
-                    <img
-                        class="edge-flag"
-                        id="edge-flag-4"
-                        src="assets/edge-flags/edge_flag_04.png"
-                        alt="Flag 4"
-                    />
+
+                <!-- Supporter bar -->
+                <div id="supporter-container">
+                    <p id="supporter-text">Supported by the <img src="assets/legal/eu_minimal.png" class="inline-icon" alt="icon"/>, city of <img src="assets/legal/berlin_minimal.png" class="inline-icon" alt="icon"/> and <img src="assets/legal/sas_minimal.png" class="inline-icon" alt="icon"/></p>
                 </div>
+
             </div>
-            <a href="#" id="impressum-link">Impressum</a>
-
         </div>
-        <!-- Replaced div with video; keep id="postcard" for scripting -->
-        <video id="postcard" autoplay loop muted playsinline></video>
-            <script type="module">
-            (function() {
-                const video = document.getElementById('postcard');
-                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-                const source = document.createElement('source');
 
-                if (isSafari) {
-                    // ✅ Vite processes these and generates hashes
-                    source.src = new URL('https://assets.flags.is/flags_webpage/postcard_motion_compressed.mov', import.meta.url).href;
-                    source.type = 'video/mp4; codecs="hvc1"';
-                } else {
-                    source.src = new URL('https://assets.flags.is/flags_webpage/postcard_motion_compressed.webm', import.meta.url).href;
-                    source.type = 'video/webm; codecs="vp9"';
-                }
-
-                video.appendChild(source);
-                video.load();
-            })();
-    </script>
-        <!-- Inline script to handle loading screen (runs synchronously) -->
+        <!-- Loader fade -->
         <script>
             window.addEventListener("load", () => {
                 const loader = document.getElementById("loader");
-                const root = document.getElementById("root");
-                loader.style.opacity = "0"; // Fade out
-                setTimeout(() => {
-                    loader.style.display = "none"; // Remove after transition
-                }, 300); // Match CSS transition duration
+                loader.style.opacity = "0";
+                setTimeout(() => { loader.style.display = "none"; }, 300);
             });
         </script>
 
         <script type="module" src="main.js"></script>
 
-        <div id="impressum-overlay">
-            <div id="impressum-container">
-                <p><strong>Flags</strong></p>
-                <p><strong>Address</strong> <br> Luisenstrasse 53, <br> 10117 Berlin</p>
-                <p><strong>Representatives</strong><br>Boris Sidokhin<br>Chris Köbke<br>Paul Kliem<br>Joris Peters</p>
-                <p><strong>Contact</strong> <br><a href="mailto:hey@flags.is">hey@flags.is</a></p>
-            </div>
-        </div>
+        <!-- Scroll overlay (legal logos) -->
         <div id="scroll-overlay">
             <div id="scroll-overlay-content">
                 <img id="esf"  src="/assets/legal/esf_logo.png" alt="european social fund">
                 <img id="berlin" src="/assets/legal/berlin_logo.png" alt="stadt berlin">
                 <img id="sas" src="/assets/legal/sas_logo.png" alt="science and startups">
-            </div>
-        </div>
-
-        <div id="card-overlay" style="display: none;"></div>
-        <div id="real-signup-card-container" style="display: none;">
-            <div class="badge-card">
-                <div class="card-hole"></div>
-                <div class="badge-header">
-                    <div class="logo-left">
-                        <img src="assets/card/berlin.png" alt="Logo">
-                    </div>
-                    <div class="badge-right">
-                        <img src="assets/card/sticker.png" alt="Badge">
-                    </div>
-                </div>
-                <div class="verified-badge">
-                    <img class="checkmark-img" src="assets/card/checkmark.png" alt="checkmark" />
-                    <span class="verified-text">Verified</span>
-                </div>
-                <p class="card-title">You</p>
-                <p class="card-subtitle">You'll write very important things here, later</p>
-                <div id="newsletter-error-message" class="newsletter-message newsletter-message--error" style="display: none;">
-                    The registration couldn't be saved. Please try again.
-                </div>
-                <div id="newsletter-success-message" class="newsletter-message newsletter-message--success" style="display: none;">
-                    Thank you! Please check your email to confirm.
-                </div>
-                <form id="newsletter-form" method="POST" action="https://d735abe8.sibforms.com/serve/MUIFAEyLnRc4NZikYZh_YVSYroRprsikk9rKdjPJUU4HQW4kWs178osCgeinvTBsoIblYQq-1S9zg33AMdmMIGZ1EtvaCMhWWWDRZ79rOMZMZoWaDyOSD1PoGXlysfO1M65gGZqnKBcIKNT7ILUR6-miH9ALGwGVhXBUMEFdwdGvOSMmZbII6zIIZUj9utMB1Bwxx3xa7Kicj4B_" data-type="subscription">
-
-                    <div class="newsletter-input-group">
-                        <input
-                            class="newsletter-input"
-                            type="email"
-                            id="EMAIL"
-                            name="EMAIL"
-                            autocomplete="email"
-                            placeholder="your@email.com"
-                            required
-                        />
-                        <button class="newsletter-button" type="submit">
-                            <svg class="newsletter-loader" viewBox="0 0 512 512" style="display: none;">
-                                <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
-                            </svg>
-                            <span class="newsletter-button-text">Sign up</span>
-                        </button>
-                    </div>
-                    <p class="newsletter-note">Unsubscribe at any time.</p>
-                    <input type="text" name="email_address_check" value="" style="position: absolute; left: -5000px;" aria-hidden="true" tabindex="-1">
-                    <input type="hidden" name="locale" value="en">
-                </form>
             </div>
         </div>
 
