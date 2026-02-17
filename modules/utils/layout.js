@@ -2,19 +2,9 @@
 import { elements } from '../../shared/elements.js';
 
 export function updateHouseWidth() {
-  const contentSpine = elements.contentSpine;
-  if (!contentSpine) return;
-
-  const spineWidth = contentSpine.offsetWidth;
-  document.documentElement.style.setProperty(
-    '--house-width',
-    `${spineWidth * 2.2}px`
-  );
+  // --house-width is now controlled entirely from :root in style.css
 }
 
 export function initLayoutUpdates() {
-  updateHouseWidth();
-
-  window.addEventListener('load', updateHouseWidth);
-  window.addEventListener('resize', updateHouseWidth);
+  // No dynamic layout overrides needed
 }

@@ -139,10 +139,10 @@ export function initScrollAnimations() {
     });
   });
 
-  // ── Feature list title ──
-  const featureTitle = document.getElementById('feature-list-title');
-  if (featureTitle) {
-    gsap.from(featureTitle, {
+  // ── Feature list CTA button ──
+  const featureCta = document.getElementById('feature-list-cta');
+  if (featureCta) {
+    gsap.from(featureCta, {
       opacity: 0,
       y: 40,
       ease: 'none',

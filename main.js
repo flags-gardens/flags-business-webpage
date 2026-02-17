@@ -4,6 +4,7 @@ import { initLayoutUpdates } from './modules/utils/layout.js';
 import { initScrollAnimations } from './modules/animations/scrollAnimations.js';
 import { initStickerHover } from './modules/interactions/stickerHover.js';
 import { initBalatroTilt } from './modules/interactions/balatroTilt.js';
+import { initCtaPulse } from './modules/animations/ctaPulse.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initLayoutUpdates();
@@ -11,4 +12,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickerHover();
   initBalatroTilt();
   initSupporterPopout();
+  initCtaPulse();
 });
