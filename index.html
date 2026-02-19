@@ -40,46 +40,17 @@
         <!-- Parallax sky background (GSAP-driven) -->
         <div id="sky-bg"></div>
 
-        <div id="top-gradient"></div>
-
         <div id="root">
+            <div id="top-gradient"></div>
             <div id="main-container">
 
-                <!-- Flag pole (left spine) — kept as-is -->
+                <!-- Flag pole (left spine) — 3D flag via Three.js -->
                 <div id="main-flag-container">
-                    <video id="main-flag-video" preload="auto" autoplay loop muted playsinline> </video>
-                    <script type="module">
-                        (function() {
-                            const video = document.getElementById('main-flag-video');
-                            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-                            const source = document.createElement('source');
-
-                            if (isSafari) {
-                                source.src = new URL('./assets/videos/main_flag_motion_compressed.mov', import.meta.url).href;
-                                source.type = 'video/quicktime; codecs="hvc1"';
-                            } else {
-                                source.src = new URL('./assets/videos/main_flag_motion_compressed.webm', import.meta.url).href;
-                                source.type = 'video/webm; codecs="vp9"';
-                            }
-
-                            video.appendChild(source);
-                            video.load();
-                        })();
-                    </script>
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
-                    <img src="assets/flag_modular_stem_main.png" alt="Flag stem" class="stem-extension" />
+                    <!-- Canvas injected by modules/flag3d/Flag3DScene.js -->
                 </div>
 
                 <!-- Hero (centered in viewport, independent of content spine) -->
                 <section id="hero-section">
-                    <img id="hero-logo" src="assets/images/dashi logo.png" alt="DASHI" />
                     <p id="hero-subtitle">You are getting recognized!</p>
                 </section>
 
@@ -93,7 +64,9 @@
                         </blockquote>
                         <p class="testimonial-attribution">
                             — <span class="testimonial-source">Cee Cee Newsletter</span>
-                            <img src="assets/images/CeeCeeLogo.png" alt="Cee Cee" class="testimonial-logo" />
+                            <span class="testimonial-logo-wrap">
+                                <img src="assets/images/CeeCeeLogo.png" alt="Cee Cee" class="testimonial-logo" />
+                            </span>
                         </p>
                     </section>
 
@@ -104,6 +77,9 @@
                         </blockquote>
                         <p class="testimonial-attribution">
                             — <span class="testimonial-source">Floris</span>
+                            <span class="testimonial-logo-wrap">
+                                <img src="assets/images/Floris.png" alt="Floris" class="testimonial-logo" />
+                            </span>
                         </p>
                     </section>
 

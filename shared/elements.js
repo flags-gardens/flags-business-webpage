@@ -9,7 +9,7 @@ export const elements = {
 
   // Flag
   get mainFlag() { return document.getElementById("main-flag-container"); },
-  get mainFlagVideo() { return document.getElementById("main-flag-video"); },
+  get flagCanvas() { return document.getElementById("flag-3d-canvas"); },
 
   // Content sections
   get contentSpine() { return document.getElementById("content-spine"); },
@@ -40,5 +40,4 @@ export const elements = {
   // Collections
   get stickers() { return document.querySelectorAll(".sticker"); },
   get photos() { return document.querySelectorAll(".photo"); },
-  get stemExtensions() { return document.querySelectorAll(".stem-extension"); },
 };

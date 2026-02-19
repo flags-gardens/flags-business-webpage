@@ -59,52 +59,62 @@ export function initScrollAnimations() {
     scrollTrigger: {
       trigger: elements.heroSection,
       scroller: root,
-      start: 'bottom 80%',
-      end: 'bottom 30%',
+      start: 'top 18%',
+      end: 'top -10%',
       scrub: true,
     },
   });
 
-  // ── Testimonial 1 ──
-  gsap.from(elements.testimonial1, {
-    opacity: 0,
-    y: 80,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: elements.testimonial1,
-      scroller: root,
-      start: 'top bottom-=100',
-      end: 'top 60%',
-      scrub: true,
-    },
-  });
+  // ── Section parade — each section fades in from below, fades out upward ──
+  // Uses a single timeline per section to avoid conflicting scrubbed tweens
+  // on the same properties (opacity, y).
+  const sections = [
+    elements.testimonial1,
+    elements.testimonial2,
+    elements.cardScene,
+    elements.featureList,
+  ];
 
-  // ── Testimonial 2 ──
-  gsap.from(elements.testimonial2, {
-    opacity: 0,
-    y: 80,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: elements.testimonial2,
-      scroller: root,
-      start: 'top bottom-=100',
-      end: 'top 60%',
-      scrub: true,
-    },
-  });
-
-  // ── Card scene entrance ──
-  gsap.from(elements.cardScene, {
-    opacity: 0,
-    y: 100,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: elements.cardScene,
-      scroller: root,
-      start: 'top bottom-=50',
-      end: 'top 50%',
-      scrub: true,
-    },
+  sections.forEach((section) => {
+    if (section !== elements.featureList) {
+      // Full range: top 85% → top -5% (90vp of scroll distance)
+      // Fade-in:  0–39  (top 85% → top 50%)  = 35/90 ≈ 39%
+      // Hold:    39–67  (top 50% → top 25%)
+      // Fade-out: 67–100 (top 25% → top -5%) = 30/90 ≈ 33%
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          scroller: root,
+          start: 'top 85%',
+          end: 'top -5%',
+          scrub: true,
+        },
+      });
+      tl.fromTo(section,
+        { opacity: 0, y: 100 },
+        { opacity: 1, y: 0, duration: 39, ease: 'none' },
+        0
+      );
+      tl.to(section,
+        { opacity: 0, y: -80, duration: 33, ease: 'none' },
+        67
+      );
+    } else {
+      // Feature list: only fade in, no fade out (last section before house)
+      gsap.fromTo(section,
+        { opacity: 0, y: 100 },
+        {
+          opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            scroller: root,
+            start: 'top 85%',
+            end: 'top 50%',
+            scrub: true,
+          },
+        }
+      );
+    }
   });
 
   // ── Feature labels fly out of card scene on scroll ──
@@ -139,37 +149,21 @@ export function initScrollAnimations() {
     });
   });
 
-  // ── Feature list CTA button ──
-  const featureCta = document.getElementById('feature-list-cta');
-  if (featureCta) {
-    gsap.from(featureCta, {
-      opacity: 0,
-      y: 40,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: elements.featureList,
-        scroller: root,
-        start: 'top bottom-=50',
-        end: 'top 70%',
-        scrub: true,
-      },
-    });
-  }
-
-  // ── Feature list items fly in from above (as if arriving from card scene) ──
+  // ── Feature list items stagger in alongside section fade ──
   elements.featureListItems.forEach((item, i) => {
-    gsap.from(item, {
-      y: -80,
-      opacity: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: elements.featureList,
-        scroller: root,
-        start: `top ${85 - i * 12}%`,
-        end: `top ${60 - i * 12}%`,
-        scrub: true,
-      },
-    });
+    gsap.fromTo(item,
+      { y: 30, opacity: 0 },
+      {
+        y: 0, opacity: 1, ease: 'none',
+        scrollTrigger: {
+          trigger: elements.featureList,
+          scroller: root,
+          start: `top ${80 - i * 8}%`,
+          end: `top ${55 - i * 8}%`,
+          scrub: true,
+        },
+      }
+    );
   });
 
   // ── Supporter container — show at bottom of page ──

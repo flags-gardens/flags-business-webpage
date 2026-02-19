@@ -4,32 +4,41 @@ import { gsap } from 'gsap';
 
 const MAX_ANGLE = 15; // max tilt degrees
 const SCALE_BUMP = 1.1; // scale on hover
-const TILT_DELAY = 200; // ms before tilt tracking kicks in
+const TILT_DELAY = 0; // ms before tilt tracking kicks in
+const CARD_SCENE_TILT_DELAY = 100; // ms — wait for stickerHover expansion to finish
 
 export function initBalatroTilt() {
-  const items = document.querySelectorAll('#card-scene .sticker, #card-scene .photo, #card-scene .card-image, .testimonial-logo');
+  const items = document.querySelectorAll('#card-scene .sticker, #card-scene .photo, #card-scene .card-image, .testimonial-logo-wrap');
 
   items.forEach((item) => {
     let tiltEnabled = false;
     let tiltTimer = null;
     let rect = null;
     let requestRef = null;
-    let baseScale = 1;
+    const originalScale = gsap.getProperty(item, 'scaleX') || 1;
     let shineEl = null;
 
     const isSticker = item.classList.contains('sticker');
     const isPhoto = item.classList.contains('photo');
-    const isHoloLogo = item.classList.contains('testimonial-logo');
+    const isHoloLogo = item.classList.contains('testimonial-logo-wrap');
+    const isCardSceneItem = !!item.closest('#card-scene');
     const needsShine = isSticker || isPhoto || isHoloLogo;
+
+    // Determine if this logo should get rainbow (CeeCee) or masked white (Floris)
+    const isCeeCeeLogo = isHoloLogo && !!item.closest('#testimonial-1');
+    const isMaskedLogo = isHoloLogo && !isCeeCeeLogo;
 
     // Create shine overlay
     if (needsShine) {
       shineEl = document.createElement('div');
       let maskCss = '';
 
-      if (isSticker) {
-        const stickerSrc = item.src;
+      if (isSticker || isMaskedLogo) {
+        // Use the image as a mask so shimmer follows the sticker/logo shape
+        const imgEl = isMaskedLogo ? item.querySelector('img') : item;
+        const stickerSrc = imgEl ? imgEl.src : '';
         maskCss = `
+          inset: 0;
           -webkit-mask-image: url('${stickerSrc}');
           mask-image: url('${stickerSrc}');
           -webkit-mask-size: contain;
@@ -39,18 +48,10 @@ export function initBalatroTilt() {
           -webkit-mask-position: center;
           mask-position: center;
         `;
-      } else if (isHoloLogo) {
-        const logoSrc = item.src;
+      } else if (isCeeCeeLogo) {
         maskCss = `
-          -webkit-mask-image: url('${logoSrc}');
-          mask-image: url('${logoSrc}');
-          -webkit-mask-size: 80% 80%;
-          mask-size: 80% 80%;
-          -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-          -webkit-mask-position: center;
-          mask-position: center;
-          overflow: hidden;
+          inset: 0;
+          border-radius: 22px;
         `;
       } else {
         maskCss = `
@@ -73,25 +74,19 @@ export function initBalatroTilt() {
         z-index: 10;
         ${maskCss}
       `;
-      item.parentElement.appendChild(shineEl);
+      const shineParent = (isCeeCeeLogo) ? item : (isMaskedLogo ? item : item.parentElement);
+      shineParent.appendChild(shineEl);
     }
 
     // Sync shine overlay to match the item's position + GSAP transforms
     function syncShineToSticker() {
       if (!shineEl) return;
-      const cs = getComputedStyle(item);
 
-      if (isHoloLogo) {
-        // For inline/flex items: use bounding rect relative to parent
-        const parentRect = item.parentElement.getBoundingClientRect();
-        const itemRect = item.getBoundingClientRect();
-        shineEl.style.top = (itemRect.top - parentRect.top) + 'px';
-        shineEl.style.left = (itemRect.left - parentRect.left) + 'px';
-        shineEl.style.right = 'auto';
-        shineEl.style.bottom = 'auto';
-        shineEl.style.width = itemRect.width + 'px';
-        shineEl.style.height = itemRect.height + 'px';
-      } else {
+      // Logo wrappers: shine is inside the wrapper with inset:0, no sync needed
+      if (isHoloLogo) return;
+
+      const cs = getComputedStyle(item);
+      {
         // For absolutely positioned items: copy CSS position
         shineEl.style.top = cs.top;
         shineEl.style.left = cs.left;
@@ -115,15 +110,19 @@ export function initBalatroTilt() {
 
     item.addEventListener('mouseenter', () => {
       rect = item.getBoundingClientRect();
-      baseScale = gsap.getProperty(item, 'scaleX') || 1;
 
-      gsap.to(item, {
-        scale: baseScale * SCALE_BUMP,
-        transformPerspective: 1000,
-        duration: 0.4,
-        ease: 'back.out(1.7)',
-        overwrite: false,
-      });
+      // Card scene items: stickerHover already handles scale, so skip the bump
+      if (!isCardSceneItem) {
+        gsap.to(item, {
+          scale: originalScale * SCALE_BUMP,
+          transformPerspective: 1000,
+          duration: 0.4,
+          ease: 'back.out(1.7)',
+          overwrite: false,
+        });
+      } else {
+        gsap.set(item, { transformPerspective: 1000 });
+      }
       item.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))';
 
       if (shineEl) {
@@ -131,9 +130,12 @@ export function initBalatroTilt() {
         gsap.to(shineEl, { opacity: 1, duration: 0.3 });
       }
 
+      // Wait longer for card scene items so hover expansion finishes first
+      const delay = isCardSceneItem ? CARD_SCENE_TILT_DELAY : TILT_DELAY;
       tiltTimer = setTimeout(() => {
+        rect = item.getBoundingClientRect(); // re-measure after expansion
         tiltEnabled = true;
-      }, TILT_DELAY);
+      }, delay);
     });
 
     item.addEventListener('mousemove', (e) => {
@@ -166,9 +168,9 @@ export function initBalatroTilt() {
           const tiltTowardLight = Math.max(0, (-percentX + -percentY) / 2);
           const intensity = 0.4 + tiltTowardLight * 0.6;
 
-          if (isHoloLogo) {
-            // Holographic rainbow — hue shifts as the tilt angle changes
-            const hueShift = (percentX + 1) * 180; // 0-360 based on horizontal tilt
+          if (isCeeCeeLogo) {
+            // Holographic rainbow for CeeCee
+            const hueShift = (percentX + 1) * 180;
             const a = intensity;
             shineEl.style.background = `
               linear-gradient(
@@ -201,13 +203,17 @@ export function initBalatroTilt() {
       tiltEnabled = false;
 
       gsap.set(item, { rotateX: 0, rotateY: 0 });
-      gsap.to(item, {
-        scale: baseScale,
-        transformPerspective: 0,
-        duration: 0.4,
-        ease: 'power3.out',
-        overwrite: false,
-      });
+      if (!isCardSceneItem) {
+        gsap.to(item, {
+          scale: originalScale,
+          transformPerspective: 0,
+          duration: 0.4,
+          ease: 'power3.out',
+          overwrite: false,
+        });
+      } else {
+        gsap.set(item, { transformPerspective: 0 });
+      }
       item.style.filter = '';
 
       if (shineEl) {

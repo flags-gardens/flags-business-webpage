@@ -5,6 +5,7 @@ import { initScrollAnimations } from './modules/animations/scrollAnimations.js';
 import { initStickerHover } from './modules/interactions/stickerHover.js';
 import { initBalatroTilt } from './modules/interactions/balatroTilt.js';
 import { initCtaPulse } from './modules/animations/ctaPulse.js';
+import { initFlag3D } from './modules/flag3d/Flag3DScene.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initLayoutUpdates();
@@ -13,4 +14,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initBalatroTilt();
   initSupporterPopout();
   initCtaPulse();
+  initFlag3D();
 });
